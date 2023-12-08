@@ -93,9 +93,7 @@ function SpecStore() {
   return (
     <div className="store-container">
       <div>
-        <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
-          {vendorData.name}
-        </h1>
+        <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>Products</h1>
       </div>
 
       <div

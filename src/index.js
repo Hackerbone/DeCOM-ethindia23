@@ -11,6 +11,13 @@ import VendorLanding from "pages/VendorLanding";
 import SpecStore from "pages/SpecStore";
 import Stores from "pages/Stores";
 import Products from "pages/Products";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -49,7 +56,9 @@ ReactDOM.render(
           fontWeight: 500,
         }}
       >
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
       </ConfigProvider>
     </Provider>
   </React.StrictMode>,

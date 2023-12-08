@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeUser } from "store/user.slice";
 import { useNavigate } from "react-router-dom";
 import { listAllVendors } from "services/vendor.service";
 import { Card, Input } from "antd";
+import { useQuery } from "@tanstack/react-query";
+
 const { Meta } = Card;
 function Stores() {
   const dispatch = useDispatch();
-  const [vendors, setVendors] = useState([]);
   const { isConnected } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
@@ -16,19 +17,15 @@ function Stores() {
     dispatch(initializeUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isConnected) {
-      listAllVendors()
-        .then((vendors) => {
-          console.log({ vendors });
-          setVendors(vendors);
-        })
-        .catch((err) => {
-          console.log("EREOREOR");
-          console.log(err);
-        });
-    }
-  }, [isConnected]);
+  const { data: vendors, isLoading } = useQuery({
+    queryKey: "vendors",
+    queryFn: listAllVendors,
+    enabled: isConnected,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="store-container">
@@ -46,7 +43,7 @@ function Stores() {
           fontWeight: "400",
         }}
       >
-        {vendors.length} stores found
+        {vendors?.length} stores found
       </div>
       <div className="store-grid">
         {vendors?.map((item, idx) => {
