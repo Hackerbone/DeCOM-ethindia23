@@ -1,0 +1,78 @@
+//MEDIA QUERY ENDPOINTS
+@mixin responsive($breakpoint) {
+  @if $breakpoint==desktop {
+    @media only screen and (min-width: 1780px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==laptop2 {
+    @media only screen and (max-width: 1400px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==laptop1 {
+    @media only screen and (max-width: 1200px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==tablet4 {
+    @media only screen and (max-width: 992px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==tablet3 {
+    @media only screen and (max-width: 768px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==tablet2 {
+    @media only screen and (max-width: 640px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==tablet1 {
+    @media only screen and (max-width: 576px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==mobile5 {
+    @media only screen and (max-width: 500px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==mobile4 {
+    @media only screen and (max-width: 480px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==mobile3 {
+    @media only screen and (max-width: 420px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==mobile2 {
+    @media only screen and (max-width: 376px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint==mobile1 {
+    @media only screen and (max-width: 320px) {
+      @content;
+    }
+  }
+}
+
+// font sizes
+$fontSize: 0.8rem, 0.9rem, 1rem, 1.2rem, 1.4rem, 1.8rem, 2rem, 2.4rem, 2.8rem,
+  3rem, 3.2rem, 3.8rem, 4rem, 5rem;
