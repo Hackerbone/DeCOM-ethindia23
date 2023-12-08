@@ -1,0 +1,210 @@
+@import "../_variables";
+
+.dashboardContainer {
+    padding: 0.8rem 3rem;
+
+    .dashboardHeader {
+        .heading {
+            margin: 0;
+            font-weight: nth($fontSize, 7);
+            font-weight: 600;
+        }
+    }
+
+    .actionsContainer {
+        margin: 2rem 0;
+
+        .filterContainer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            .filterbar {
+                width: 40rem;
+                border-radius: 4px;
+                height: 2.3rem;
+            }
+
+            .filterbarLogs {
+                width: 30rem;
+            }
+
+            .filterRangePicker {
+                background-color: transparent;
+                outline: none;
+                border: 0.5px solid var(--input-border-secondary) !important;
+                height: 2.3rem;
+                border-radius: 4px;
+                font-size: 0.9rem;
+
+                :global {
+                    .ant-picker-input {
+
+                        input {
+                            background-color: transparent !important;
+                            color: var(--text-secondary);
+                      
+                            &::placeholder {
+                              color: var(--placeholder);
+                            }
+                        }
+
+
+                    }
+
+                    .anticon {
+                        color: var(--text-secondary);
+                    }
+                }
+            }
+        }
+    }
+
+    :global {
+        .ant-segmented {
+            margin-top: 2rem;
+            background-color: var(--text-100);
+            padding: 4px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            font-size: nth($fontSize, 2);
+            font-weight: 500;
+
+            .ant-segmented-item {
+                padding: 0.2rem 0rem;
+                width: 9rem;
+                color: var(--text-hover);
+                border-radius: 30px;
+                background-color: transparent;
+
+                &:hover {
+                    color: var(--text-hover) !important;
+                }
+            }
+
+            .ant-segmented-item-label {
+                background: none;
+            }
+
+            .ant-segmented-item-selected {
+                background-color: var(--text);
+                border-radius: 30px;
+                color: var(--bg);
+
+                &:hover {
+                    background-color: var(--text);
+                    color: var(--bg) !important;
+                }
+            }
+
+            .ant-segmented-thumb {
+                background-color: var(--text) !important;
+                border-radius: 30px !important;
+            }
+        }
+    }
+}
+
+.addButtonActionsCard {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: none;
+
+    :global {
+        .ant-card-body {
+            width: 15rem;
+            padding: 0;
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 8px;
+        }
+    }
+
+    .addItem {
+        padding: 0.5rem 0.8rem;
+        gap: 0.6rem;
+        cursor: pointer;
+        margin: 0.4rem 0;
+
+        &:hover {
+            background-color: var(--sidebar-active);
+        }
+
+        .icon {
+            color: var(--text-secondary);
+        }
+
+        .addItemName {
+            color: var(--text);
+            font-size: nth($fontSize, 2);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .divider {
+        background-color: var(--border);
+        margin: 0.4rem 0;
+    }
+}
+
+.tableActionsDropdownCard {
+    :global {
+        .ant-card-body {
+            width: 10rem;
+        }
+    }
+}
+
+.searchFilterDropdown {
+    border-radius: 6px;
+
+    :global {
+        .ant-card-body {
+            width: 18rem;
+            border-radius: 6px;
+        }
+    }
+
+    .filterItem {
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.6rem 0.8rem;
+
+        &:first-child {
+            border-radius: 5px 5px 0 0;
+        }
+
+        &:last-child {
+            border-radius: 0 0 5px 5px;
+        }
+
+        &:hover {
+            background-color: var(--sidebar-active);
+        }
+
+        .filterLabel {
+            color: var(--text);
+        }
+
+        .filterHelpText {
+            font-size: nth($fontSize, 1);
+            color: var(--text-600);
+        }
+    }
+}
+
+.formSelectDropdownCard {
+    :global {
+        .ant-card-body {
+            width: 100%;
+            padding: 0;
+        }
+    }
+}
+
+.policyDashboardContainer {
+    position: relative;
+}

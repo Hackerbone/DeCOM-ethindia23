@@ -3,6 +3,7 @@ import Header from './header/Header'
 import styles from "styles/components/DashboardLayout.module.scss";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from './header/Sidebar';
 
 
 const DashboardLayout = ({ children, hideSidebar }) => {
@@ -21,8 +22,8 @@ const DashboardLayout = ({ children, hideSidebar }) => {
 
     return (
         <div className={`${styles.dashboardLayoutContainer} ${hideSidebar ? styles.dashboardLayoutContainerNoSidebar : ""}`}>
-            {/* {!hideSidebar && 
-    <Sidebar } />} */}
+            {!hideSidebar &&
+                <Sidebar />}
             <div className={styles.dashboardLayout}>
                 <Header />
                 {children}
