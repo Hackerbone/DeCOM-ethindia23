@@ -34,17 +34,13 @@ const router = createBrowserRouter([
     element: <CreateStore />,
   },
   {
-    path: "/store/:storeAddress",
+    path: "/vendor/:storeAddress",
     element: <StoreDashboard />,
   },
   {
-    path: "/store/:storeAddress/products",
+    path: "/vendor/:storeAddress/products",
     element: <StoreProducts />,
   },
-  // {
-  //   path: "/store",
-  //   element: <VendorLanding />,
-  // },
   {
     path: "/stores/:storeAddress",
     element: <SpecStore />,

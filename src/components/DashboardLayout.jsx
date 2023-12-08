@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Header from "./header/Header";
 import styles from "styles/components/DashboardLayout.module.scss";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "./header/Sidebar";
 import { useDispatch } from "react-redux";
 import {
@@ -17,6 +17,7 @@ import { getVendorByAddress } from "services/vendorfactory.service";
 const DashboardLayout = ({ children, hideSidebar }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const user = useSelector((state) => state.user);
 
@@ -47,7 +48,10 @@ const DashboardLayout = ({ children, hideSidebar }) => {
             dispatch(setIsConnected(true));
             dispatch(setUserType(userData?.userType ?? "vendor"));
             dispatch(setStoreId(userData.vendorAddress));
-            navigate(`/store/${userData.vendorAddress}`);
+
+            if (!location.pathname.includes("/vendor")) {
+              navigate(`/store/${userData.vendorAddress}`);
+            }
           }
         } catch (error) {
           console.error("Error connecting to MetaMask", error);
