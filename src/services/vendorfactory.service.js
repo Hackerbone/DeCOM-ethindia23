@@ -33,3 +33,14 @@ export const createVendorContract = async (vendorDetails) => {
   const newVendorAddress = event.args.vendorAddress;
   return newVendorAddress;
 };
+
+export const isVendor = async (walletAddress) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(
+    process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
+    vendorFactoryContract.abi,
+    provider
+  );
+  const isVendor = await contract.isVendor(walletAddress);
+  return isVendor;
+};

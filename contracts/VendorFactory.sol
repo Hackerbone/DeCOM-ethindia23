@@ -6,6 +6,7 @@ import "./Vendor.sol";
 contract VendorFactory {
     struct VendorDetails {
         address vendorAddress;
+        address vendorWalletAddress;
         string name;
         string logo;
     }
@@ -18,6 +19,7 @@ contract VendorFactory {
 
     event VendorCreated(
         address indexed vendorAddress,
+        address vendorWalletAddress,
         string name,
         string logo
     );
@@ -35,8 +37,10 @@ contract VendorFactory {
         //require(msg.value == VENDOR_CREATION_FEE, "Must pay 0.1 ETH to create a vendor");
 
         Vendor newVendor = new Vendor(msg.sender);
-        vendors.push(VendorDetails(address(newVendor), _name, _logo));
-        emit VendorCreated(address(newVendor), _name, _logo);
+        vendors.push(
+            VendorDetails(address(newVendor), msg.sender, _name, _logo)
+        );
+        emit VendorCreated(address(newVendor), msg.sender, _name, _logo);
     }
 
     // Function to get list of vendors
@@ -50,10 +54,10 @@ contract VendorFactory {
         payable(owner).transfer(address(this).balance);
     }
 
-    // Function that takes a address and returns if that address is a vendor or not boolean
-    function isVendor(address _vendorAddress) public view returns (bool) {
-        for (uint i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorAddress == _vendorAddress) {
+    // Function that takes a address and returns if that address is a wallet address of a vendor or not boolean
+    function isVendor(address _vendorWalletAddress) public view returns (bool) {
+        for (uint256 i = 0; i < vendors.length; i++) {
+            if (vendors[i].vendorWalletAddress == _vendorWalletAddress) {
                 return true;
             }
         }
