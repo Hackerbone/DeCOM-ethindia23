@@ -24,15 +24,6 @@ function VendorLanding() {
     navigate(`/store/${storeId}`);
   }
 
-  const isValidUrl = (str) => {
-    try {
-      new URL(str);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  };
-
   const createVendor = (values) => {
     const { name, logo } = values;
     if (!name || !logo) {
@@ -89,3 +80,12 @@ function VendorLanding() {
 }
 
 export default VendorLanding;
+
+export const isValidUrl = (str) => {
+  try {
+    new URL(str);
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
