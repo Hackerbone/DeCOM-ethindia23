@@ -30,7 +30,7 @@ function SpecStore() {
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
     onSuccess: (res) => {
-      message.success("Product added successfully");
+      message.success("Order placed successfully");
     },
     onError: (err) => {
       console.log(err);
