@@ -38,9 +38,14 @@ contract VendorFactory {
 
         Vendor newVendor = new Vendor(msg.sender);
         vendors.push(
-            VendorDetails(address(newVendor), msg.sender, _name, _logo)
+            VendorDetails(address(newVendor), address(msg.sender), _name, _logo)
         );
-        emit VendorCreated(address(newVendor), msg.sender, _name, _logo);
+        emit VendorCreated(
+            address(newVendor),
+            address(msg.sender),
+            _name,
+            _logo
+        );
     }
 
     // Function to get list of vendors
@@ -48,17 +53,17 @@ contract VendorFactory {
         return vendors;
     }
 
-    // Function to get a vendor by address
-    function getVendorByAddress(
-        address _vendorAddress
-    ) public view returns (VendorDetails memory) {
-        for (uint256 i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorAddress == _vendorAddress) {
-                return vendors[i];
-            }
-        }
-        return VendorDetails(address(0), address(0), "", "");
-    }
+    // Function to get a vendor by address and return the name and logo, if not there return empty strings
+    // function getVendor(
+    //     address _vendorAddress
+    // ) public view returns (string memory, string memory) {
+    //     for (uint256 i = 0; i < vendors.length; i++) {
+    //         if (vendors[i].vendorAddress == _vendorAddress) {
+    //             return (vendors[i].name, vendors[i].logo);
+    //         }
+    //     }
+    //     return ("", "");
+    // }
 
     // Function to withdraw the collected ETH
     function withdraw() public {
