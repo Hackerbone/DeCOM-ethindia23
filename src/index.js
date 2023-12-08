@@ -10,6 +10,7 @@ import Login from "pages/auth/Login";
 import VendorLanding from "pages/VendorLanding";
 import SpecStore from "pages/SpecStore";
 import Stores from "pages/Stores";
+import Products from "pages/Products";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/stores/:storeAddress",
     element: <SpecStore />,
+  },
+  {
+    path: "/stores/:storeAddress/products",
+    element: <Products />,
   },
   {
     path: "/stores",
