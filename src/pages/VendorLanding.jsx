@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connectWallet, initializeUser } from "store/user.slice";
 import { useNavigate } from "react-router-dom";
+import { Form, Input, Button } from "antd";
 
 function VendorLanding() {
   const dispatch = useDispatch();
@@ -22,6 +23,12 @@ function VendorLanding() {
     navigate(`/store/${storeId}`);
   }
 
+  const createVendor = (values) => {
+    const { name, logo } = values;
+
+    console.log(name, logo);
+  };
+
   // @TODO: Redirect to personal store if user is connected and has a storeId
 
   return (
@@ -36,11 +43,18 @@ function VendorLanding() {
       )}
       {isConnected && (
         <div>
-          <h1>Launch my online retail store on web3 today</h1>
-          <p>
-            Connected Wallet Address:{" "}
-            <span className="text-green">{walletAddress}</span>
-          </p>
+          <h1>Become a Vendor today</h1>
+          <Form layout="vertical" onFinish={createVendor}>
+            <Form.Item label="Store Name" name="name">
+              <Input placeholder="Enter your store name" />
+            </Form.Item>
+            <Form.Item label="Logo URL" name="logo">
+              <Input placeholder="Your Logo URL" />
+            </Form.Item>
+            <Button className="green-btn" htmlType="submit">
+              Start Selling <span>🚀</span>
+            </Button>
+          </Form>
         </div>
       )}
     </div>
