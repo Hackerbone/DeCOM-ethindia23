@@ -1,4 +1,4 @@
-import { Card, Divider, Row } from "antd";
+import { Card, Row } from "antd";
 import React from "react";
 import styles from "styles/components/Header.module.scss";
 import { AiOutlineLogout } from "react-icons/ai";

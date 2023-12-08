@@ -1,0 +1,207 @@
+@import "../_variables";
+
+.sidebarContainer {
+    height: 100vh;
+    width: 16rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    border-right: 1px solid var(--border);
+    overflow-y: hidden;
+
+    .sidebarWrapper {
+        padding: 0.5rem;
+
+        overflow-y: scroll;
+        height: 100%;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 1px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: var(--border);
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: var(--border);
+        }
+    }
+
+    .projectSelectorContainer {
+        .projectSelectorButton {
+            gap: 9px;
+            height: 2.8rem;
+            padding: 0 0.8rem;
+            border-radius: 4px;
+
+            .projectIcon {
+                background-color: var(--green-text);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+            }
+
+            .projectName {
+                font-size: nth($fontSize, 2);
+                font-weight: 500;
+                max-width: 10rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: var(--text);
+            }
+
+            .downArrow {
+                color: var(--text-secondary);
+            }
+        }
+    }
+
+    .sidebarItemsContainer {
+        .sidebarItemsType {
+            margin-bottom: 2rem;
+            .type {
+                color: var(--text-hover);
+                font-size: 0.8rem;
+                font-weight: 600;
+                padding: 0 0.8rem;
+                margin-bottom: 1.2rem;
+            }
+        }
+
+        .sidebarItem {
+            gap: 1rem;
+            height: 2.8rem;
+            padding: 0 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.2rem 0;
+            color: var(--text);
+
+            &:hover {
+                background-color: var(--sidebar-active);
+            }
+
+            .sidebarItemIcon {
+                color: var(--text-secondary);
+                font-size: nth($fontSize, 3);
+                display: flex;
+                // justify-content: center;
+                align-items: center;
+            }
+
+            .sidebarItemLabel {
+                font-size: nth($fontSize, 2);
+                font-weight: 500;
+            }
+        }
+
+        .activeItem {
+            background-color: var(--sidebar-active);
+        }
+    }
+}
+
+.projectDropdownCard {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: none;
+
+    :global {
+        .ant-card-body {
+            width: 20rem;
+
+            padding: 0;
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 8px;
+        }
+    }
+
+    .projectSearch {
+        padding: 1rem 1rem;
+        .searchBar {
+            border-radius: 6px;
+            height: 2.3rem;
+        }
+    }
+
+    .projectDetailsSection {
+        padding: 0.7rem 1rem;
+        gap: 0.8rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--sidebar-active);
+        }
+
+        .detailAvatar {
+            width: 2.3rem;
+            height: 2.3rem;
+            background-color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: nth($fontSize, 3);
+            font-weight: 500;
+            border-radius: 4px;
+        }
+
+        .projectDetails {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .projectDetailName {
+                color: var(--text);
+                font-size: nth($fontSize, 2);
+                font-weight: 500;
+                width: 13rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .projectDetailKey {
+                color: var(--text-secondary);
+                font-size: nth($fontSize, 1);
+                width: 13rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .projectDetailsSectionActive {
+        background-color: var(--sidebar-active);
+    }
+
+    .divider {
+        background-color: var(--border);
+        margin: 0.4rem 0;
+    }
+
+    .createProjectBtn {
+        margin-bottom: 0.4rem;
+
+        .projectDetailName {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+}

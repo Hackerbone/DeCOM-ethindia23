@@ -41,10 +41,10 @@ const Header = () => {
             <div className={styles.profileDropdownContainer}>
               <Dropdown trigger={["click"]} dropdownRender={() => <ProfileDropdown handleLogout={handleLogout} />}>
                 <Tooltip title={walletAddress} placement="left">
-                <Row align="middle" className={styles.profileDropdownButton}>
-                  <div className={styles.userName}>{walletAddress.slice(0, 7)}...{walletAddress.slice(walletAddress.length - 3, walletAddress.length)}</div>
-                  <MdOutlineKeyboardArrowDown className={styles.downArrow} />
-                </Row>
+                  <Row align="middle" className={styles.profileDropdownButton}>
+                    <div className={styles.userName}>{walletAddress.slice(0, 7)}...{walletAddress.slice(walletAddress.length - 3, walletAddress.length)}</div>
+                    <MdOutlineKeyboardArrowDown className={styles.downArrow} />
+                  </Row>
                 </Tooltip>
               </Dropdown>
             </div>

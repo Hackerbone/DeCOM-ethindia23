@@ -53,6 +53,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text);
 
     &:hover {
         border-color: var(--input-border-primary);
