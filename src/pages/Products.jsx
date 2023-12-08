@@ -10,7 +10,7 @@ import {
 import { Input, Table, Button, Modal, Form, message } from "antd";
 import Web3 from "web3";
 import { FaEthereum, FaPlus } from "react-icons/fa";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { isValidUrl } from "./VendorLanding";
 function SpecStore() {
   const dispatch = useDispatch();
@@ -30,30 +30,11 @@ function SpecStore() {
     dispatch(initializeUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isConnected) {
-      getSpecVendorProducts(storeAddress)
-        .then((prod) => {
-          console.log(prod);
-          setProducts(prod);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      listAllVendors()
-        .then((vendors) => {
-          for (let i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorAddress === storeAddress) {
-              setVendorData(vendors[i]);
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [isConnected, storeAddress]);
+  const { data: specVendorProducts, isLoading } = useQuery({
+    queryKey: ["internalDashproducts"],
+    queryFn: () => getSpecVendorProducts(storeAddress),
+    enabled: isConnected,
+  });
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -140,6 +121,10 @@ function SpecStore() {
     },
   ];
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="store-container">
       <div>
@@ -163,7 +148,7 @@ function SpecStore() {
       </div>
 
       <Table
-        dataSource={products}
+        dataSource={specVendorProducts}
         columns={columns}
         rowKey="id"
         bordered={false}
