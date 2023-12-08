@@ -21,7 +21,7 @@ const StoreProducts = () => {
     const { storeAddress } = useParams();
     const { isConnected } = useSelector((state) => state.user);
 
-    const [addProductModal, setAddProductModal] = useState(true)
+    const [addProductModal, setAddProductModal] = useState(false)
 
 
     const productsDropdownItems = [
@@ -61,7 +61,7 @@ const StoreProducts = () => {
                             className={styles.filterbar} />
                     </Col>
                     <Col>
-                        <PrimaryButton size="small" icon={<PlusOutlined />}>Add Product</PrimaryButton>
+                        <PrimaryButton size="small" icon={<PlusOutlined />} onClick={() => setAddProductModal(true)}>Add Product</PrimaryButton>
                     </Col>
                 </Row>
                 <div className={styles.dashboardTableContainer} >

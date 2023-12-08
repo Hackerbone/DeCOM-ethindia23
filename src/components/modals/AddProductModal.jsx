@@ -8,6 +8,7 @@ import { isValidUrl } from 'components/createStoreOnboarding/Step1'
 import { convertToEthers } from 'utils/convert'
 import PrimaryButton from 'components/PrimaryButton'
 import { FaEthereum } from 'react-icons/fa'
+import { useQueryClient } from "@tanstack/react-query";
 
 
 const AddProductModal = ({
@@ -17,6 +18,8 @@ const AddProductModal = ({
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
+  const queryClient = useQueryClient()
+
 
   const closeModal = () => {
     setVisible(false)
@@ -24,8 +27,9 @@ const AddProductModal = ({
 
   const createProductMutation = useMutation({
     mutationFn: addProductToVendor,
-    onSuccess: (data) => {
+    onSuccess: async(data) => {
       messageApi.success('Product created successfully')
+      await queryClient.invalidateQueries('allvendorproducts')
       form.resetFields()
     },
     onError: (error) => {
@@ -54,7 +58,7 @@ const AddProductModal = ({
 
       await createProductMutation.mutateAsync({
         name: values.name,
-        price: Number(price),
+        price: price,
         picture,
         vendorAddress: storeAddress,
       })
