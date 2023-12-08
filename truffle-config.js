@@ -41,10 +41,9 @@
  * https://trufflesuite.com/docs/truffle/getting-started/using-the-truffle-dashboard/
  */
 
-// require('dotenv').config();
-// const { MNEMONIC, PROJECT_ID } = process.env;
-
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+require("dotenv").config();
+const { MNEMONIC, PROJECT_ID } = process.env;
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
   /**
@@ -68,6 +67,14 @@ module.exports = {
       host: "127.0.0.1", // Localhost (default: none)
       port: 7545, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
+    },
+    matic: {
+      provider: () =>
+        new HDWalletProvider(MNEMONIC, `https://rpc-mumbai.maticvigil.com`),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true,
     },
     //
     // An additional network, but with some advanced options…
