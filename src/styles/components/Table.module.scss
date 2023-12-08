@@ -1,0 +1,467 @@
+@import "../_variables";
+
+.resourceTableContainer {
+    .actionsButtonContainer {
+        width: 2.5rem;
+        height: 1.5rem;
+        background: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        padding: 0;
+
+        &:hover {
+            background: var(--active-bg-hover);
+        }
+        .actionsIconButton {
+            font-size: nth($fontSize, 3);
+            color: var(--text-secondary);
+        }
+    }
+
+    .expandButton {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: nth($fontSize, 3);
+        cursor: pointer;
+    }
+
+    .actionTableFooter {
+        background: none;
+        gap: 1rem;
+        min-height: 3.1rem;
+
+        .addActionButton {
+            height: fit-content;
+            font-size: nth($fontSize, 2);
+            font-weight: 500;
+        }
+
+        .addActionButtonSave {
+            @extend .addActionButton;
+
+            &:hover {
+                color: var(--primary) !important;
+                opacity: 0.9;
+            }
+        }
+
+        .addActionButtonCancel {
+            @extend .addActionButton;
+            color: var(--text-secondary);
+        }
+
+        .addActionInput {
+            height: 2rem;
+            border: 1px solid var(--border);
+            background: none;
+            border-radius: 4px;
+            color: var(--text);
+            width: 18rem;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+
+            &::placeholder {
+                color: var(--placeholder);
+            }
+
+            &:disabled {
+                color: var(--text-secondary);
+            }
+        }
+
+        .actionTableFooterForm {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+
+            :global {
+                .ant-form-item-explain-error {
+                    font-size: 0.7rem;
+                }
+            }
+
+            .actionTableFooterFormItem {
+                height: 100%;
+                margin: 0;
+            }
+        }
+    }
+
+    :global {
+        .ant-table {
+            background: none;
+            color: var(--text);
+
+            .ant-table-container {
+                .ant-table-thead {
+                    .ant-table-cell {
+                        color: var(--text-secondary);
+                        background: none;
+                        font-size: nth($fontSize, 1);
+                        font-weight: 600;
+                        border-bottom: 1px solid var(--border);
+
+                        &::before {
+                            display: none;
+                        }
+                    }
+                }
+
+                .ant-table-tbody {
+                    background: none;
+
+                    .ant-table-placeholder {
+                        background: none !important;
+
+                        .ant-table-cell {
+                            background: none !important;
+
+                            border-bottom: 1px solid var(--border);
+                        }
+                    }
+                    .ant-table-row {
+                        .ant-table-cell {
+                            color: var(--text);
+                            background: none;
+                            font-size: nth($fontSize, 2);
+                            font-weight: 500;
+                            border-bottom: 1px solid var(--border);
+                        }
+
+                        .ant-table-cell-row-hover {
+                            background: var(--active-bg);
+                        }
+                    }
+                    .ant-table-expanded-row {
+                        // .ant-table {
+                        //     background: var(--card-bg);
+
+                        //     .ant-table-cell-row-hover {
+                        //         background: var(--active-bg);
+                        //     }
+                        // }
+
+                        .ant-table-cell {
+                            border-bottom: 1px solid var(--border);
+                        }
+                    }
+                }
+            }
+
+            .ant-table-footer {
+                background: none;
+                color: var(--text);
+                border-top: 1px solid var(--border);
+                padding: 0.2rem 1rem;
+            }
+        }
+    }
+
+    .tableInlineButton {
+        font-size: nth($fontSize, 2);
+        color: var(--primary);
+        font-weight: 500;
+        height: fit-content;
+        padding: 0;
+        width: fit-content;
+    }
+
+    .tableFooter {
+        margin-top: 1rem;
+
+        .itemsCount {
+            font-size: nth($fontSize, 2);
+            color: var(--text-secondary);
+
+            span {
+                color: var(--text);
+                margin-right: 3px;
+                font-weight: 500;
+            }
+        }
+
+        .paginationButtons {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+      
+    }
+
+    
+   
+}
+
+.policyTableContainer {
+    padding-bottom: 4rem;
+    :global {
+        table {
+            width: auto !important;
+            min-width: auto !important;
+        }
+        .ant-table {
+            width: 100%;
+
+            .ant-table-content {
+                /* width */
+                &::-webkit-scrollbar {
+                    height: 1px;
+                }
+
+                /* Track */
+                &::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                    background: var(--border);
+                }
+
+                /* Handle on hover */
+                &::-webkit-scrollbar-thumb:hover {
+                    background: var(--border);
+                }
+            }
+            .ant-table-container {
+                .ant-table-thead {
+                    tr {
+                        .ant-table-cell {
+                            text-align: center;
+
+                            background: var(--bg) !important;
+                            &:last-child {
+                                text-align: left;
+                            }
+                        }
+                    }
+                }
+
+                .ant-table-row {
+                    .ant-table-cell {
+                        background: var(--bg) !important;
+
+                        .ant-checkbox-wrapper {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        &:has(.isPolicyTableActionRow) {
+                            border: none;
+                        }
+                    }
+                }
+            }
+            .ant-table-cell-fix-left-last {
+                border-right: 1px solid var(--border);
+            }
+
+            .ant-table-cell-fix-right-first {
+                border-left: 1px solid var(--border);
+            }
+        }
+
+        .ant-table-footer {
+            border-bottom: 1px solid var(--border);
+            border-top: none !important;
+            border-radius: 0;
+        }
+
+        .ant-table-expanded-row {
+            .ant-table-footer {
+                border-bottom: none;
+                border-top: 1px solid var(--border) !important;
+            }
+        }
+    }
+
+    .expandRowIcon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .addRoleColumnButton {
+        height: fit-content;
+        font-size: nth($fontSize, 1);
+        font-weight: 500;
+    }
+
+
+}
+
+.settingsTableContainer {
+    background: var(--card-bg);
+    padding: 0 0.5rem 1rem 0.5rem;
+    border-radius: 4px;
+
+
+    .settingsTableDeleteButton {
+        color: var(--text-secondary);
+        height: 2rem;
+        width: 2rem;
+
+        &:hover {
+            color: var(--danger) !important;
+        }
+    }
+
+    .settingsApiKeySection {
+        gap: 12px;
+
+        .apiKey {
+            max-width: 15rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .copyIcon {
+            cursor: pointer;
+        }
+    }
+}
+
+.logsTableContainer {
+    .allowedDecision {
+        color: var(--success);
+    }
+
+    .deniedDecision {
+        color: var(--danger);
+    }
+
+    .oddRow {
+        background-color: #1a1a1a;
+    }
+
+    .logDetailsContainer {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+
+     
+
+        .logDetails {
+
+            .logDetailsHeading {
+                font-size: nth($fontSize, 2);
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 1rem;
+            }
+
+            .logDetailsRow {
+                gap: 1.5rem 5rem;
+            }
+            .logDetailsSection {
+
+                .logDetailsKey {
+                    color: var(--text-600);
+                    font-weight: 500;
+                }
+
+                .logDetailsValue {
+                    color: var(--text-secondary);
+                    font-weight: 600;
+
+                }
+
+                .logDetailsClickableValue {
+                    @extend .logDetailsValue;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap:6px;
+
+                    &:hover {
+                        color: var(--primary);
+                    }
+                }
+            }
+        }
+    }
+
+    :global {
+
+        .ant-table {
+
+            .ant-table-tbody {
+                .ant-table-cell {
+                    padding: 0.8rem 1rem;
+                    border-bottom: none !important;
+                }
+
+                .ant-table-expanded-row  {
+                    .ant-table-cell {
+                        padding: 0;
+                        border-bottom: 1px solid var(--border) !important;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+.changesSaveCard {
+    position: fixed;
+    height: 3.2rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background-color: var(--active-bg-hover);
+    animation: slideup 0.3s ease-in;
+    box-shadow: 0px -2px 30px rgba(#fff, 0.1);
+    padding: 0 2rem;
+
+    .policySaveCardText {
+        color: var(--text);
+    }
+
+    // exit animation
+    &.exit {
+        animation: slidedown 0.3s ease-in;
+    }
+
+    @keyframes slideup {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0%);
+        }
+    }
+
+    @keyframes slidedown {
+        from {
+            transform: translateY(0%);
+        }
+        to {
+            transform: translateY(100%);
+        }
+    }
+
+    .saveButton {
+        width: fit-content;
+        height: 2.2rem;
+        font-size: nth($fontSize, 2);
+    }
+
+    .cancelButton {
+        padding: 0 1rem;
+        height: 2.2rem;
+        color: var(--text-secondary);
+        font-size: nth($fontSize, 2);
+    }
+}

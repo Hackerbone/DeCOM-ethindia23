@@ -15,7 +15,6 @@ const ProfileDropdown = ({ handleLogout }) => {
         }
     ]
 
-
     return (
         <Card className={styles.profileDropdownCard}>
             {dropdownItems.map((item, index) => (

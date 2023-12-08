@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "styles/components/Sidebar.module.scss";
-import { Avatar,  Row } from "antd";
-import {  MdOutlineDashboard } from "react-icons/md";
+import { Avatar, Row } from "antd";
+import { MdOutlineDashboard } from "react-icons/md";
 import { TbSettings } from "react-icons/tb";
 import { PiStackSimpleBold, PiCirclesThreeBold, PiUsersBold, PiBuildingsBold, PiDatabase } from "react-icons/pi";
 import { useSelector } from "react-redux";
@@ -90,10 +90,10 @@ const Sidebar = () => {
             <div className={styles.sidebarWrapper}>
                 <div className={styles.projectSelectorContainer}>
                     {/* <Dropdown trigger={["click"]} dropdownRender={() => <ProjectDropdown projects={projects} currentProject={currentProject} />}> */}
-                        <Row align="middle" className={styles.projectSelectorButton}>
-                            <Avatar shape="circle" className={styles.projectIcon}></Avatar>
-                            <div className={styles.projectName}>Store Name</div>
-                        </Row>
+                    <Row align="middle" className={styles.projectSelectorButton}>
+                        <Avatar shape="circle" className={styles.projectIcon}></Avatar>
+                        <div className={styles.projectName}>Store Name</div>
+                    </Row>
                     {/* </Dropdown> */}
                 </div>
                 <div className={styles.sidebarItemsContainer}>

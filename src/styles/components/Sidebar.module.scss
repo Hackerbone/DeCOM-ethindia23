@@ -43,11 +43,6 @@
             height: 2.8rem;
             padding: 0 0.8rem;
             border-radius: 4px;
-            cursor: pointer;
-
-            // &:hover {
-            //     background-color: var(--sidebar-active);
-            // }
 
             .projectIcon {
                 background-color: var(--green-text);
@@ -95,7 +90,6 @@
             cursor: pointer;
             margin: 0.2rem 0;
             color: var(--text);
-
 
             &:hover {
                 background-color: var(--sidebar-active);
