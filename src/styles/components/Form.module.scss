@@ -1,0 +1,275 @@
+@import "../_variables";
+
+.formContainer {
+    width: 100%;
+
+    .formRow {
+        .formRowButtonContainer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    }
+
+    .formItem {
+        margin-bottom: 2rem;
+
+        :global {
+            .ant-form-item-label {
+                label {
+                    color: var(--text);
+                    font-size: nth($fontSize, 3);
+                }
+            }
+
+            .ant-form-item-extra {
+                color: var(--text-hover);
+                font-size: nth($fontSize, 2);
+                margin-top: 0.3rem;
+            }
+        }
+
+        .infoIcon {
+            cursor: pointer;
+        }
+
+        .optional {
+            color: var(--text-500);
+        }
+
+        .formInput {
+            height: 3rem;
+            border: 1px solid var(--border);
+            background: none;
+            border-radius: 4px;
+            color: var(--text);
+
+            &::placeholder {
+                color: var(--placeholder);
+            }
+
+            &:disabled {
+                color: var(--text-secondary);
+            }
+        }
+
+        .formInputPassword {
+            @extend .formInput;
+
+            :global {
+                .ant-input {
+                    background: none;
+                    color: var(--text);
+                    &::placeholder {
+                        color: var(--placeholder);
+                    }
+
+                    &:disabled {
+                        color: var(--text-secondary);
+                    }
+                }
+
+                .ant-input-suffix {
+                    .ant-input-password-icon {
+                        color: var(--text-500);
+                    }
+                }
+            }
+        }
+
+        .formTextArea {
+            @extend .formInput;
+            min-height: 5rem;
+            padding: 0.5rem 11px;
+        }
+
+        .formSelectTags {
+            height: 3rem;
+            border: 1px solid var(--border);
+            background: none;
+            border-radius: 4px;
+
+            :global {
+                .ant-select-selector {
+                    background: none;
+                    color: var(--text);
+                    border: none;
+                    border-radius: 4px;
+
+                    .ant-select-selection-placeholder {
+                        color: var(--placeholder);
+                        padding: 0 2px;
+                    }
+
+                    .ant-select-selection-overflow {
+                        padding: 0 2px;
+                        gap: 2px;
+                    }
+
+                    .ant-select-selection-overflow-item {
+                        .ant-select-selection-item {
+                            background-color: var(--active-bg);
+                        }
+                    }
+                }
+                .ant-select-arrow,
+                .ant-select-selection-item-remove {
+                    .anticon {
+                        color: var(--text-500);
+                    }
+                }
+            }
+        }
+
+        .formSelect {
+            height: 3rem;
+            border: 1px solid var(--border);
+            background: none;
+            border-radius: 4px;
+
+            :global {
+                .ant-select-selector {
+                    background: none;
+                    color: var(--text);
+                    border: none;
+                    border-radius: 4px;
+
+                    .ant-select-selection-placeholder {
+                        color: var(--placeholder);
+                        padding: 0 2px;
+                    }
+
+                    .ant-select-selection-overflow {
+                        padding: 0 2px;
+                        gap: 2px;
+                    }
+
+                    .ant-select-selection-item {
+                        color: var(--text);
+                    }
+
+                    .ant-select-selection-overflow-item {
+                        .ant-select-selection-item {
+                            background-color: var(--active-bg);
+                        }
+                    }
+                }
+                .ant-select-arrow,
+                .ant-select-selection-item-remove {
+                    .anticon {
+                        color: var(--text-500);
+                    }
+                }
+            }
+        }
+
+        .formTreeSelect {
+            @extend .formSelect;
+        }
+
+        .formRadioGroup {
+            display: flex;
+            gap: 10px;
+
+            .radioButton {
+                background-color: var(--card-bg);
+                color: var(--text-secondary);
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                height: 2.3rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 5rem;
+
+                &::before {
+                    display: none;
+                }
+
+                &::after {
+                    display: none;
+                }
+            }
+
+            :global {
+                .ant-radio-button-wrapper-checked {
+                    border-color: var(--primary);
+                    color: var(--text);
+                }
+            }
+        }
+
+        .formDragger {
+            .draggerContainer {
+                color: var(--text);
+                padding: 1rem 2rem;
+
+                .draggerTitle {
+                    font-size: nth($fontSize, 3);
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                }
+
+                .draggerSubtitle {
+                    font-size: nth($fontSize, 2);
+                    font-weight: 500;
+                    color: var(--text-secondary);
+                }
+            }
+
+            :global {
+                .ant-upload-list {
+                    .anticon {
+                        color: var(--text-secondary);
+                    }
+
+                    .anticon-delete {
+                        color: var(--danger);
+
+                        &:hover {
+                            color: var(--danger);
+                        }
+                    }
+
+                    .ant-upload-list-item {
+                        color: var(--text);
+                    }
+
+                    .ant-upload-list-item-action {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    .formItemLabelRow {
+        :global {
+            .ant-form-item-label {
+                white-space: nowrap;
+            }
+        }
+        label:first-child {
+            width: 100%;
+
+            &::after {
+                margin: 0;
+                display: none;
+            }
+        }
+    }
+
+    .formListRow {
+        .formListCol {
+            padding-right: 1rem;
+        }
+    }
+
+    .formListAddButton {
+        height: fit-content;
+    }
+
+    .formButton {
+        margin-top: 1.8rem;
+    }
+}

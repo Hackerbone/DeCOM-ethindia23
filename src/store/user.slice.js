@@ -58,6 +58,10 @@ const userSlice = createSlice({
     setStoreId(state, action) {
       state.storeId = action.payload;
     },
+    logout(state, action) {
+      localStorage.removeItem("walletAddress");
+      state = initialState;
+    }
   },
 });
 
@@ -67,6 +71,7 @@ export const {
   setUserType,
   setContractAddress,
   setStoreId,
+  logout
 } = userSlice.actions;
 
 export default userSlice.reducer;

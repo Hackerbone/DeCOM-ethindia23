@@ -1,0 +1,15 @@
+@import "../_variables";
+
+.dashboardLayoutContainer {
+    .dashboardLayout {
+        padding-left: 16rem;
+    }
+
+}
+
+
+.dashboardLayoutContainerNoSidebar {
+    .dashboardLayout {
+        padding-left:0 !important;
+    }
+}

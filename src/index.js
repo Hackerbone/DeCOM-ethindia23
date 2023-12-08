@@ -13,6 +13,7 @@ import Stores from "pages/Stores";
 import Products from "pages/Products";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Dashboard from "pages/Dashboard";
+import CreateStore from "pages/vendor/CreateStore";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Login />,
+  },
+  {
+    path: "/create-store",
+    element: <CreateStore />,
   },
   {
     path: "/store",

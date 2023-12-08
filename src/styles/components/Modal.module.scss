@@ -1,0 +1,375 @@
+@import "../_variables";
+
+.appModalContainer {
+    :global {
+        .ant-modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 1.3rem 2rem;
+        }
+    }
+    .appModalWrapper {
+        width: 100%;
+
+        .modalHeader {
+            .heading {
+                font-size: nth($fontSize, 6);
+                font-weight: 600;
+            }
+
+            .description {
+                font-size: nth($fontSize, 2);
+                color: var(--text-secondary);
+                font-weight: 500;
+                margin-bottom: 0;
+            }
+        }
+
+        .modalForm {
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+
+            .modalInput {
+                border-color: var(--input-border-secondary);
+            }
+
+            .modalSeperatorItem {
+                margin-top: 3rem;
+            }
+
+            .modalButtonsContainer {
+                gap: 0.5rem;
+                margin-top: 3rem;
+
+                .modalButton {
+                    width: fit-content;
+                    height: 2.6rem;
+                    min-width: 8rem;
+                }
+
+                .modalCancelButton {
+                    padding: 0 1rem;
+                    height: 2.6rem;
+                    color: var(--text-secondary);
+                }
+            }
+        }
+    }
+
+    .attachedResourcesListContainer {
+        .attachedResourcesList {
+            border: 1px solid var(--input-border-secondary);
+            border-radius: 4px;
+            height: 16rem;
+            overflow-y: auto;
+
+            /* width */
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            /* Track */
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            /* Handle */
+            &::-webkit-scrollbar-thumb {
+                background: var(--border);
+                border-radius: 16px;
+            }
+
+            /* Handle on hover */
+            &::-webkit-scrollbar-thumb:hover {
+                background: var(--border);
+            }
+
+            .attachedResourcesListItem {
+                color: var(--text-secondary);
+                border-bottom: 1px solid var(--input-border-secondary);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .deleteButton {
+                    height: fit-content;
+                    padding: 0;
+                }
+            }
+        }
+        .totalAttachedResourcesList {
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--input-border-secondary);
+            padding: 0.3rem 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            background: var(--active-bg);
+        }
+    }
+}
+
+.confirmModalPopup {
+    @extend .appModalContainer;
+
+    :global {
+        .ant-modal-confirm-body {
+            .ant-modal-confirm-title {
+                color: var(--text);
+            }
+
+            .ant-modal-confirm-content {
+                color: var(--text-secondary);
+            }
+        }
+    }
+
+    .confirmModalCancelButton {
+        color: var(--text-secondary);
+        font-weight: 500;
+
+        &:hover {
+            color: var(--text-hover) !important;
+        }
+    }
+
+    .confirmModalOkButton {
+        background-color: var(--danger);
+        color: var(--text);
+
+        &:hover {
+            background-color: var(--danger) !important;
+            color: var(--text-hover) !important;
+        }
+    }
+}
+
+.createProjectModalContainer {
+    :global {
+        .ant-modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 1.3rem 2rem;
+        }
+    }
+
+    .createProjectModalWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .cancelButton {
+            color: var(--text-500);
+            font-size: nth($fontSize, 2);
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .modalHeader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1rem 0;
+
+            .heading {
+                font-size: nth($fontSize, 8);
+                text-align: center;
+                font-weight: 600;
+                margin-bottom: 0.9rem;
+            }
+
+            .subHeading {
+                font-size: nth($fontSize, 3);
+                color: var(--text-500);
+                text-align: center;
+                font-weight: 500;
+            }
+        }
+
+        .createForm {
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+
+            .modalInput {
+                border-color: var(--input-border-secondary);
+            }
+        }
+    }
+}
+
+.editProfileModalContainer {
+    // :global {
+    //     .ant-modal-content {
+    //         min-height: 80vh;
+    //     }
+    // }
+    .editProfileModalWrapper {
+        .cancelButton {
+            color: var(--text-500);
+            font-size: nth($fontSize, 2);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .headerRow {
+            .headerLeft {
+                gap: 0.3rem;
+
+                .backArrow {
+                    color: var(--text-secondary);
+                    font-size: nth($fontSize, 6);
+                    font-weight: 500;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: none;
+                    border: none;
+
+                    &:disabled {
+                        color: var(--text-500);
+                    }
+                }
+
+                .modalHeading {
+                    font-size: nth($fontSize, 4);
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .manageAccountContainer {
+            .profileDetails {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin-top: 1.5rem;
+                width: 100%;
+
+                .avatar {
+                    margin-bottom: 0.5rem;
+                }
+
+                .profileName {
+                    font-size: nth($fontSize, 5);
+                    font-weight: 600;
+                    margin-bottom: 0;
+                }
+
+                .profileEmail {
+                    font-size: nth($fontSize, 3);
+                    color: var(--text-secondary);
+                }
+            }
+        }
+
+        .editProfileActionsContainer {
+            margin-top: 1.5rem;
+
+            .sectionHeading {
+                font-size: nth($fontSize, 2);
+                font-weight: 500;
+                width: 100%;
+                margin: 2.2rem 0 1rem 0;
+            }
+
+            .editProfileActionsSection {
+                display: flex;
+                flex-direction: column;
+                background: #151515;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+
+                .editProfileAction {
+                    padding: 0 1rem;
+                    height: 3.2rem;
+                    transition: all 0.2s ease-in;
+                    padding: 0 1rem;
+                    border-radius: 6px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: var(--active-bg);
+                    }
+
+                    .actionLeft {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        .actionIcon {
+                            font-size: nth($fontSize, 3);
+                        }
+
+                        .label {
+                            font-size: nth($fontSize, 2);
+                            font-weight: 500;
+                        }
+                    }
+
+                    .arrow {
+                        font-size: nth($fontSize, 3);
+                    }
+
+                    .editButton {
+                        font-size: nth($fontSize, 2);
+                        display: flex;
+                        align-items: center;
+                        gap: 0.2rem;
+                        color: var(--text-hover);
+                        height: fit-content;
+                    }
+                }
+
+                .editProfileActionHasButton {
+                    cursor: default;
+
+                    &:hover {
+                        background: #151515;
+                    }
+                }
+
+                .actionDivider {
+                    background: var(--border);
+                    margin: 0 auto;
+                    min-width: calc(100% - 2rem);
+                    width: calc(100% - 2rem);
+                }
+            }
+        }
+
+        .editProfileActionsFooter {
+            margin-top: 2.5rem;
+            transition: none;
+
+            .logoutButton {
+                width: fit-content;
+                padding: 0 1.8rem;
+                background: var(--border);
+                border: none;
+            }
+
+            .goBackButton {
+                font-size: nth($fontSize, 1);
+                font-weight: 400;
+                display: flex;
+                align-items: center;
+
+                :global {
+
+                    .ant-btn-icon {
+                        margin-right: 0.2rem;
+                    }
+                }
+
+
+            }
+        }
+    }
+}

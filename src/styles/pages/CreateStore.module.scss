@@ -1,0 +1,180 @@
+@import "../_variables";
+
+.onboardingContainer {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .onboardingSteps {
+        width: 15rem;
+        margin: 0 auto;
+
+        :global {
+            .ant-steps-item {
+                padding: 0 !important;
+                position: relative;
+
+                .ant-steps-item-icon {
+                    border: 1px solid var(--text);
+                    margin: 0 !important;
+                    width: 2.8rem;
+                    height: 2.8rem;
+                    position: relative;
+                    z-index: 2;
+                    background-color: var(--bg);
+
+                    .ant-steps-icon {
+                        color: var(--text);
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+
+                .ant-steps-item-title {
+                    position: static;
+                    &::after {
+                        background: var(--text) !important;
+                        inset-inline-start: 0;
+                        height: 2px;
+                        top: calc((2.8rem / 2) - 1px);
+                        background-color: transparent;
+                        width: auto;
+                        right: 0;
+                        z-index: 1;
+                    }
+                }
+            }
+
+            .ant-steps-item-active {
+                .ant-steps-item-icon {
+                    border: 1px solid var(--green-text);
+                    background-color: var(--green-text);
+
+                    .ant-steps-icon {
+                        color:#000;
+                    }
+
+                }
+
+                .ant-steps-item-title {
+
+                    &::after {
+                        background: linear-gradient(to right, var(--green-text) 50%, var(--text) 50%) !important;
+                    }
+                }
+            }
+
+            .ant-steps-item-finish {
+                .ant-steps-item-icon {
+
+                    border: 1px solid var(--green-text);
+                    background-color: var(--green-text);
+
+                    .ant-steps-icon {
+                        color:#000;
+                    }
+                }
+                .ant-steps-item-title {
+                
+
+                    &::after {
+                        background: var(--green-text) !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .onboardingFormContainer {
+        width: 40rem;
+
+        .onboardingStepContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2.5rem;
+
+            .title {
+                font-size: nth($fontSize, 9);
+                text-align: center;
+                font-weight: 600;
+                margin-bottom: 0.2rem;
+            }
+
+            .description {
+                font-weight: normal;
+                font-size: nth($fontSize, 3);
+
+                a {
+                    color: var(--green-text);
+
+                }
+            }
+
+            .onboardingForm {
+                padding: 0 3rem;
+                margin-top: 2rem;
+            }
+        }
+
+        .checkMark {
+            color: var(--green-text);
+            font-size: 10rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .useGroup {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+
+            .useButton {
+                width: 14rem;
+                height: 12rem;
+                border-radius: 8px;
+                color: var(--text);
+                border: 2px solid var(--input-border-secondary);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                padding: 0 1.2rem;
+                cursor: pointer;
+
+                .useIcon {
+                    color: var(--text-secondary);
+                    font-size: 1.8rem;
+                    margin-bottom:0.5rem;
+                }
+                .useTitle {
+                    font-size: nth($fontSize, 3);
+                    font-weight: 500;
+                    margin-bottom: 0.3rem;
+                }
+
+                .useSubTitle {
+                    font-size: nth($fontSize, 2);
+                    font-weight: 400;
+                    color: var(--text-secondary);
+                }
+            }
+
+            .activeUseButton {
+                border: 2px solid var(--primary);
+
+                .useIcon {
+                    color: var(--primary);
+                }
+            }
+        }
+    }
+}
