@@ -2,22 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeUser } from "store/user.slice";
 import { useParams } from "react-router-dom";
-import {
-  getSpecVendorProducts,
-  listAllVendors,
-  placeOrder,
-} from "services/vendor.service";
+import { getSpecVendorProducts, placeOrder } from "services/vendor.service";
 import { Card, Input, Modal, Form, message, Button } from "antd";
 import { FaEthereum } from "react-icons/fa";
-import { isValidUrl } from "./VendorLanding";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
+// import { getVendorByAddress } from "services/vendorfactory.service";
 
 const { Meta } = Card;
 function SpecStore() {
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
-  const [vendorData, setVendorData] = useState({}); // [name, description, picture
   const { isConnected } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
@@ -32,10 +26,16 @@ function SpecStore() {
     enabled: isConnected,
   });
 
+  // const { data: vendorData, isLoading: isVendorDataLoading } = useQuery({
+  //   queryKey: ["get-spec-vendor-data", storeAddress],
+  //   queryFn: getVendorByAddress(storeAddress),
+  //   enabled: isConnected,
+  // });
+
+  // console.log({ vendorData });
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
     onSuccess: (res) => {
-      console.log("New product added", res);
       message.success("Product added successfully");
     },
     onError: (err) => {
@@ -50,8 +50,6 @@ function SpecStore() {
       message.error("Please fill all the fields");
       return;
     }
-
-    console.log(shippingAddress);
 
     if (!selectedProduct || !selectedProduct.id) {
       message.error("Invalid product");
@@ -85,7 +83,7 @@ function SpecStore() {
     <div className="store-container">
       <div>
         <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
-          {vendorData.name}
+          {/* {vendorData.name} */}
         </h1>
         <Input placeholder="Search for stores" style={{ width: "24rem" }} />
       </div>
@@ -97,7 +95,7 @@ function SpecStore() {
           fontWeight: "400",
         }}
       >
-        {products.length} stores found
+        {specStoreProducts.length} stores found
       </div>
       <div className="store-grid">
         {specStoreProducts?.map((item, idx) => {
@@ -127,7 +125,6 @@ function SpecStore() {
           );
         })}
       </div>
-      {console.log(selectedProduct)}
       {selectedProduct && (
         <Modal
           title={`Buy ${selectedProduct?.name} for ${convertToEthers(

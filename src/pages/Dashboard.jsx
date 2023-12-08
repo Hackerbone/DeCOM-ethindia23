@@ -3,72 +3,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { initializeUser } from "store/user.slice";
 import { useParams } from "react-router-dom";
 import {
-  addProductToVendor,
   getSpecVendorProducts,
   listAllVendors,
+  placeOrder,
 } from "services/vendor.service";
-import { Input, Table, Button, Modal, Form, message } from "antd";
-import Web3 from "web3";
-import { FaEthereum, FaPlus } from "react-icons/fa";
-import { useMutation } from "@tanstack/react-query";
+import { Card, Input, Modal, Form, message, Button } from "antd";
+import { FaEthereum } from "react-icons/fa";
 import { isValidUrl } from "./VendorLanding";
-function Dashboard() {
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { convertToEthers } from "utils/convert";
+
+const { Meta } = Card;
+function SpecStore() {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
-  const [vendorData, setVendorData] = useState({});
+  const [vendorData, setVendorData] = useState({}); // [name, description, picture
   const { isConnected } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider(
-      "https://rinkeby.infura.io/v3/1a2f1d6b0e5e4b0b8d0b2f8a2d8c4a6e"
-    )
-  ); // Initialize web3 with your Ethereum provider
+  const [selectedProduct, setSelectedProduct] = useState(false);
 
   useEffect(() => {
     dispatch(initializeUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isConnected) {
-      getSpecVendorProducts(storeAddress)
-        .then((prod) => {
-          console.log(prod);
-          setProducts(prod);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  const { data: specStoreProducts, isLoading } = useQuery({
+    queryKey: ["specStoreProducts"],
+    queryFn: () => getSpecVendorProducts(storeAddress),
+    enabled: isConnected,
+  });
 
-      listAllVendors()
-        .then((vendors) => {
-          for (let i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorAddress === storeAddress) {
-              setVendorData(vendors[i]);
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [isConnected, storeAddress]);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const createProductMutation = useMutation({
-    mutationFn: addProductToVendor,
+  const placeOrderMutation = useMutation({
+    mutationFn: placeOrder,
     onSuccess: (res) => {
       console.log("New product added", res);
       message.success("Product added successfully");
@@ -79,117 +44,137 @@ function Dashboard() {
     },
   });
 
-  const addProduct = async (values) => {
-    const { name, price, picture } = values;
-    if (!name || !price || !picture) {
+  const placeOrderFn = async (values) => {
+    const { shippingAddress } = values;
+    if (!shippingAddress) {
       message.error("Please fill all the fields");
       return;
     }
 
-    if (!isValidUrl(picture)) {
-      message.error("Invalid picture URL");
+    console.log(shippingAddress);
+
+    if (!selectedProduct || !selectedProduct.id) {
+      message.error("Invalid product");
       return;
     }
 
-    await createProductMutation.mutateAsync({
+    if (!storeAddress) {
+      message.error("Invalid store address");
+      return;
+    }
+
+    await placeOrderMutation.mutateAsync({
       vendorAddress: storeAddress,
-      name,
-      price: web3.utils.toWei(price.toString(), "ether"),
-      picture,
+      id: selectedProduct.id,
+      shippingAddress,
+      productPrice: selectedProduct.price,
     });
+
+    setSelectedProduct(null);
   };
 
-  const columns = [
-    {
-      title: "Products",
-      dataIndex: "picture",
-      key: "picture",
-      render: (text, record) => (
-        <div
-          className="flex"
-          style={{
-            gap: "1rem",
-          }}
-        >
-          <img
-            alt="Product"
-            src={text}
-            style={{
-              width: "50px",
-              height: "50px",
-              borderRadius: "4px",
-              objectFit: "cover",
-            }}
-          />
-          <div style={{ fontWeight: "500", marginTop: "0.5rem" }}>
-            {record.name}
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      render: (text) => (
-        <span>
-          <FaEthereum size={10} />
-          ETH {web3.utils.fromWei(text.toString(), "ether")}
-        </span>
-      ),
-    },
-  ];
+  const handleCancel = () => {
+    setSelectedProduct(null);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="store-container">
       <div>
         <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
-          Welcome back, {vendorData.name}
+          Welcome back, {vendorData?.name}
         </h1>
+        <Input placeholder="Search for stores" style={{ width: "24rem" }} />
       </div>
 
-      <div style={{ margin: "1rem 0", marginTop: "2rem", fontWeight: "400" }}>
+      <div
+        style={{
+          margin: "1rem 0",
+          marginTop: "2rem",
+          fontWeight: "400",
+        }}
+      >
         {products.length} stores found
       </div>
+      <div className="store-grid">
+        {specStoreProducts?.map((item, idx) => {
+          return (
+            <Card
+              key={idx}
+              hoverable
+              style={{ width: 240 }}
+              cover={<img alt="example" src={item.picture} />}
+              onClick={() => {
+                setSelectedProduct(item);
+              }}
+            >
+              <Meta
+                title={item.name}
+                description={
+                  <>
+                    <div>
+                      <FaEthereum size={10} />
+                      ETH {convertToEthers(item.price)}
+                    </div>
+                    <div>{item.description}</div>
+                  </>
+                }
+              />
+            </Card>
+          );
+        })}
+      </div>
+      {console.log(selectedProduct)}
+      {selectedProduct && (
+        <Modal
+          title={`Buy ${selectedProduct?.name} for ${convertToEthers(
+            selectedProduct?.price
+          )} ETH`}
+          open={!!selectedProduct}
+          onCancel={handleCancel}
+          footer={(_, { OkBtn, CancelBtn }) => <></>}
+        >
+          <img
+            alt="Product"
+            src={selectedProduct?.picture}
+            style={{
+              width: "100%",
+              borderRadius: "4px",
+              border: "1px solid #e5e5e5",
+            }}
+          />
 
-      <Table
-        dataSource={products}
-        columns={columns}
-        rowKey="id"
-        bordered={false}
-      />
-
-      <Modal
-        title={`Add new product to the ${vendorData.name} Store!`}
-        open={isModalOpen}
-        // onOk={handleOk}
-        // onCancel={handleCancel}
-        footer={(_, { OkBtn, CancelBtn }) => <></>}
-      >
-        <Form layout="vertical" onFinish={addProduct}>
-          <Form.Item label="Product Name" name="name">
-            <Input placeholder="Enter Product Name" />
-          </Form.Item>
-          <Form.Item label="Product Picture" name="picture">
-            <Input placeholder="Product Picture URL" />
-          </Form.Item>
-          <Form.Item label="Product price" name="price">
-            <Input
-              placeholder="Product Price (ETH)"
-              prefix={<FaEthereum size={10} />}
-            />
-          </Form.Item>
-          <Button
-            className="green-btn"
-            htmlType="submit"
-            loading={createProductMutation.isLoading}
+          <h3
+            style={{
+              color: "#000",
+            }}
           >
-            List Product
-          </Button>
-        </Form>
-      </Modal>
+            Enter your shipping address to place the order{" "}
+          </h3>
+
+          <Form layout="vertical" onFinish={placeOrderFn}>
+            <Form.Item label="Shipping Address" name="shippingAddress">
+              <Input.TextArea
+                placeholder="Address"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+              />
+            </Form.Item>
+            <Button
+              className="green-btn"
+              htmlType="submit"
+              loading={placeOrderMutation.isLoading}
+            >
+              Buy Now for <FaEthereum size={10} />{" "}
+              {selectedProduct && convertToEthers(selectedProduct.price)}
+            </Button>
+          </Form>
+        </Modal>
+      )}
     </div>
   );
 }
 
-export default Dashboard;
+export default SpecStore;

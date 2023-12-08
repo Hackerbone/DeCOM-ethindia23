@@ -11,8 +11,6 @@ export const listAllVendors = async () => {
     signer
   );
   const vendors = await contract.listVendors();
-  console.log(vendors);
-
   return vendors;
 };
 
@@ -43,4 +41,16 @@ export const isVendor = async (walletAddress) => {
   );
   const isVendor = await contract.isVendor(walletAddress);
   return isVendor;
+};
+
+export const getVendorByAddress = async (vendorAddress) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(
+    vendorAddress,
+    vendorContract.abi,
+    provider
+  );
+
+  const vendorData = await contract.getVendorByAddress(vendorAddress);
+  return vendorData;
 };

@@ -11,8 +11,6 @@ export const listAllVendors = async () => {
     signer
   );
   const vendors = await contract.listVendors();
-  console.log(vendors);
-
   return vendors;
 };
 
@@ -89,7 +87,6 @@ export const placeOrder = async ({
   });
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "OrderPlaced");
-  console.log(event);
   const orderId = event.args.id;
   return orderId;
 };
