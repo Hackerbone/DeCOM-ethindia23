@@ -69,7 +69,12 @@ export const removeProductFromVendor = async (vendorAddress, { id }) => {
   await tx.wait();
 };
 
-export const placeOrder = async ({ vendorAddress, id, shippingAddress }) => {
+export const placeOrder = async ({
+  vendorAddress,
+  id,
+  shippingAddress,
+  productPrice,
+}) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -77,7 +82,11 @@ export const placeOrder = async ({ vendorAddress, id, shippingAddress }) => {
     vendorContract.abi,
     signer
   );
-  const tx = await contract.placeOrder(id, shippingAddress);
+
+  const tx = await contract.placeOrder(id, shippingAddress, {
+    from: signer.getAddress(),
+    value: productPrice,
+  });
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "OrderPlaced");
   console.log(event);

@@ -86,6 +86,7 @@ function SpecStore() {
       vendorAddress: storeAddress,
       id: selectedProduct.id,
       shippingAddress,
+      productPrice: selectedProduct.price,
     });
 
     setSelectedProduct(null);
