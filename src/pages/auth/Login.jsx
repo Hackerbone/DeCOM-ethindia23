@@ -9,9 +9,9 @@ import {
   setUserType,
   setWalletAddress,
 } from "store/user.slice";
+import Web3 from "web3";
 import { useNavigate } from "react-router-dom";
 import { getVendorByAddress } from "services/vendorfactory.service";
-import Web3 from "web3";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Login = () => {
       if (!storeId) {
         navigate(`/create-store`);
       } else {
-        navigate(`/stores/${storeId}`);
+        navigate(`/store/${storeId}`);
       }
     }
   }, [walletAddress, isConnected, storeId]);
@@ -58,20 +58,26 @@ const Login = () => {
   useEffect(() => {
     async function connectWalletAndGetUserData() {
       if (window.ethereum) {
-        try {
-          const web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.requestAccounts();
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.requestAccounts();
 
-          const userData = await getVendorByAddress(accounts[0]);
-          console.log({ userData });
-          // Dispatch actions to update the Redux store
-          dispatch(setWalletAddress(userData.vendorWalletAddress));
+        const userData = await getVendorByAddress(accounts[0]);
+        console.log({ userData });
+
+        if (!userData) {
           dispatch(setIsConnected(true));
-          dispatch(setUserType(userData?.userType ?? "vendor"));
-          dispatch(setStoreId(userData.vendorAddress));
-        } catch (error) {
-          console.error("Error connecting to MetaMask", error);
+          dispatch(setWalletAddress(accounts[0]));
+          dispatch(setUserType("user"));
+          navigate("/create-store");
+          return;
         }
+        // Dispatch actions to update the Redux store
+        dispatch(setWalletAddress(userData.vendorWalletAddress));
+        dispatch(setIsConnected(true));
+        dispatch(setUserType(userData?.userType ?? "vendor"));
+        dispatch(setStoreId(userData.vendorAddress));
+      } else {
+        console.error("MetaMask is not installed");
       }
     }
 

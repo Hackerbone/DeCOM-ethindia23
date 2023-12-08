@@ -51,7 +51,6 @@ export const getVendorByAddress = async (vendorAddress) => {
       vendorFactoryContract.abi,
       provider
     );
-    console.log(vendorAddress);
     const vendorData = await contract.getVendorByWalletAddress(vendorAddress);
     return vendorData;
   } catch (error) {

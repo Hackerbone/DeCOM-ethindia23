@@ -6,12 +6,18 @@ import { Form, Input, message } from "antd";
 import PrimaryButton from "components/PrimaryButton";
 import { createVendorContract } from "services/vendorfactory.service";
 import { useMutation } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { setStoreId, setUserType } from "store/user.slice";
 
 const OnboardingStep1 = ({ setCurrentStep }) => {
+  const dispatch = useDispatch();
+
   const createVendorMutation = useMutation({
     mutationFn: createVendorContract,
-    onSuccess: (data) => {
+    onSuccess: (vendorAddress) => {
       message.success("Store created successfully");
+      dispatch(setUserType("vendor"));
+      dispatch(setStoreId(vendorAddress));
       setCurrentStep(1);
     },
     onError: (err) => {
