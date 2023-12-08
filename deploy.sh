@@ -6,7 +6,7 @@ rm -rf src/abis/
 
 echo "Building contracts..."
 # Run truffle deploy and capture the output
-DEPLOY_OUTPUT=$(truffle deploy)
+DEPLOY_OUTPUT=$(truffle deploy --network development)
 
 echo "Copying ABIs..."
 # Extract the contract address
