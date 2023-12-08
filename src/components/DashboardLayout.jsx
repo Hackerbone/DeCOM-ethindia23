@@ -24,36 +24,64 @@ const DashboardLayout = ({ children, hideSidebar }) => {
     if (!user?.isConnected) {
       navigate("/auth");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   useEffect(() => {
     async function connectWalletAndGetUserData() {
       if (window.ethereum) {
-        const web3 = new Web3(window.ethereum);
-        const accounts = await web3.eth.requestAccounts();
+        try {
+          const web3 = new Web3(window.ethereum);
+          const accounts = await web3.eth.requestAccounts();
 
-        const userData = await getVendorByAddress(accounts[0]);
-        console.log({ userData });
+          const userData = await getVendorByAddress(accounts[0]);
+          console.log({ userData });
 
-        if (!userData) {
-          dispatch(setIsConnected(true));
-          dispatch(setWalletAddress(accounts[0]));
-          dispatch(setUserType("user"));
-          navigate("/create-store");
-          return;
+          if (!userData) {
+            dispatch(setIsConnected(true));
+            dispatch(setWalletAddress(accounts[0]));
+            dispatch(setUserType("user"));
+            navigate("/create-store");
+            return;
+          } else {
+            dispatch(setWalletAddress(userData.vendorWalletAddress));
+            dispatch(setIsConnected(true));
+            dispatch(setUserType(userData?.userType ?? "vendor"));
+            dispatch(setStoreId(userData.vendorAddress));
+            navigate(`/store/${userData.vendorAddress}`);
+          }
+        } catch (error) {
+          console.error("Error connecting to MetaMask", error);
         }
-        // Dispatch actions to update the Redux store
-        dispatch(setWalletAddress(userData.vendorWalletAddress));
-        dispatch(setIsConnected(true));
-        dispatch(setUserType(userData?.userType ?? "vendor"));
-        dispatch(setStoreId(userData.vendorAddress));
       } else {
         console.error("MetaMask is not installed");
       }
     }
 
     connectWalletAndGetUserData();
-  }, [dispatch, window.ethereum]); // Add `dispatch` to the dependency array
+
+    // Event listener for account changes
+    const handleAccountsChanged = (accounts) => {
+      if (accounts.length === 0) {
+        console.log("Please connect to MetaMask.");
+      } else {
+        connectWalletAndGetUserData(); // Re-run your logic when the account changes
+      }
+    };
+
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+    }
+
+    // Clean up the event listener
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+      }
+    };
+  }, [dispatch, navigate]); // Remove `window.ethereum` from dependencies to avoid re-running on each render
 
   return (
     <div
