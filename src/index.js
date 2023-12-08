@@ -7,6 +7,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "pages/Landing";
 import { ConfigProvider } from "antd";
 import Login from "pages/auth/Login";
+import VendorLanding from "pages/VendorLanding";
+import SpecStore from "pages/SpecStore";
+import Stores from "pages/Stores";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +19,19 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Login />,
-  }
+  },
+  {
+    path: "/store",
+    element: <VendorLanding />,
+  },
+  {
+    path: "/stores/:storeAddress",
+    element: <SpecStore />,
+  },
+  {
+    path: "/stores",
+    element: <Stores />,
+  },
 ]);
 
 ReactDOM.render(
