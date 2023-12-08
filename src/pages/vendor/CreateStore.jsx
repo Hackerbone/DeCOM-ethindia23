@@ -9,7 +9,7 @@ import OnboardingStep4 from 'components/createStoreOnboarding/Step4';
 const steps = [{}, {}];
 
 const CreateStore = () => {
-    const [currentStep, setCurrentStep] = React.useState(1)
+    const [currentStep, setCurrentStep] = React.useState(0)
 
 
     return (
