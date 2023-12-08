@@ -59,10 +59,6 @@ function SpecStore() {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -91,12 +87,16 @@ function SpecStore() {
       return;
     }
 
+    console.log(storeAddress, name, price, picture);
+
     await createProductMutation.mutateAsync({
       vendorAddress: storeAddress,
       name,
       price: web3.utils.toWei(price.toString(), "ether"),
       picture,
     });
+
+    setIsModalOpen(false);
   };
 
   const columns = [
@@ -172,8 +172,7 @@ function SpecStore() {
       <Modal
         title={`Add new product to the ${vendorData.name} Store!`}
         open={isModalOpen}
-        // onOk={handleOk}
-        // onCancel={handleCancel}
+        onCancel={handleCancel}
         footer={(_, { OkBtn, CancelBtn }) => <></>}
       >
         <Form layout="vertical" onFinish={addProduct}>

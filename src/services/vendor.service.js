@@ -37,10 +37,12 @@ export const getSpecVendorProducts = async (vendorAddress) => {
   return processedResponse;
 };
 
-export const addProductToVendor = async (
+export const addProductToVendor = async ({
   vendorAddress,
-  { name, picture, price }
-) => {
+  name,
+  picture,
+  price,
+}) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -49,7 +51,10 @@ export const addProductToVendor = async (
     signer
   );
   const tx = await contract.addProduct(name, picture, price);
-  await tx.wait();
+  const receipt = await tx.wait();
+  const event = receipt.events.find((event) => event.event === "ProductAdded");
+  const newProductId = event.args.id;
+  return newProductId;
 };
 
 export const removeProductFromVendor = async (vendorAddress, { id }) => {
