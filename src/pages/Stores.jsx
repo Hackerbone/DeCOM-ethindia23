@@ -18,7 +18,7 @@ function Stores() {
   }, [dispatch]);
 
   const { data: vendors, isLoading } = useQuery({
-    queryKey: "vendors",
+    queryKey: ["vendors"],
     queryFn: listAllVendors,
     enabled: isConnected,
   });

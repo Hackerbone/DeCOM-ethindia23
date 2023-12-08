@@ -11,6 +11,7 @@ export const listAllVendors = async () => {
     signer
   );
   const vendors = await contract.listVendors();
+
   return vendors;
 };
 

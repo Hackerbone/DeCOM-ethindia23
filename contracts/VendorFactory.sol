@@ -54,16 +54,16 @@ contract VendorFactory {
     }
 
     // Function to get a vendor by address and return the name and logo, if not there return empty strings
-    // function getVendor(
-    //     address _vendorAddress
-    // ) public view returns (string memory, string memory) {
-    //     for (uint256 i = 0; i < vendors.length; i++) {
-    //         if (vendors[i].vendorAddress == _vendorAddress) {
-    //             return (vendors[i].name, vendors[i].logo);
-    //         }
-    //     }
-    //     return ("", "");
-    // }
+    function getVendor(
+        address _vendorAddress
+    ) public view returns (string memory, string memory) {
+        for (uint256 i = 0; i < vendors.length; i++) {
+            if (vendors[i].vendorAddress == _vendorAddress) {
+                return (vendors[i].name, vendors[i].logo);
+            }
+        }
+        return ("", "");
+    }
 
     // Function to withdraw the collected ETH
     function withdraw() public {
