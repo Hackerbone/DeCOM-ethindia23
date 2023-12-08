@@ -53,31 +53,21 @@ contract VendorFactory {
         return vendors;
     }
 
-    // Function to get a vendor by address and return the name and logo, if not there return empty strings
-    function getVendor(
-        address _vendorAddress
-    ) public view returns (string memory, string memory) {
+    // Function to get a vendor by their wallet address, if does not exist, return empty VendorDetails
+    function getVendorByWalletAddress(
+        address _vendorWalletAddress
+    ) public view returns (VendorDetails memory) {
         for (uint256 i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorAddress == _vendorAddress) {
-                return (vendors[i].name, vendors[i].logo);
+            if (vendors[i].vendorWalletAddress == _vendorWalletAddress) {
+                return vendors[i];
             }
         }
-        return ("", "");
+        return VendorDetails(address(0), address(0), "", "");
     }
 
     // Function to withdraw the collected ETH
     function withdraw() public {
         require(msg.sender == owner, "Only the owner can withdraw");
         payable(owner).transfer(address(this).balance);
-    }
-
-    // Function that takes a address and returns if that address is a wallet address of a vendor or not boolean
-    function isVendor(address _vendorWalletAddress) public view returns (bool) {
-        for (uint256 i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorWalletAddress == _vendorWalletAddress) {
-                return true;
-            }
-        }
-        return false;
     }
 }
