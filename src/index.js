@@ -10,6 +10,8 @@ import Login from "pages/auth/Login";
 import VendorLanding from "pages/VendorLanding";
 import SpecStore from "pages/SpecStore";
 import Stores from "pages/Stores";
+import { LightNodeProvider } from "@waku/react";
+import WakuTest from "pages/waku-test";
 
 const router = createBrowserRouter([
   {
@@ -32,20 +34,26 @@ const router = createBrowserRouter([
     path: "/stores",
     element: <Stores />,
   },
+  // {
+  //   path: "/waku",
+  //   element: <WakuTest />,
+  // },
 ]);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ConfigProvider
-        theme={{
-          primaryColor: "#27fd7e",
-          fontFamily: "pangea",
-          fontWeight: 500,
-        }}
-      >
-        <RouterProvider router={router} />
-      </ConfigProvider>
+      <LightNodeProvider options={{ defaultBootstrap: true }}>
+        <ConfigProvider
+          theme={{
+            primaryColor: "#27fd7e",
+            fontFamily: "pangea",
+            fontWeight: 500,
+          }}
+        >
+          <RouterProvider router={router} />
+        </ConfigProvider>
+      </LightNodeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
