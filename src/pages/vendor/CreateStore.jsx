@@ -23,7 +23,7 @@ const CreateStore = () => {
                     />
                     {currentStep === 0 ? (
                         <OnboardingStep1 currentStep={currentStep} setCurrentStep={setCurrentStep} />
-                    ) : currentStep === 1 ? <OnboardingStep4 /> : null }
+                    ) : currentStep === 1 ? <OnboardingStep4 /> : null}
                 </div>
             </div>
         </DashboardLayout>
