@@ -44,13 +44,17 @@ export const isVendor = async (walletAddress) => {
 };
 
 export const getVendorByAddress = async (vendorAddress) => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const contract = new ethers.Contract(
-    process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
-    vendorContract.abi,
-    provider
-  );
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(
+      process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
+      vendorFactoryContract.abi,
+      provider
+    );
 
-  const vendorData = await contract.getVendor(vendorAddress);
-  return vendorData;
+    const vendorData = await contract.getVendorByWalletAddress(vendorAddress);
+    return vendorData;
+  } catch (error) {
+    console.log(error);
+  }
 };

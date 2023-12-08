@@ -62,7 +62,7 @@ contract VendorFactory {
                 return vendors[i];
             }
         }
-        return VendorDetails(address(0), address(0), "", "");
+        revert("Vendor not found");
     }
 
     // Function to withdraw the collected ETH

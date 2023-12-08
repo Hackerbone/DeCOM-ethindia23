@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeUser } from "store/user.slice";
 import { useNavigate } from "react-router-dom";
 import { listAllVendors } from "services/vendor.service";
 import { Card, Input } from "antd";
@@ -13,10 +12,6 @@ function Stores() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(initializeUser());
-  }, [dispatch]);
-
   const { data: vendors, isLoading } = useQuery({
     queryKey: ["vendors"],
     queryFn: listAllVendors,
@@ -26,6 +21,8 @@ function Stores() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  console.log({ vendors });
 
   return (
     <div className="store-container">

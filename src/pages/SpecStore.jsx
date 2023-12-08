@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeUser } from "store/user.slice";
 import { useParams } from "react-router-dom";
 import { getSpecVendorProducts, placeOrder } from "services/vendor.service";
 import { Card, Input, Modal, Form, message, Button } from "antd";
 import { FaEthereum } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
+import { getVendorByAddress } from "services/vendorfactory.service";
 // import { getVendorByAddress } from "services/vendorfactory.service";
 
 const { Meta } = Card;
@@ -16,23 +16,19 @@ function SpecStore() {
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
 
-  useEffect(() => {
-    dispatch(initializeUser());
-  }, [dispatch]);
-
   const { data: specStoreProducts, isLoading } = useQuery({
     queryKey: ["specStoreProducts"],
     queryFn: () => getSpecVendorProducts(storeAddress),
     enabled: isConnected,
   });
 
-  // const { data: vendorData, isLoading: isVendorDataLoading } = useQuery({
-  //   queryKey: ["get-spec-vendor-data", storeAddress],
-  //   queryFn: getVendorByAddress(storeAddress),
-  //   enabled: isConnected,
-  // });
+  const { data: vendorData, isLoading: isVendorDataLoading } = useQuery({
+    queryKey: ["get-spec-vendor-data", storeAddress],
+    queryFn: getVendorByAddress(storeAddress),
+    enabled: isConnected,
+  });
 
-  // console.log({ vendorData });
+  console.log({ vendorData });
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
     onSuccess: (res) => {
@@ -75,9 +71,11 @@ function SpecStore() {
     setSelectedProduct(null);
   };
 
-  if (isLoading) {
+  if (isLoading || isVendorDataLoading) {
     return <div>Loading...</div>;
   }
+
+  console.log({ specStoreProducts });
 
   return (
     <div className="store-container">
@@ -95,7 +93,7 @@ function SpecStore() {
           fontWeight: "400",
         }}
       >
-        {specStoreProducts.length} stores found
+        {specStoreProducts?.length} stores found
       </div>
       <div className="store-grid">
         {specStoreProducts?.map((item, idx) => {

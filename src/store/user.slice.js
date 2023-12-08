@@ -1,43 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import Web3 from "web3";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  walletAddress: localStorage.getItem("walletAddress") || "",
-  isConnected: !!localStorage.getItem("walletAddress"),
-  storeId: "",
+  walletAddress: "",
+  isConnected: false,
   userType: "",
-  contractAddress: "",
+  storeId: "",
 };
-
-export const initializeUser = createAsyncThunk(
-  "user/initializeUser",
-  async (_, { dispatch }) => {
-    const walletAddress = localStorage.getItem("walletAddress");
-    if (walletAddress) {
-      dispatch(setWalletAddress(walletAddress));
-      dispatch(setIsConnected(true));
-    }
-  }
-);
-
-export const connectWallet = createAsyncThunk(
-  "user/connectWallet",
-  async (_, { dispatch }) => {
-    if (window.ethereum) {
-      try {
-        const web3 = new Web3(window.ethereum);
-        const accounts = await web3.eth.requestAccounts();
-        localStorage.setItem("walletAddress", accounts[0]);
-        dispatch(setWalletAddress(accounts[0]));
-        dispatch(setIsConnected(true));
-      } catch (error) {
-        console.error("Error connecting to MetaMask", error);
-      }
-    } else {
-      console.error("MetaMask is not installed");
-    }
-  }
-);
 
 const userSlice = createSlice({
   name: "user",
@@ -52,16 +20,13 @@ const userSlice = createSlice({
     setUserType(state, action) {
       state.userType = action.payload;
     },
-    setContractAddress(state, action) {
-      state.contractAddress = action.payload;
-    },
     setStoreId(state, action) {
       state.storeId = action.payload;
     },
-    logout(state, action) {
-      localStorage.removeItem("walletAddress");
-      state = initialState;
-    }
+    logout(state) {
+      localStorage.removeItem("user");
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -71,7 +36,7 @@ export const {
   setUserType,
   setContractAddress,
   setStoreId,
-  logout
+  logout,
 } = userSlice.actions;
 
 export default userSlice.reducer;

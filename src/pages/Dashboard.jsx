@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeUser } from "store/user.slice";
 import { useParams } from "react-router-dom";
 import {
   getSpecVendorProducts,
@@ -21,10 +20,6 @@ function SpecStore() {
   const { isConnected } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
-
-  useEffect(() => {
-    dispatch(initializeUser());
-  }, [dispatch]);
 
   const { data: specStoreProducts, isLoading } = useQuery({
     queryKey: ["specStoreProducts"],

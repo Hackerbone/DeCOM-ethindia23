@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeUser } from "store/user.slice";
 import { useParams } from "react-router-dom";
 import {
   addProductToVendor,
   getSpecVendorProducts,
-  listAllVendors,
 } from "services/vendor.service";
 import { Input, Table, Button, Modal, Form, message } from "antd";
-import Web3 from "web3";
 import { FaEthereum, FaPlus } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isValidUrl } from "./VendorLanding";
+import { convertToEthers } from "utils/convert";
 function SpecStore() {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
@@ -19,16 +17,6 @@ function SpecStore() {
   const { isConnected } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider(
-      "https://rinkeby.infura.io/v3/1a2f1d6b0e5e4b0b8d0b2f8a2d8c4a6e"
-    )
-  ); // Initialize web3 with your Ethereum provider
-
-  useEffect(() => {
-    dispatch(initializeUser());
-  }, [dispatch]);
 
   const { data: specVendorProducts, isLoading } = useQuery({
     queryKey: ["internalDashproducts"],
@@ -73,7 +61,7 @@ function SpecStore() {
     await createProductMutation.mutateAsync({
       vendorAddress: storeAddress,
       name,
-      price: web3.utils.toWei(price.toString(), "ether"),
+      price: convertToEthers(price),
       picture,
     });
 
@@ -115,7 +103,7 @@ function SpecStore() {
       render: (text) => (
         <span>
           <FaEthereum size={10} />
-          ETH {web3.utils.fromWei(text.toString(), "ether")}
+          ETH {convertToEthers(text)}
         </span>
       ),
     },
