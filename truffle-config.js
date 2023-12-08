@@ -42,7 +42,7 @@
  */
 
 require("dotenv").config();
-const { MNEMONIC, PROJECT_ID } = process.env;
+const { PRIVATE_KEY_POLYGON_TESTNET } = process.env;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
@@ -70,7 +70,10 @@ module.exports = {
     },
     matic: {
       provider: () =>
-        new HDWalletProvider(MNEMONIC, `https://rpc-mumbai.maticvigil.com`),
+        new HDWalletProvider({
+          privateKeys: [PRIVATE_KEY_POLYGON_TESTNET],
+          providerOrUrl: `https://rpc-mumbai.maticvigil.com`,
+        }),
       network_id: 80001,
     },
     //
