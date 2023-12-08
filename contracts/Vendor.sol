@@ -83,6 +83,18 @@ contract Vendor {
         return orders[_orderId];
     }
 
+    // get all orders of the vendor
+    function getOrders() public view returns (Order[] memory) {
+        Order[] memory orderList = new Order[](orderCount);
+        for (uint i = 0; i < orderCount; i++) {
+            if (orders[i + 1].customer == msg.sender) {
+                orderList[i] = orders[i + 1];
+            }
+        }
+        return orderList;
+    }
+
+
     // Get a list of all available products
     function getProductList() public view returns (Product[] memory) {
         Product[] memory productList = new Product[](productCount);

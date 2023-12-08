@@ -9,3 +9,7 @@ const web3 = new Web3(
 export const convertToEthers = (amount) => {
   return web3.utils.fromWei(amount.toString(), "ether");
 };
+
+export const convertToWei = (amountInEther) => {
+  return web3.utils.toWei(amountInEther, "ether");
+};

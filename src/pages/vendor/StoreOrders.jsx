@@ -1,25 +1,20 @@
 import { Col, Row } from "antd";
 import DashboardLayout from "components/DashboardLayout";
-import PrimaryButton from "components/PrimaryButton";
-import React, { useState } from "react";
+import React from "react";
 import styles from "styles/pages/Dashboard.module.scss";
-import { PlusOutlined } from "@ant-design/icons";
 import SearchBar from "components/SearchBar";
-import StoreProductsTable from "components/tables/StoreProductsTable";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { BiTrash } from "react-icons/bi";
 import { showConfirm } from "components/modals/ConfirmModal";
 import { useQuery } from "@tanstack/react-query";
-import { getSpecVendorProducts } from "services/vendor.service";
+import { getOrdersOfVendor } from "services/vendor.service";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import AddProductModal from "components/modals/AddProductModal";
+import StoreOrdersTable from "components/tables/StoreOrdersTable";
 
-const StoreProducts = () => {
+const StoreOrders = () => {
   const { storeAddress } = useParams();
   const { isConnected } = useSelector((state) => state.user);
-
-  const [addProductModal, setAddProductModal] = useState(false);
 
   const productsDropdownItems = [
     {
@@ -39,17 +34,23 @@ const StoreProducts = () => {
     },
   ];
 
-  const { data: allProducts, isLoading } = useQuery({
-    queryKey: ["allvendorproducts"],
-    queryFn: () => getSpecVendorProducts(storeAddress),
+  const { data: allOrders, isLoading } = useQuery({
+    queryKey: ["allvendororders"],
+    queryFn: () => getOrdersOfVendor(storeAddress),
     enabled: isConnected,
   });
+
+  console.log({
+    allOrders,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <DashboardLayout>
       <div className={styles.dashboardContainer}>
         <div className={styles.dashboardHeader}>
-          <h1 className={styles.heading}>Products</h1>
+          <h1 className={styles.heading}>All Orders</h1>
         </div>
         <Row
           align="middle"
@@ -62,31 +63,16 @@ const StoreProducts = () => {
               className={styles.filterbar}
             />
           </Col>
-          <Col>
-            <PrimaryButton
-              size="small"
-              icon={<PlusOutlined />}
-              onClick={() => setAddProductModal(true)}
-            >
-              Add Product
-            </PrimaryButton>
-          </Col>
         </Row>
         <div className={styles.dashboardTableContainer}>
-          <StoreProductsTable
-            productsDropdownItems={productsDropdownItems}
-            allProducts={allProducts}
+          <StoreOrdersTable
+            ordersDropdownItems={productsDropdownItems}
+            orders={allOrders}
           />
         </div>
-
-        <AddProductModal
-          visible={addProductModal}
-          setVisible={setAddProductModal}
-          storeAddress={storeAddress}
-        />
       </div>
     </DashboardLayout>
   );
 };
 
-export default StoreProducts;
+export default StoreOrders;

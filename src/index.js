@@ -15,6 +15,7 @@ import Dashboard from "pages/Dashboard";
 import CreateStore from "pages/vendor/CreateStore";
 import StoreDashboard from "pages/vendor/StoreDashboard";
 import StoreProducts from "pages/vendor/StoreProducts";
+import StoreOrders from "pages/vendor/StoreOrders";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/vendor/:storeAddress/products",
     element: <StoreProducts />,
+  },
+  {
+    path: "/vendor/:storeAddress/orders",
+    element: <StoreOrders />,
   },
   {
     path: "/stores/:storeAddress",
