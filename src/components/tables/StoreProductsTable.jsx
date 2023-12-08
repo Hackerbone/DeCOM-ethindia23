@@ -4,16 +4,24 @@ import React from 'react'
 import styles from 'styles/components/Table.module.scss'
 import { BsThreeDots } from 'react-icons/bs'
 import TableActionsDropdown from 'components/dropdowns/TableActionsDropdown'
+import { FaEthereum } from 'react-icons/fa'
+import Web3 from "web3";
 
 
-const StoreProductsTable = ({ productsDropdownItems }) => {
+const web3 = new Web3(
+    new Web3.providers.HttpProvider(
+        "https://rinkeby.infura.io/v3/1a2f1d6b0e5e4b0b8d0b2f8a2d8c4a6e"
+    )
+);
+
+const StoreProductsTable = ({ productsDropdownItems, allProducts }) => {
 
     const columns = [
         {
             title: 'Product',
-            dataIndex: 'product',
-            key: 'product',
-            render: (product) => (<Row align="middle" style={{ gap: 16 }}><Avatar size={64} shape='square' />{product}</Row>)
+            dataIndex: 'name',
+            key: 'name',
+            render: (product, record) => (<Row align="middle" style={{ gap: 16 }}><Avatar size={64} shape='square' src={record.picture} />{product}</Row>)
 
         },
         {
@@ -31,7 +39,10 @@ const StoreProductsTable = ({ productsDropdownItems }) => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
-            render: (price) => <>{price}</>
+            render: (price) => <span>
+                <FaEthereum size={10} />
+                ETH {web3.utils.fromWei(price.toString(), "ether")}
+            </span>
 
         },
         {
@@ -53,19 +64,12 @@ const StoreProductsTable = ({ productsDropdownItems }) => {
     return (
         <div className={styles.resourceTableContainer}>
             <Table
-                dataSource={[
-                    {
-                        product: "Adidas",
-                        category: "Men's shoe",
-                        inventory: 3,
-                        price: "0.3666 ETH"
-                    }
-                ]}
+                dataSource={allProducts}
                 columns={columns}
                 pagination={false}
             />
             <Row align="middle" justify="space-between" className={styles.tableFooter}>
-                <div className={styles.itemsCount}><span>5</span>Products</div>
+                <div className={styles.itemsCount}><span>{allProducts?.length}</span>Products</div>
                 <div className={styles.paginationButtons}>
                     <PrimaryButton buttonType="pagination" >Previous</PrimaryButton>
                     <PrimaryButton buttonType="pagination">Next</PrimaryButton>
