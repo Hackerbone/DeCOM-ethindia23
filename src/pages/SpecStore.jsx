@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSpecVendorProducts, placeOrder } from "services/vendor.service";
 import { Card, Input, Modal, Form, message, Button } from "antd";
@@ -7,11 +7,9 @@ import { FaEthereum } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
 import { getVendorByAddress } from "services/vendorfactory.service";
-// import { getVendorByAddress } from "services/vendorfactory.service";
 
 const { Meta } = Card;
 function SpecStore() {
-  const dispatch = useDispatch();
   const { isConnected } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
@@ -22,10 +20,10 @@ function SpecStore() {
     enabled: isConnected,
   });
 
-  const { data: vendorData, isLoading: isVendorDataLoading } = useQuery({
+  const { data: vendorData } = useQuery({
     queryKey: ["get-spec-vendor-data", storeAddress],
     queryFn: getVendorByAddress(storeAddress),
-    enabled: isConnected,
+    enabled: isConnected && !!storeAddress,
   });
 
   console.log({ vendorData });
@@ -71,7 +69,7 @@ function SpecStore() {
     setSelectedProduct(null);
   };
 
-  if (isLoading || isVendorDataLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -81,7 +79,7 @@ function SpecStore() {
     <div className="store-container">
       <div>
         <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
-          {/* {vendorData.name} */}
+          {vendorData?.name}
         </h1>
         <Input placeholder="Search for stores" style={{ width: "24rem" }} />
       </div>
