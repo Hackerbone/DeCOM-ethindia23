@@ -48,6 +48,18 @@ contract VendorFactory {
         return vendors;
     }
 
+    // Function to get a vendor by address
+    function getVendorByAddress(
+        address _vendorAddress
+    ) public view returns (VendorDetails memory) {
+        for (uint256 i = 0; i < vendors.length; i++) {
+            if (vendors[i].vendorAddress == _vendorAddress) {
+                return vendors[i];
+            }
+        }
+        return VendorDetails(address(0), address(0), "", "");
+    }
+
     // Function to withdraw the collected ETH
     function withdraw() public {
         require(msg.sender == owner, "Only the owner can withdraw");
