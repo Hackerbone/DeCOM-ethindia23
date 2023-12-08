@@ -10,7 +10,7 @@ import {
 import { Card, Input, Modal, Form, message, Button } from "antd";
 import { FaEthereum } from "react-icons/fa";
 import { isValidUrl } from "./VendorLanding";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
 
 const { Meta } = Card;
@@ -26,30 +26,11 @@ function SpecStore() {
     dispatch(initializeUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (isConnected) {
-      getSpecVendorProducts(storeAddress)
-        .then((prod) => {
-          console.log(prod);
-          setProducts(prod);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      listAllVendors()
-        .then((vendors) => {
-          for (let i = 0; i < vendors.length; i++) {
-            if (vendors[i].vendorAddress === storeAddress) {
-              setVendorData(vendors[i]);
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [isConnected, storeAddress]);
+  const { data: specStoreProducts, isLoading } = useQuery({
+    queryKey: ["specStoreProducts"],
+    queryFn: () => getSpecVendorProducts(storeAddress),
+    enabled: isConnected,
+  });
 
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
@@ -96,6 +77,10 @@ function SpecStore() {
     setSelectedProduct(null);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="store-container">
       <div>
@@ -115,7 +100,7 @@ function SpecStore() {
         {products.length} stores found
       </div>
       <div className="store-grid">
-        {products?.map((item, idx) => {
+        {specStoreProducts?.map((item, idx) => {
           return (
             <Card
               key={idx}
