@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connectWallet, initializeUser } from "store/user.slice";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
+import { createVendorContract } from "services/vendorfactory.service";
 
 function VendorLanding() {
   const dispatch = useDispatch();
@@ -23,10 +24,36 @@ function VendorLanding() {
     navigate(`/store/${storeId}`);
   }
 
+  const isValidUrl = (str) => {
+    try {
+      new URL(str);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
   const createVendor = (values) => {
     const { name, logo } = values;
-
-    console.log(name, logo);
+    if (!name || !logo) {
+      console.log("empty");
+      return;
+    }
+    if (!isValidUrl(logo)) {
+      console.log("invalid url");
+      return;
+    }
+    // call the create vendor
+    createVendorContract({ name, logo })
+      .then((res) => {
+        console.log("New vendor contract address", res);
+        message.success("Vendor created successfully");
+        navigate(`/stores/${res}`);
+      })
+      .catch((err) => {
+        console.log(err);
+        message.error("Vendor creation failed");
+      });
   };
 
   // @TODO: Redirect to personal store if user is connected and has a storeId
