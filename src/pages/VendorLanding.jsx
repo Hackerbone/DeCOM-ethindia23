@@ -13,7 +13,7 @@ function VendorLanding() {
   const navigate = useNavigate();
 
   if (isConnected && !!storeId) {
-    navigate(`/store/${storeId}`);
+    navigate(`/vendor/${storeId}`);
   }
 
   const createVendor = (values) => {

@@ -50,7 +50,7 @@ const DashboardLayout = ({ children, hideSidebar }) => {
             dispatch(setStoreId(userData.vendorAddress));
 
             if (!location.pathname.includes("/vendor")) {
-              navigate(`/store/${userData.vendorAddress}`);
+              navigate(`/vendor/${userData.vendorAddress}`);
             }
           }
         } catch (error) {

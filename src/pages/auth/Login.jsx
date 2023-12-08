@@ -25,7 +25,7 @@ const Login = () => {
       if (!storeId) {
         navigate(`/create-store`);
       } else {
-        navigate(`/store/${storeId}`);
+        navigate(`/vendor/${storeId}`);
       }
     }
   }, [walletAddress, isConnected, storeId]);
