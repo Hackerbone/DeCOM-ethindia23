@@ -40,6 +40,7 @@ const Login = () => {
 
       if (!userData) {
         dispatch(setIsConnected(true));
+        dispatch(setWalletAddress(accounts[0]));
         dispatch(setUserType("user"));
         navigate("/create-store");
         return;

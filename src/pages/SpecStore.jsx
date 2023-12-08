@@ -10,7 +10,7 @@ import { getVendorByAddress } from "services/vendorfactory.service";
 
 const { Meta } = Card;
 function SpecStore() {
-  const { isConnected } = useSelector((state) => state.user);
+  const { isConnected, currentStore } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
 
@@ -79,7 +79,7 @@ function SpecStore() {
     <div className="store-container">
       <div>
         <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
-          {vendorData?.name}
+          {currentStore?.name}
         </h1>
         <Input placeholder="Search for stores" style={{ width: "24rem" }} />
       </div>
