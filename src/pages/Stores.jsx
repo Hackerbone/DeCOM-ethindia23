@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { listAllVendors } from "services/vendor.service";
 import { Card, Input } from "antd";
 import { useQuery } from "@tanstack/react-query";
+import { setCurrentStore } from "store/user.slice";
 
 const { Meta } = Card;
 function Stores() {
@@ -51,6 +52,13 @@ function Stores() {
               style={{ width: 240 }}
               cover={<img alt="example" src={item.logo} />}
               onClick={() => {
+                dispatch(
+                  setCurrentStore({
+                    storeId: item.vendorAddress,
+                    name: item.name,
+                    logo: item.logo,
+                  })
+                );
                 navigate(`/stores/${item.vendorAddress}`);
               }}
             >

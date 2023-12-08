@@ -5,6 +5,11 @@ const initialState = {
   isConnected: false,
   userType: "",
   storeId: "",
+  currentStore: {
+    name: "",
+    logo: "",
+    storeId: "",
+  },
 };
 
 const userSlice = createSlice({
@@ -27,6 +32,9 @@ const userSlice = createSlice({
       localStorage.removeItem("user");
       Object.assign(state, initialState);
     },
+    setCurrentStore(state, action) {
+      state.currentStore = action.payload;
+    },
   },
 });
 
@@ -37,6 +45,7 @@ export const {
   setContractAddress,
   setStoreId,
   logout,
+  setCurrentStore,
 } = userSlice.actions;
 
 export default userSlice.reducer;

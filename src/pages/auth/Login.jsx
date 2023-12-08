@@ -32,22 +32,23 @@ const Login = () => {
 
   const handleSafeLogin = async () => {
     if (window.ethereum) {
-      try {
-        const web3 = new Web3(window.ethereum);
-        const accounts = await web3.eth.requestAccounts();
+      const web3 = new Web3(window.ethereum);
+      const accounts = await web3.eth.requestAccounts();
 
-        const userData = await getVendorByAddress(accounts[0]);
-        console.log({ userData });
-        // Dispatch actions to update the Redux store
-        dispatch(setWalletAddress(userData.vendorWalletAddress));
+      const userData = await getVendorByAddress(accounts[0]);
+      console.log({ userData });
+
+      if (!userData) {
         dispatch(setIsConnected(true));
-        dispatch(setUserType(userData?.userType ?? "vendor"));
-        dispatch(setStoreId(userData.vendorAddress));
-
-        // Additional logic if required
-      } catch (error) {
-        console.error("Error connecting to MetaMask", error);
+        dispatch(setUserType("user"));
+        navigate("/create-store");
+        return;
       }
+      // Dispatch actions to update the Redux store
+      dispatch(setWalletAddress(userData.vendorWalletAddress));
+      dispatch(setIsConnected(true));
+      dispatch(setUserType(userData?.userType ?? "vendor"));
+      dispatch(setStoreId(userData.vendorAddress));
     } else {
       console.error("MetaMask is not installed");
     }
