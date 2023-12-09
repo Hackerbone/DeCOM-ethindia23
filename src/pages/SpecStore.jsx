@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSpecVendorProducts, placeOrder } from "services/vendor.service";
-import { Card, Input, Modal, Form, message, Button } from "antd";
+import { Card, Input, Modal, Form, message, Button, Avatar } from "antd";
 import { FaEthereum } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
-import { getVendorByContractAddress } from "services/vendorfactory.service";
+import {
+  checkVendor,
+  getVendorByContractAddress,
+} from "services/vendorfactory.service";
 
 const { Meta } = Card;
 function SpecStore() {
@@ -22,9 +25,16 @@ function SpecStore() {
 
   const { data: vendorData } = useQuery({
     queryKey: ["get-spec-vendor-data", storeAddress],
-    queryFn: getVendorByContractAddress(storeAddress),
+    queryFn: async () => {
+      const vendorWalletAddress = await getVendorByContractAddress(
+        storeAddress
+      );
+      return await checkVendor(vendorWalletAddress);
+    },
     enabled: isConnected && !!storeAddress,
   });
+
+  console.log({ vendorData });
 
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
@@ -75,7 +85,24 @@ function SpecStore() {
   return (
     <div className="store-container">
       <div>
-        <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
+        <h1
+          style={{
+            fontSize: "3.5rem",
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={vendorData?.logo}
+            style={{
+              width: "4.25rem",
+              height: "4.25rem",
+              borderRadius: "50%",
+              marginRight: "1rem",
+            }}
+            alt={vendorData?.name}
+          />
           {vendorData?.name}
         </h1>
         <Input placeholder="Search for stores" style={{ width: "24rem" }} />
@@ -86,9 +113,10 @@ function SpecStore() {
           margin: "1rem 0",
           marginTop: "2rem",
           fontWeight: "400",
+          color: "#fff",
         }}
       >
-        {specStoreProducts?.length} stores found
+        {specStoreProducts?.length} product(s) found
       </div>
       <div className="store-grid">
         {specStoreProducts?.map((item, idx) => {

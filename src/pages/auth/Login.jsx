@@ -16,19 +16,13 @@ import { checkVendor } from "services/vendorfactory.service";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { walletAddress, isConnected, storeId } = useSelector(
-    (state) => state.user
-  );
+  const { isConnected, storeId, userType } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (isConnected) {
-      if (!storeId) {
-        navigate(`/create-store`);
-      } else {
-        navigate(`/vendor/${storeId}`);
-      }
+    if (isConnected && userType === "vendor") {
+      navigate(`/vendor/${storeId}`);
     }
-  }, [walletAddress, isConnected, storeId]);
+  }, [isConnected, navigate, storeId, userType]);
 
   const handleSafeLogin = async () => {
     if (window.ethereum) {
@@ -61,7 +55,7 @@ const Login = () => {
         const accounts = await web3.eth.requestAccounts();
 
         const userData = await checkVendor(accounts[0]);
-        if (!userData) {
+        if (!userData && !isConnected) {
           dispatch(setIsConnected(true));
           dispatch(setWalletAddress(accounts[0]));
           dispatch(setUserType("user"));

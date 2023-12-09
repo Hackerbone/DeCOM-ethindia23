@@ -121,6 +121,19 @@ contract Vendor {
         return orderList;
     }
 
+    // get all order of a customer using customer address
+    function getOrdersByCustomer(
+        address _customer
+    ) public view returns (Order[] memory) {
+        Order[] memory orderList = new Order[](orderCount);
+        for (uint i = 0; i < orderCount; i++) {
+            if (orders[i].customer == _customer) {
+                orderList[i] = orders[i];
+            }
+        }
+        return orderList;
+    }
+
     // Get a list of all available products
     function getProductList() public view returns (Product[] memory) {
         Product[] memory productList = new Product[](productCount);

@@ -129,6 +129,29 @@ export const getOrdersOfVendor = async (vendorAddress) => {
   return processedResponse;
 };
 
+export const getOrdersByCustomer = async (customerAddress) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const contract = new ethers.Contract(
+    customerAddress,
+    vendorContract.abi,
+    signer
+  );
+
+  const address = await signer.getAddress();
+  const orders = await contract.getOrdersByCustomer(address);
+
+  const processedResponse = orders.map((order) => ({
+    id: order.id.toNumber(), // Convert BigNumber to number
+    productId: order.productId.toNumber(),
+    customer: order.customer,
+    shippingAddress: order.shippingAddress,
+    isShipped: order.isShipped,
+  }));
+
+  return processedResponse;
+};
+
 export const withdrawFunds = async (vendorAddress) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
