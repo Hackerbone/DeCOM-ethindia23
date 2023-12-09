@@ -24,7 +24,7 @@ module.exports = {
       zlib: require.resolve("browserify-zlib"),
     };
     // config.devtool = false;
-    config.resolve.extensions = [...config.resolve.extensions, ".ts", ".js"];
+    config.resolve.extensions = [...config.resolve.extensions, ".js"];
     config.plugins = [
       ...config.plugins,
       new webpack.ProvidePlugin({
