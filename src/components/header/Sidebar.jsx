@@ -1,19 +1,15 @@
 import React from "react";
 import styles from "styles/components/Sidebar.module.scss";
 import { Avatar, Row } from "antd";
-import { MdOutlineDashboard } from "react-icons/md";
-import { TbSettings } from "react-icons/tb";
+import { MdHelp, MdOutlineDashboard } from "react-icons/md";
+import { TbBrandAmongUs, TbSettings } from "react-icons/tb";
 import { useQuery } from "@tanstack/react-query";
-import {
-  PiStackSimpleBold,
-  PiCirclesThreeBold,
-  PiUsersBold,
-  PiBuildingsBold,
-  PiDatabase,
-} from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkVendor } from "services/vendorfactory.service";
+import { CgShoppingBag } from "react-icons/cg";
+import { PiStackBold } from "react-icons/pi"
+import { LuAreaChart } from "react-icons/lu"
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -42,17 +38,17 @@ const Sidebar = () => {
       label: "Store",
       children: [
         {
-          icon: <PiStackSimpleBold />,
+          icon: <CgShoppingBag />,
           label: `Orders`,
           path: `/vendor/${storeId}/orders`,
         },
         {
-          icon: <PiCirclesThreeBold />,
+          icon: <PiStackBold />,
           label: `Products`,
           path: `/vendor/${storeId}/products`,
         },
         {
-          icon: <PiBuildingsBold />,
+          icon: <LuAreaChart />,
           label: `Marketing`,
           path: `/vendor/${storeId}/marketing`,
         },
@@ -62,7 +58,7 @@ const Sidebar = () => {
       label: "Brand",
       children: [
         {
-          icon: <PiDatabase />,
+          icon: <TbBrandAmongUs />,
           label: `Customise store`,
           path: `/vendor/${storeId}/branding`,
         },
@@ -77,7 +73,7 @@ const Sidebar = () => {
           path: `/vendor/${storeId}/settings`,
         },
         {
-          icon: <TbSettings />,
+          icon: <MdHelp />,
           label: `Support`,
           path: `/vendor/${storeId}/support`,
         },
@@ -116,9 +112,8 @@ const Sidebar = () => {
               {itemsType.children.map((item, index) => (
                 <Row
                   align="middle"
-                  className={`${styles.sidebarItem} ${
-                    location.pathname === item.path && styles.activeItem
-                  }`}
+                  className={`${styles.sidebarItem} ${location.pathname === item.path && styles.activeItem
+                    }`}
                   onClick={() => handleClick(item.path)}
                   key={`${item.label}-${index}`}
                 >

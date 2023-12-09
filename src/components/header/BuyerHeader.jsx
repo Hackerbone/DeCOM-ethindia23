@@ -96,9 +96,20 @@ const BuyerHeader = () => {
           <Row
             align="middle"
             style={{
-              gap: "2rem",
+              gap: "1rem",
             }}
           >
+            <div className={styles.profileDropdownContainer}>
+              <Row align="middle" className={styles.profileDropdownButton}
+                onClick={async () => {
+                  const subscribe_noti = await subscribeToChannel();
+                }}>
+                <div className={styles.userName}>
+                  subscribe to notifications
+                </div>
+              </Row>
+
+            </div>
             <div
               className={`${styles.profileDropdownContainer} ${styles.notificationContainer}`}
             >
@@ -114,15 +125,16 @@ const BuyerHeader = () => {
               </Dropdown>
             </div>
 
-            <button
+            {/* <button
               onClick={async () => {
                 const subscribe_noti = await subscribeToChannel();
               }}
             >
               Click here to subscribe to notification
-            </button>
+            </button> */}
 
             <Dropdown
+            
               trigger={["click"]}
               dropdownRender={() => (
                 <ProfileDropdown
@@ -132,12 +144,13 @@ const BuyerHeader = () => {
               )}
             >
               <PrimaryButton
+              style={{marginLeft:"2rem"}}
                 className={styles.accountButton}
                 icon={<MdOutlineAccountCircle className={styles.accountIcon} />}
               >
                 {" "}
                 {data?.Wallet?.socials &&
-                data?.Wallet?.socials[0]?.profileName ? (
+                  data?.Wallet?.socials[0]?.profileName ? (
                   data?.Wallet?.socials[0]?.profileName
                 ) : (
                   <>
