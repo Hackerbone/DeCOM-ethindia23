@@ -56,6 +56,33 @@ export const subscribeToChannel = async (channelAddress) => {
   console.log(res);
 };
 
+export const readMessages = async (channelAddress) => {
+  const signer = ethers.Wallet.createRandom();
+  const user = await PushAPI.initialize(signer, {
+    env: CONSTANTS.ENV.STAGING,
+  });
+  await user.notification.subscribe(
+    `eip155:1442:${channelAddress}` // channel address in CAIP format
+  );
+  const response = await user.notification.list("INBOX");
+  return response;
+};
+
+export const createChannel = async () => {
+  const signer = ethers.Wallet.createRandom();
+  const user = await PushAPI.initialize(signer, {
+    env: CONSTANTS.ENV.STAGING,
+  });
+  const response = await user.channel.create({
+    name: "Test Channel",
+    description: "Test Description",
+    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4AcXBsU0EQQyG0e+saWJ7oACiKYDMEZVs6GgSpC2BIhzRwAS0sgk9HKn3gpFOAv3v3V4/3+4U4Z1q5KTy42Ql940qvFONnFSGmCFmiN2+fj7uCBlihpgh1ngwcvKfwjuVIWaIGWKNB+GdauSk8uNkJfeNKryzYogZYoZY40m5b/wlQ8wQM8TayMlKeKcaOVkJ71QjJyuGmCFmiDUe+HFy4VyEd57hx0mV+0ZliBlihlgL71w4FyMnVXhnZeSkiu93qheuDDFDzBD7BcCyMAOfy204AAAAAElFTkSuQmCC",
+    url: "https://push.org",
+  });
+
+  return response;
+};
+
 // export const recieveMessage = async (channelAddress) => {
 //   const signer = ethers.Wallet.createRandom();
 //   const user = await PushAPI.initialize(signer, {
