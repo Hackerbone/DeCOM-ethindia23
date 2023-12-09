@@ -30,7 +30,7 @@ export const getSpecVendorProducts = async (vendorAddress) => {
     signer
   );
   const vendorData = await contract.getProductList();
-
+  console.log("vendorData", vendorData);
   const processedResponse = vendorData.map((product) => ({
     id: product.id.toNumber(), // Convert BigNumber to number
     name: product.name,

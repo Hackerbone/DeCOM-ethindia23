@@ -111,29 +111,29 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
     const { publicKey, signedMessage } = await encryptionSignature();
 
     // Common (DONT REMOVE)
-    const input = document.getElementById("invoice");
-    const canvas = await html2canvas(input);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
-    pdf.addImage(imgData, "PNG", 0, 0);
+    // const input = document.getElementById("invoice");
+    // const canvas = await html2canvas(input);
+    // const imgData = canvas.toDataURL("image/png");
+    // const pdf = new jsPDF();
+    // pdf.addImage(imgData, "PNG", 0, 0);
 
-    const pdfBlob = pdf.output("blob");
-    const file = new File([pdfBlob], `cus_${walletAddress}.pdf`, {
-      type: "application/pdf",
-    });
+    // const pdfBlob = pdf.output("blob");
+    // const file = new File([pdfBlob], `cus_${walletAddress}.pdf`, {
+    //   type: "application/pdf",
+    // });
 
-    const invoiceRes = await lighthouse.uploadEncrypted(
-      file,
-      apiKey,
-      publicKey,
-      signedMessage,
-      (fd) => console.log({ fd })
-    );
+    // const invoiceRes = await lighthouse.uploadEncrypted(
+    //   file,
+    //   apiKey,
+    //   publicKey,
+    //   signedMessage,
+    //   (fd) => console.log({ fd })
+    // );
 
-    console.log({ invoiceRes });
+    // console.log({ invoiceRes });
 
-    const invoiceCID = invoiceRes?.data?.Hash;
-    console.log(`Decrypt at https://decrypt.mesh3.network/evm/${invoiceCID}`);
+    // const invoiceCID = invoiceRes?.data?.Hash;
+    // console.log(`Decrypt at https://decrypt.mesh3.network/evm/${invoiceCID}`);
 
     if (encryption === "lighthouse") {
       // Encrypt using lighthouse

@@ -71,6 +71,8 @@ const StoreProducts = () => {
     enabled: isConnected,
   });
 
+  console.log(allProducts);
+
   if (isLoading) return <Loader />;
 
   return (
@@ -103,7 +105,7 @@ const StoreProducts = () => {
         <div className={styles.dashboardTableContainer}>
           <StoreProductsTable
             productsDropdownItems={productsDropdownItems}
-            allProducts={allProducts[0]?.name ? allProducts : []}
+            allProducts={allProducts?.[0]?.name ? allProducts : []}
           />
         </div>
 
