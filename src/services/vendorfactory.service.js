@@ -24,23 +24,13 @@ export const createVendorContract = async (vendorDetails) => {
   );
   const tx = await contract.createVendorContract(
     vendorDetails.name,
-    vendorDetails.logo
+    vendorDetails.logo,
+    vendorDetails.wantsKYC
   );
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "VendorCreated");
   const newVendorAddress = event.args.vendorAddress;
   return newVendorAddress;
-};
-
-export const isVendor = async (walletAddress) => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const contract = new ethers.Contract(
-    process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
-    vendorFactoryContract.abi,
-    provider
-  );
-  const isVendor = await contract.isVendor(walletAddress);
-  return isVendor;
 };
 
 export const checkVendor = async (walletAddress) => {
