@@ -11,7 +11,7 @@ import {
 } from "store/user.slice";
 import Web3 from "web3";
 import { useNavigate } from "react-router-dom";
-import { getVendorByAddress } from "services/vendorfactory.service";
+import { checkVendor } from "services/vendorfactory.service";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Login = () => {
       const web3 = new Web3(window.ethereum);
       const accounts = await web3.eth.requestAccounts();
 
-      const userData = await getVendorByAddress(accounts[0]);
+      const userData = await checkVendor(accounts[0]);
       console.log({ userData });
 
       if (!userData) {
@@ -61,7 +61,7 @@ const Login = () => {
         const web3 = new Web3(window.ethereum);
         const accounts = await web3.eth.requestAccounts();
 
-        const userData = await getVendorByAddress(accounts[0]);
+        const userData = await checkVendor(accounts[0]);
         console.log({ userData });
 
         if (!userData) {

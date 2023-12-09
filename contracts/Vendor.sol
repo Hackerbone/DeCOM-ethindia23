@@ -87,8 +87,8 @@ contract Vendor {
     function getOrders() public view returns (Order[] memory) {
         Order[] memory orderList = new Order[](orderCount);
         for (uint i = 0; i < orderCount; i++) {
-            if (orders[i + 1].customer == msg.sender) {
-                orderList[i] = orders[i + 1];
+            if (orders[i].customer == msg.sender) {
+                orderList[i] = orders[i];
             }
         }
         return orderList;

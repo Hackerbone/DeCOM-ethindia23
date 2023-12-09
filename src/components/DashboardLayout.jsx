@@ -12,7 +12,7 @@ import {
   setWalletAddress,
 } from "store/user.slice";
 import Web3 from "web3";
-import { getVendorByAddress } from "services/vendorfactory.service";
+import { checkVendor } from "services/vendorfactory.service";
 
 const DashboardLayout = ({ children, hideSidebar }) => {
   const navigate = useNavigate();
@@ -35,8 +35,7 @@ const DashboardLayout = ({ children, hideSidebar }) => {
           const web3 = new Web3(window.ethereum);
           const accounts = await web3.eth.requestAccounts();
 
-          const userData = await getVendorByAddress(accounts[0]);
-          console.log({ userData });
+          const userData = await checkVendor(accounts[0]);
 
           if (!userData) {
             dispatch(setIsConnected(true));

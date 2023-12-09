@@ -3,6 +3,7 @@ import styles from "styles/components/Sidebar.module.scss";
 import { Avatar, Row } from "antd";
 import { MdOutlineDashboard } from "react-icons/md";
 import { TbSettings } from "react-icons/tb";
+import { useQuery } from "@tanstack/react-query";
 import {
   PiStackSimpleBold,
   PiCirclesThreeBold,
@@ -12,12 +13,19 @@ import {
 } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { checkVendor } from "services/vendorfactory.service";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { storeId, walletAddress } = useSelector((state) => state.user);
+  const { isConnected } = useSelector((state) => state.user);
 
-  const { storeId } = useSelector((state) => state.user);
+  const { data: vendorData } = useQuery({
+    queryKey: ["get-spec-vendor-data", walletAddress],
+    queryFn: async () => await checkVendor(walletAddress),
+    enabled: isConnected && !!walletAddress,
+  });
 
   const items = [
     {
@@ -87,8 +95,14 @@ const Sidebar = () => {
         <div className={styles.projectSelectorContainer}>
           {/* <Dropdown trigger={["click"]} dropdownRender={() => <ProjectDropdown projects={projects} currentProject={currentProject} />}> */}
           <Row align="middle" className={styles.projectSelectorButton}>
-            <Avatar shape="circle" className={styles.projectIcon}></Avatar>
-            <div className={styles.projectName}>Store Name</div>
+            <Avatar
+              shape="circle"
+              className={styles.projectIcon}
+              src={vendorData?.logo}
+            ></Avatar>
+            <div className={styles.projectName}>
+              {vendorData?.name ?? "Store Name"}
+            </div>
           </Row>
           {/* </Dropdown> */}
         </div>

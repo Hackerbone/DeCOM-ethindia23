@@ -6,7 +6,7 @@ import { Card, Input, Modal, Form, message, Button } from "antd";
 import { FaEthereum } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
-import { getVendorByAddress } from "services/vendorfactory.service";
+import { getVendorByContractAddress } from "services/vendorfactory.service";
 
 const { Meta } = Card;
 function SpecStore() {
@@ -22,7 +22,7 @@ function SpecStore() {
 
   const { data: vendorData } = useQuery({
     queryKey: ["get-spec-vendor-data", storeAddress],
-    queryFn: getVendorByAddress(storeAddress),
+    queryFn: getVendorByContractAddress(storeAddress),
     enabled: isConnected && !!storeAddress,
   });
 

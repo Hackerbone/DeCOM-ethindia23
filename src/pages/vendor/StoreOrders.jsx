@@ -36,7 +36,7 @@ const StoreOrders = () => {
 
   const { data: allOrders, isLoading } = useQuery({
     queryKey: ["allvendororders"],
-    queryFn: () => getOrdersOfVendor(storeAddress),
+    queryFn: async () => await getOrdersOfVendor(storeAddress),
     enabled: isConnected,
   });
 
