@@ -14,42 +14,24 @@ import { getVendorByContractAddress } from "services/vendorfactory.service";
 import { useSelector } from "react-redux";
 import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
 import { MdCheck } from "react-icons/md";
-import { useQuery } from "@tanstack/react-query";
-import { getAadharStatus, setAadharVerfied } from "services/anon.service";
 
 const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   const { walletAddress, isConnected } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const [anonAadhaar] = useAnonAadhaar();
 
+  useEffect(() => {
+    console.log("aadharStatus", anonAadhaar.status);
+    if (anonAadhaar?.status === "logged-in") {
+      console.log(anonAadhaar?.status)
+    }
+  }, [anonAadhaar]);
+  
+
+
   const closeModal = () => {
     setVisible(false);
   };
-
-  const { data: aadharStatus, isLoading: loadingAadharStatus } = useQuery({
-    queryKey: ["get-buyer-aadhar-status", walletAddress],
-    queryFn: async () => await getAadharStatus({ walletAddress, vendorAddress: storeAddress }),
-    enabled: isConnected && !!walletAddress,
-  })
-
-  useEffect(() => {
-    (async () => {
-      if (anonAadhaar?.status === "logged-in") {
-        await handleVerifyAadhar()
-      }
-    })()
-  }, [anonAadhaar]);
-
-  const verifyAadharMutation = useMutation({
-    mutationFn: setAadharVerfied,
-    onSuccess: (res) => {
-      message.success("Aadhar verified successfully");
-    },
-    onError: (err) => {
-      console.log(err);
-      message.error("Aadhar verification failed");
-    },
-  })
 
 
   const placeOrderMutation = useMutation({
@@ -65,6 +47,13 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   });
 
   const handlePlaceOrder = async (values) => {
+
+    if (anonAadhaar?.status !== "logged-in") {
+      message.error("Please verify your Aadhaar to place order");
+      return;
+    }
+
+
     const { shippingAddress } = values;
     if (!shippingAddress) {
       message.error("Please fill all the fields");
@@ -97,12 +86,6 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
       productPrice: visible.price,
     });
   };
-
-  const handleVerifyAadhar = async () => {
-    await verifyAadharMutation.mutateAsync(
-      { walletAddress, vendorAddress: storeAddress }
-    )
-  }
 
   return (
     <Modal
@@ -148,7 +131,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
         <Row className={styles.itemDetailsRow}>
           <div className={styles.key}>Verify your identity using <span className={"green-text"}>anon aadhar's</span> anonymized Aadhaar validation to ensure secure and accurate shipping address confirmation.</div>
           <div className={styles.value}>
-            {anonAadhaar?.status === "logged-out" || !aadharStatus ?
+            {anonAadhaar?.status === "logged-out" ?
               <LogInWithAnonAadhaar /> : <div className={styles.aadharVerfied}><MdCheck />Success - Aadhaar verified!</div>
             }          </div>
         </Row>
