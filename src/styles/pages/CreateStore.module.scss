@@ -109,6 +109,7 @@
             .description {
                 font-weight: normal;
                 font-size: nth($fontSize, 3);
+                text-align: center;
 
                 a {
                     color: var(--green-text);
@@ -138,7 +139,7 @@
             justify-content: center;
 
             .useButton {
-                width: 14rem;
+                width: 12rem;
                 height: 12rem;
                 border-radius: 8px;
                 color: var(--text);
@@ -169,10 +170,10 @@
             }
 
             .activeUseButton {
-                border: 2px solid var(--primary);
+                border: 2px solid var(--green-text);
 
                 .useIcon {
-                    color: var(--primary);
+                    color: var(--green-text);
                 }
             }
         }

@@ -21,11 +21,11 @@ const OnboardingStep4 = () => {
       <p className={styles.description}>
         Your store is now deployed and can be accessed at{" "}
         <a
-          href={`http://127.0.0.1:3000/${storeId}`}
+          href={`http://127.0.0.1:3000/store/${storeId}`}
           target="_blank"
           rel="noreferrer"
         >
-          http://127.0.0.1:3000/${storeId}
+          http://127.0.0.1:3000/store/{storeId}
         </a>
       </p>
       <Form
