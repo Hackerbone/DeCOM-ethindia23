@@ -47,7 +47,7 @@ async def download_image(url):
 
 
 async def main():
-    owner_address = "vitalik.eth"
+    owner_address = "dhruva.eth"
     query = generate_query(owner_address=owner_address)
     execute_query_client = api_client.create_execute_query_object(query=query)
     query_response = await execute_query_client.execute_query()

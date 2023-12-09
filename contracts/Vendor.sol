@@ -9,6 +9,8 @@ contract Vendor {
     mapping(uint => Product) public products;
     mapping(uint => Order) public orders;
 
+    mapping(address => bool) public aadharVerified;
+
     // Product structure
     struct Product {
         uint id;
@@ -161,5 +163,13 @@ contract Vendor {
         payable(owner).transfer(balance);
     }
 
-    // Additional functions and security measures can be added as needed
+    // aadhar verified set to true for a customer
+    function setAadharVerified(address _customer) public onlyOwner {
+        aadharVerified[_customer] = true;
+    }
+
+    // get aadhar verified status of a customer
+    function getAadharVerified(address _customer) public view returns (bool) {
+        return aadharVerified[_customer];
+    }
 }
