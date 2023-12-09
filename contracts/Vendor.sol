@@ -106,6 +106,12 @@ contract Vendor {
         emit OrderPlaced(orderCount - 1);
     }
 
+    //update order shipping status
+    function updateOrderToShipped(uint _orderId) public onlyOwner {
+        orders[_orderId].isShipped = true;
+        emit OrderUpdated(_orderId);
+    }
+
     // Track details of a specific order
     function trackOrder(uint _orderId) public view returns (Order memory) {
         require(orders[_orderId].customer == msg.sender, "Not your order");
