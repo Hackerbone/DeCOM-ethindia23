@@ -307,21 +307,4 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   );
 };
 
-async function getSignerForAddress(address) {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  // Request access to the user's Ethereum accounts
-  const accounts = await window.ethereum.request({
-    method: "eth_requestAccounts",
-  });
-
-  // Check if the requested address is among the connected accounts
-  if (accounts.includes(address)) {
-    // Get the signer for the connected account
-    const signer = provider.getSigner(accounts.indexOf(address));
-    return signer;
-  } else {
-    throw new Error("Requested address is not connected");
-  }
-}
-
 export default PlaceOrderModal;
