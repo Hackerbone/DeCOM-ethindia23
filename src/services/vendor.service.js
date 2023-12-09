@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import vendorFactoryContract from "abis/VendorFactory.json";
 import vendorContract from "abis/Vendor.json";
 import axios from "axios";
-import { subscribeToChannel } from "./push.service";
+import { subscribeToChannel, callTriggerNotification } from "./push.service";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -95,6 +95,20 @@ export const placeOrder = async ({
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "OrderPlaced");
   const orderId = event.args.id;
+
+  const address_id = await signer.getAddress();
+
+  console.log(address_id);
+
+  const send_noti = await axios.post(
+    "http://localhost:8080/api/push/trigger-notification",
+    {
+      subscribers: [address_id],
+      title: "New Order",
+      notibody: "You have placed new order",
+    }
+  );
+
   return orderId;
 };
 

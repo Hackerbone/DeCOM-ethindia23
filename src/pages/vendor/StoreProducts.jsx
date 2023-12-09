@@ -73,7 +73,6 @@ const StoreProducts = () => {
 
   if (isLoading) return <Loader />;
 
-
   return (
     <DashboardLayout>
       <div className={styles.dashboardContainer}>
@@ -104,7 +103,7 @@ const StoreProducts = () => {
         <div className={styles.dashboardTableContainer}>
           <StoreProductsTable
             productsDropdownItems={productsDropdownItems}
-            allProducts={allProducts[0].name ? allProducts : []}
+            allProducts={allProducts[0]?.name ? allProducts : []}
           />
         </div>
 

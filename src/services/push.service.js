@@ -1,6 +1,7 @@
 // Import Push SDK & Ethers
 import { PushAPI, CONSTANTS } from "@pushprotocol/restapi";
 import { ethers } from "ethers";
+import axios from "axios";
 
 // // Creating a random signer from a wallet, ideally this is the wallet you will connect
 // const signer = ethers.Wallet.createRandom();
@@ -56,6 +57,24 @@ import { ethers } from "ethers";
 //   } catch (error) {}
 // };
 
+export const callTriggerNotification = async (subscribers, title, notibody) => {
+  try {
+    const { data } = await axios.post(
+      "http://localhost:8080/api/push/trigger-notification",
+      {
+        subscribers,
+        title,
+        notibody,
+      }
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const subscribeToChannel = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
@@ -63,9 +82,9 @@ export const subscribeToChannel = async () => {
     env: CONSTANTS.ENV.STAGING,
   });
   let res = await user.notification.subscribe(
-    `eip155:1:0x5a8D9A884eB721dB9d2a1EA7BA6EA58F257C35E7` // channel address in CAIP format
+    `eip155:11155111:0x5a8D9A884eB721dB9d2a1EA7BA6EA58F257C35E7` // channel address in CAIP format
   );
-  console.log(res);
+  console.log("subscribe", res);
 };
 
 export const readMessages = async (channelAddress) => {
