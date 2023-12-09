@@ -145,6 +145,8 @@ const TheStore = () => {
         <ChatModal
           visible={supportChatModal}
           setVisible={setSupportChatModal}
+          title="Chat with your customer"
+          userId={vendorData?.vendorWalletAddress}
         />
 
         <PlaceOrderModal

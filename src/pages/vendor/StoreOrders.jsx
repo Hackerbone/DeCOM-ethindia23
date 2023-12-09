@@ -50,6 +50,8 @@ const StoreOrders = () => {
 
   const [showChatModal, setShowChatModal] = React.useState(false);
 
+  const [chatSubscriber, setChatSubscriber] = React.useState("");
+
   const productsDropdownItems = [
     {
       label: "Mark as delivered",
@@ -87,6 +89,14 @@ const StoreOrders = () => {
       icon: <IoChatbubbleEllipsesSharp className={styles.icon} />,
       onClick: async (record) => {
         setShowChatModal(true);
+        const userAddress = await getOrdersOfVendor(storeAddress);
+        console.log(userAddress);
+        let chatsSubscriber = "";
+        await userAddress.map(async (item) => {
+          if (item.id === record.id) chatsSubscriber = item.customer;
+        });
+
+        setChatSubscriber(chatsSubscriber);
       },
     },
   ];
@@ -152,6 +162,7 @@ const StoreOrders = () => {
         visible={showChatModal}
         setVisible={setShowChatModal}
         title="Chat with your customer"
+        userId={chatSubscriber}
       />
     </>
   );
