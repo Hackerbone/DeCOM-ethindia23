@@ -15,6 +15,9 @@ import StoreProducts from "pages/vendor/StoreProducts";
 import StoreOrders from "pages/vendor/StoreOrders";
 import StoresList from "pages/buyer/StoresList";
 import TheStore from "pages/buyer/TheStore";
+import { init } from "@airstack/airstack-react";
+
+init(process.env.REACT_APP_AIRSTACK_API_KEY);
 
 const queryClient = new QueryClient();
 
