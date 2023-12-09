@@ -41,7 +41,11 @@ const DashboardLayout = ({ children, hideSidebar }) => {
             dispatch(setIsConnected(true));
             dispatch(setWalletAddress(accounts[0]));
             dispatch(setUserType("user"));
-            if (location.pathname.includes("/vendor")) {
+            if (
+              location.pathname.includes("/vendor") &&
+              user.isConnected &&
+              user.userType === "user"
+            ) {
               navigate(`/stores`);
             }
             return;
