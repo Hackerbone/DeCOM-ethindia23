@@ -17,6 +17,7 @@ import TheStore from "pages/buyer/TheStore";
 import { init } from "@airstack/airstack-react";
 import { AnonAadhaarProvider } from "anon-aadhaar-react";
 import StoreMarketing from "pages/vendor/StoreMarketing";
+import NetworkProvider from "components/NetworkProvider";
 
 const anon_app_id = process.env.REACT_APP_ANON_APP_ID || "";
 
@@ -65,7 +66,6 @@ const router = createBrowserRouter([
     path: "/stores/:storeAddress",
     element: <TheStore />,
   },
-
 ]);
 
 ReactDOM.render(
@@ -79,8 +79,10 @@ ReactDOM.render(
         }}
       >
         <QueryClientProvider client={queryClient}>
-          <AnonAadhaarProvider _appId={anon_app_id} _testing={false}> 
-          <RouterProvider router={router} />
+          <AnonAadhaarProvider _appId={anon_app_id} _testing={false}>
+            <NetworkProvider>
+              <RouterProvider router={router} />
+            </NetworkProvider>
           </AnonAadhaarProvider>
         </QueryClientProvider>
       </ConfigProvider>

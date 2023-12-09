@@ -1,12 +1,16 @@
 import { ethers } from "ethers";
 import vendorFactoryContract from "abis/VendorFactory.json";
 import vendorContract from "abis/Vendor.json";
+import { getContractAddress } from "utils/util";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const network = await provider.getNetwork();
+  const mainContractAddress = getContractAddress(network.name);
+
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
-    process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
+    mainContractAddress,
     vendorFactoryContract.abi,
     signer
   );
@@ -16,9 +20,12 @@ export const listAllVendors = async () => {
 
 export const createVendorContract = async (vendorDetails) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const network = await provider.getNetwork();
+  const mainContractAddress = getContractAddress(network.name);
+
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
-    process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
+    mainContractAddress,
     vendorFactoryContract.abi,
     signer
   );
@@ -40,8 +47,11 @@ export const createVendorContract = async (vendorDetails) => {
 export const checkVendor = async (walletAddress) => {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const network = await provider.getNetwork();
+    const mainContractAddress = getContractAddress(network.name);
+
     const contract = new ethers.Contract(
-      process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
+      mainContractAddress,
       vendorFactoryContract.abi,
       provider
     );
@@ -60,6 +70,9 @@ export const getVendorByContractAddress = async (vendorAddress) => {
   try {
     // owner is a public variable in the vendor contract, get that for Vendor contract at vendorAddress
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const network = await provider.getNetwork();
+    const mainContractAddress = getContractAddress(network.name);
+
     const contract = new ethers.Contract(
       vendorAddress,
       vendorContract.abi,

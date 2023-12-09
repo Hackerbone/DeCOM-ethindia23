@@ -2,12 +2,17 @@ import { ethers } from "ethers";
 import vendorFactoryContract from "abis/VendorFactory.json";
 import vendorContract from "abis/Vendor.json";
 import axios from "axios";
+import { getContractAddress } from "utils/util";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const network = await provider.getNetwork();
+  const mainContractAddress = getContractAddress(network.name);
+
   const signer = provider.getSigner();
+
   const contract = new ethers.Contract(
-    process.env.REACT_APP_GLOBAL_CONTRACT_ADDRESS,
+    mainContractAddress,
     vendorFactoryContract.abi,
     signer
   );
@@ -164,6 +169,8 @@ export const getOrdersOfVendor = async (vendorAddress) => {
     customer: order.customer,
     encryptedData: order.encryptedData,
     isShipped: order.isShipped,
+    isReceived: order.isReceived,
+    isLighthouse: order.isLighthouse,
   }));
 
   return processedResponse;
@@ -187,6 +194,7 @@ export const getOrdersByCustomer = async (vendorAddress) => {
     shippingAddress: order.shippingAddress,
     isShipped: order.isShipped,
     invoiceCid: order.invoiceCid,
+    isReceived: order.isReceived,
   }));
 
   return processedResponse;
@@ -200,8 +208,19 @@ export const withdrawFunds = async (vendorAddress) => {
     vendorContract.abi,
     signer
   );
-  const tx = await contract.withdrawFunds();
+  const tx = await contract.withdraw();
   return await tx.wait();
+};
+
+export const getVendorBalance = async (vendorAddress) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(
+    vendorAddress,
+    vendorContract.abi,
+    provider
+  );
+  const balance = await contract.getBalance();
+  return balance;
 };
 
 export const markOrderAsShipped = async ({ vendorAddress, order_id }) => {

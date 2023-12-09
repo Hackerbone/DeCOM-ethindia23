@@ -24,7 +24,7 @@ import { query } from "../../services/airstack.service";
 import { subscribeToChannel } from "../../services/push.service";
 
 const BuyerHeader = () => {
-  const { storeId, walletAddress } = useSelector((state) => state.user);
+  const { walletAddress } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,6 +60,7 @@ const BuyerHeader = () => {
       okText: `Logout`,
       onOk: async () => {
         dispatch(logout());
+        localStorage.clear();
         navigate("/");
       },
     });

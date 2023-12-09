@@ -5,7 +5,7 @@ import TableActionsDropdown from "components/dropdowns/TableActionsDropdown";
 import styles from "styles/components/Table.module.scss";
 import PrimaryButton from "components/PrimaryButton";
 import { showConfirm } from "components/modals/ConfirmModal";
-import { FaCheckCircle, FaLock } from "react-icons/fa";
+import { FaCheckCircle, FaEye, FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { decryptLighthouse, decryptUserMessage } from "services/encryptUpload";
 const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
@@ -31,30 +31,33 @@ const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
       title: "Shipping Address",
       dataIndex: "encryptedData",
       key: "encryptedData",
-      render: (encryptedData) => (
+      render: (encryptedData, record) => (
         <div className={styles.shippingAddressContainer}>
           <PrimaryButton
             onClick={() => {
-              // decryptUserMessage(shippingAddress, walletAddress).then((res) => {
-              //   console.log(res);
-              //   showConfirm({
-              //     title: "Shipping Address",
-              //     content: res,
-              //     okText: "Done",
-              //     icon: <FaCheckCircle size={20} />,
-              //   });
-              // });
-              decryptLighthouse(encryptedData).then((res) => {
-                showConfirm({
-                  title: "Shipping Address",
-                  content: res,
-                  okText: "Done",
-                  icon: <FaCheckCircle size={20} />,
+              if (record.isLighthouse) {
+                decryptLighthouse(encryptedData).then((res) => {
+                  showConfirm({
+                    title: "Shipping Address",
+                    content: res,
+                    okText: "Done",
+                    icon: <FaCheckCircle size={20} />,
+                  });
                 });
-              });
+              } else {
+                decryptUserMessage(encryptedData, walletAddress).then((res) => {
+                  console.log(res);
+                  showConfirm({
+                    title: "Shipping Address",
+                    content: res,
+                    okText: "Done",
+                    icon: <FaCheckCircle size={20} />,
+                  });
+                });
+              }
             }}
           >
-            <FaLock size={16} />
+            {record.isLighthouse ? <FaEye size={16} /> : <FaLock size={16} />}
             <span
               style={{
                 marginLeft: "0.5rem",

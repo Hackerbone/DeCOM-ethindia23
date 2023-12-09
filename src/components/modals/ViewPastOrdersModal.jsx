@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { convertToEthers } from "utils/convert";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import { markOrderAsReceived } from "services/buyer.service";
 const ViewPastOrdersModal = ({
   visible,
   setVisible,
@@ -72,9 +73,33 @@ const ViewPastOrdersModal = ({
                       >
                         Purchased on: {moment(item.createdAt).format("lll")}
                       </div>
+                      {!item.isReceived && (
+                        <PrimaryButton
+                          size="small"
+                          style={{
+                            marginTop: "1rem",
+                            marginRight: "1rem",
+                            width: "12rem",
+                          }}
+                          onClick={async () => {
+                            await markOrderAsReceived(
+                              storeAddress,
+                              item.id
+                            ).then((res) => {
+                              messageApi.success("Order marked as received!");
+                            });
+                          }}
+                        >
+                          Mark as Delivered
+                        </PrimaryButton>
+                      )}
                       <PrimaryButton
+                        size="small"
                         style={{
                           marginTop: "1rem",
+                          width: "12rem",
+                          backgroundColor: "var(--text-500)",
+                          borderColor: "var(--text-500)",
                         }}
                         onClick={async () => {
                           setSelected(item);

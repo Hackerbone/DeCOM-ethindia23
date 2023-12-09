@@ -1,10 +1,14 @@
 import { Col, Row, message } from "antd";
 import DashboardLayout from "components/DashboardLayout";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "styles/pages/Dashboard.module.scss";
 import SearchBar from "components/SearchBar";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getOrdersOfVendor, markOrderAsShipped } from "services/vendor.service";
+import {
+  getOrdersOfVendor,
+  markOrderAsShipped,
+  withdrawFunds,
+} from "services/vendor.service";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import StoreOrdersTable from "components/tables/StoreOrdersTable";
@@ -13,11 +17,36 @@ import Loader from "components/Loader";
 import axios from "axios";
 import ChatModal from "components/modals/ChatModal";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
-
+import PrimaryButton from "components/PrimaryButton";
+import { ethers } from "ethers";
 const StoreOrders = () => {
   const { storeAddress } = useParams();
   const { isConnected } = useSelector((state) => state.user);
   const queryClient = useQueryClient();
+  const [balance, setBalance] = useState("0");
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        // Initialize ethers provider
+        // Assuming MetaMask is used; otherwise, you can use Infura or other providers
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        // Get contract balance
+        const balanceInWei = await provider.getBalance(storeAddress);
+
+        // Convert Wei to Ether
+        const balanceInEth = ethers.utils.formatEther(balanceInWei);
+
+        setBalance(balanceInEth);
+      } catch (error) {
+        console.error("Error fetching balance:", error);
+        // Handle any errors
+      }
+    };
+
+    fetchBalance();
+  }, [storeAddress]);
 
   const [showChatModal, setShowChatModal] = React.useState(false);
 
@@ -91,6 +120,23 @@ const StoreOrders = () => {
                 placeholder="Search orders"
                 className={styles.filterbar}
               />
+            </Col>
+            <Col className={styles.filterContainer}>
+              <PrimaryButton
+                size="small"
+                onClick={async () => {
+                  await withdrawFunds(storeAddress)
+                    .then((res) => {
+                      message.success("Funds withdrawn!");
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      message.error("Error withdrawing funds!");
+                    });
+                }}
+              >
+                Withdraw Funds - {balance} ETH
+              </PrimaryButton>
             </Col>
           </Row>
           <div className={styles.dashboardTableContainer}>

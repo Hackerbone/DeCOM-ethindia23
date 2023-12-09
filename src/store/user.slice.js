@@ -10,6 +10,7 @@ const initialState = {
     logo: "",
     storeId: "",
   },
+  network: "ganache",
 };
 
 const userSlice = createSlice({
@@ -34,6 +35,9 @@ const userSlice = createSlice({
     setCurrentStore(state, action) {
       state.currentStore = action.payload;
     },
+    setNetwork(state, action) {
+      state.network = action.payload;
+    },
   },
 });
 
@@ -45,6 +49,7 @@ export const {
   setStoreId,
   logout,
   setCurrentStore,
+  setNetwork,
 } = userSlice.actions;
 
 export default userSlice.reducer;

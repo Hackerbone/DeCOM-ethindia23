@@ -70,17 +70,18 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
     onSuccess: async (res) => {
       message.success("Order placed successfully");
 
-      const vendorWalletAddress = await getVendorByContractAddress(
-        storeAddress
-      );
-      const send_noti = await axios.post(
-        "http://localhost:8080/api/push/trigger-notification",
-        {
-          subscribers: [vendorWalletAddress],
-          title: "New Order",
-          notibody: "You have a new order",
-        }
-      );
+      // const vendorWalletAddress = await getVendorByContractAddress(
+      //   storeAddress
+      // );
+
+      // const send_noti = await axios.post(
+      //   "http://localhost:8080/api/push/trigger-notification",
+      //   {
+      //     subscribers: [vendorWalletAddress],
+      //     title: "New Order",
+      //     notibody: "You have a new order",
+      //   }
+      // );
 
       closeModal();
     },
