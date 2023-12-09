@@ -45,7 +45,7 @@ const TheStore = () => {
     },
     enabled: isConnected && !!storeAddress,
   });
-
+  console.log(vendorData);
   const hanldePlaceOrder = (item) => {
     setBuyProductModal(item);
   };
@@ -150,6 +150,7 @@ const TheStore = () => {
           visible={buyProductModal}
           setVisible={setBuyProductModal}
           storeAddress={storeAddress}
+          wantsKYC={vendorData?.wantsKYC}
         />
         <ViewPastOrdersModal
           visible={pastOrdersModal}

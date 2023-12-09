@@ -2,7 +2,7 @@ import React from "react";
 import styles from "styles/pages/CreateStore.module.scss";
 import formStyles from "styles/components/Form.module.scss";
 
-import { Form, Input, message } from "antd";
+import { Form, Input, message, Radio } from "antd";
 import PrimaryButton from "components/PrimaryButton";
 import { createVendorContract } from "services/vendorfactory.service";
 import { useMutation } from "@tanstack/react-query";
@@ -27,7 +27,7 @@ const OnboardingStep1 = ({ setCurrentStep }) => {
   });
 
   const createVendor = async (values) => {
-    const { name, logo } = values;
+    const { name, logo, wantsKYC } = values;
 
     if (!name || !logo) {
       message.error("Please fill all details!");
@@ -38,7 +38,7 @@ const OnboardingStep1 = ({ setCurrentStep }) => {
       return;
     }
 
-    await createVendorMutation.mutateAsync({ name, logo });
+    await createVendorMutation.mutateAsync({ name, logo, wantsKYC });
   };
 
   return (
@@ -79,6 +79,24 @@ const OnboardingStep1 = ({ setCurrentStep }) => {
             className={formStyles.formInput}
             placeholder="Enter your logo url"
           />
+        </Form.Item>
+
+        {/* Switch to choose KYC or not */}
+        <Form.Item
+          name="wantsKYC"
+          label="KYC"
+          className={formStyles.formItem}
+          rules={[
+            {
+              required: true,
+              message: "Please choose an option",
+            },
+          ]}
+        >
+          <Radio.Group>
+            <Radio value={true}>Yes</Radio>
+            <Radio value={false}>No</Radio>
+          </Radio.Group>
         </Form.Item>
         <PrimaryButton
           className={formStyles.formButton}

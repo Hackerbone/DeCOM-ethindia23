@@ -23,7 +23,7 @@ import { MdCheck } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { getAadharStatus, setAadharVerfied } from "services/anon.service";
 
-const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
+const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
   const { walletAddress, isConnected } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const [anonAadhaar] = useAnonAadhaar();
@@ -78,7 +78,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   });
 
   const handlePlaceOrder = async (values) => {
-    if (anonAadhaar?.status !== "logged-in") {
+    if (anonAadhaar?.status !== "logged-in" && wantsKYC) {
       message.error("Please verify your Aadhaar to place order");
       return;
     }
@@ -217,26 +217,30 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
           </div>
         </Row>
         <Divider className={styles.divider} />
-        <div className={styles.sectionTitle}>Verify your identity</div>
-        <Row className={styles.itemDetailsRow}>
-          <div className={styles.key}>
-            Verify your identity using{" "}
-            <span className={"green-text"}>anon aadhar's</span> anonymized
-            Aadhaar validation to ensure secure and accurate shipping address
-            confirmation.
-          </div>
-          <div className={styles.value}>
-            {anonAadhaar?.status === "logged-out" || !aadharStatus ? (
-              <LogInWithAnonAadhaar />
-            ) : (
-              <div className={styles.aadharVerfied}>
-                <MdCheck />
-                Success - Aadhaar verified!
+        {wantsKYC && (
+          <>
+            <div className={styles.sectionTitle}>Verify your identity</div>
+            <Row className={styles.itemDetailsRow}>
+              <div className={styles.key}>
+                Verify your identity using{" "}
+                <span className={"green-text"}>anon aadhar's</span> anonymized
+                Aadhaar validation to ensure secure and accurate shipping
+                address confirmation.
               </div>
-            )}{" "}
-          </div>
-        </Row>
-        <Divider className={styles.divider} />
+              <div className={styles.value}>
+                {anonAadhaar?.status === "logged-out" || !aadharStatus ? (
+                  <LogInWithAnonAadhaar />
+                ) : (
+                  <div className={styles.aadharVerfied}>
+                    <MdCheck />
+                    Success - Aadhaar verified!
+                  </div>
+                )}{" "}
+              </div>
+            </Row>
+            <Divider className={styles.divider} />
+          </>
+        )}
         <div className={styles.sectionTitle}>Shipping</div>
 
         <Form
