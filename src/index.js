@@ -8,7 +8,6 @@ import LandingPage from "pages/Landing";
 import { ConfigProvider } from "antd";
 import Login from "pages/auth/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Dashboard from "pages/Dashboard";
 import CreateStore from "pages/vendor/CreateStore";
 import StoreDashboard from "pages/vendor/StoreDashboard";
 import StoreProducts from "pages/vendor/StoreProducts";
@@ -17,6 +16,7 @@ import StoresList from "pages/buyer/StoresList";
 import TheStore from "pages/buyer/TheStore";
 import { init } from "@airstack/airstack-react";
 import { AnonAadhaarProvider } from "anon-aadhaar-react";
+import StoreMarketing from "pages/vendor/StoreMarketing";
 
 const anon_app_id = process.env.REACT_APP_ANON_APP_ID || "";
 
@@ -51,6 +51,10 @@ const router = createBrowserRouter([
     path: "/vendor/:storeAddress/orders",
     element: <StoreOrders />,
   },
+  {
+    path: "/vendor/:storeAddress/marketing",
+    element: <StoreMarketing />,
+  },
 
   // Buyer side
   {
@@ -62,11 +66,6 @@ const router = createBrowserRouter([
     element: <TheStore />,
   },
 
-  // old code
-  {
-    path: "/stores/:storeAddress/dashboard",
-    element: <Dashboard />,
-  },
 ]);
 
 ReactDOM.render(

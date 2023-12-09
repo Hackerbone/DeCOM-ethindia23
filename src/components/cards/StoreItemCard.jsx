@@ -13,7 +13,7 @@ const StoreItemCard = ({ hanldePlaceOrder, item }) => {
       />
       <div className={styles.itemDetails}>
         <div className={styles.itemName}>{item.name}</div>
-        <div className={styles.itemCategory}>{item.description}</div>
+        <div className={styles.itemCategory}>{item.category}</div>
         <div className={styles.itemPrice}>
           <span>Price</span>
           {convertToEthers(item.price)} ETH

@@ -38,17 +38,14 @@
 
                 :global {
                     .ant-picker-input {
-
                         input {
                             background-color: transparent !important;
                             color: var(--text-secondary);
-                      
+
                             &::placeholder {
-                              color: var(--placeholder);
+                                color: var(--placeholder);
                             }
                         }
-
-
                     }
 
                     .anticon {
@@ -100,6 +97,12 @@
                 background-color: var(--text) !important;
                 border-radius: 30px !important;
             }
+        }
+    }
+
+    .marketingFormContainer {
+        .sendNotificationFormContainer {
+            width: 40rem !important;
         }
     }
 }

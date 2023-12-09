@@ -59,7 +59,7 @@ const StoreOrders = () => {
         >
           <Col className={styles.filterContainer}>
             <SearchBar
-              placeholder="Search products"
+              placeholder="Search orders"
               className={styles.filterbar}
             />
           </Col>

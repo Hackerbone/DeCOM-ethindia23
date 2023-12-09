@@ -196,7 +196,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
           <Avatar size={120} shape="square" src={visible?.picture} />
           <div className={styles.itemDetails}>
             <div className={styles.itemName}>{visible?.name}</div>
-            <div className={styles.itemCategory}>{visible?.description}</div>
+            <div className={styles.itemCategory}>{visible?.category}</div>
             {/* <div className={styles.itemPrice}><span>Price</span>0.366666 ETH</div> */}
           </div>
         </Row>
