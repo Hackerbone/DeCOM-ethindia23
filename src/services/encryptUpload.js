@@ -31,7 +31,6 @@ export const handleShippingDetailsEncrypt = async ({
       vendorPublicKey,
       shippingDetailsString
     );
-
     return {
       encryptedUserShipping,
       encryptedVendorShipping,

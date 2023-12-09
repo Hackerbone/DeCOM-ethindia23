@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@airstack/airstack-react": "^0.6.1",
+    "@lighthouse-web3/sdk": "^0.3.0",
     "@metamask/eth-sig-util": "^7.0.1",
     "@pushprotocol/restapi": "^1.4.45",
     "@pushprotocol/socket": "^0.5.3",
@@ -19,6 +20,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@truffle/hdwallet-provider": "^1.4.0",
     "@web3auth/safeauth-embed": "^0.0.0",
+    "anon-aadhaar-react": "^0.1.14",
     "antd": "^5.12.1",
     "eth-crypto": "^2.6.0",
     "ethers": "^5.7.2",
