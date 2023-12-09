@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@airstack/airstack-react": "^0.6.1",
     "@pushprotocol/restapi": "^1.4.45",
     "@pushprotocol/socket": "^0.5.3",
     "@pushprotocol/uiweb": "^1.1.22",
@@ -59,16 +60,16 @@
     ]
   },
   "devDependencies": {
+    "browserify": "^17.0.0",
     "browserify-zlib": "^0.2.0",
+    "constants-browserify": "^1.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "react-app-rewired": "^2.2.1",
     "speed-measure-webpack-plugin": "^1.5.0",
     "stream-browserify": "^3.0.0",
-    "url": "^0.11.3",
-    "browserify": "^17.0.0",
-    "constants-browserify": "^1.0.0",
-    "crypto-browserify": "^3.12.0",
-    "https-browserify": "^1.0.0"
+    "url": "^0.11.3"
   }
 }
