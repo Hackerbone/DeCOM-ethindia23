@@ -1,36 +1,35 @@
-import { Col, Row } from "antd";
+import { Col, Row, message } from "antd";
 import DashboardLayout from "components/DashboardLayout";
 import React from "react";
 import styles from "styles/pages/Dashboard.module.scss";
 import SearchBar from "components/SearchBar";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { BiTrash } from "react-icons/bi";
-import { showConfirm } from "components/modals/ConfirmModal";
-import { useQuery } from "@tanstack/react-query";
-import { getOrdersOfVendor } from "services/vendor.service";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getOrdersOfVendor, markOrderAsShipped } from "services/vendor.service";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import StoreOrdersTable from "components/tables/StoreOrdersTable";
+import { FaCheckDouble } from "react-icons/fa";
 
 const StoreOrders = () => {
   const { storeAddress } = useParams();
   const { isConnected } = useSelector((state) => state.user);
+  const queryClient = useQueryClient();
 
   const productsDropdownItems = [
     {
-      label: "Edit Product",
-      icon: <MdOutlineModeEdit className={styles.icon} />,
-      onClick: (record) => {},
-    },
-    {
-      label: "Delete Resource",
-      icon: <BiTrash className={styles.icon} />,
-      onClick: (record) =>
-        showConfirm({
-          title: `Are you sure you want to delete this product?`,
-          content: `This action cannot be undone.`,
-          onOk: async () => {},
-        }),
+      label: "Order Shipped",
+      icon: <FaCheckDouble className={styles.icon} />,
+      onClick: async (record) => {
+        console.log({ record });
+        await markOrderAsShipped({
+          order_id: record.id,
+          vendorAddress: storeAddress,
+        }).then(async () => {
+          await queryClient.invalidateQueries("allvendororders");
+
+          message.success(`Order ${record.id} marked as shipped`);
+        });
+      },
     },
   ];
 
@@ -38,10 +37,6 @@ const StoreOrders = () => {
     queryKey: ["allvendororders"],
     queryFn: async () => await getOrdersOfVendor(storeAddress),
     enabled: isConnected,
-  });
-
-  console.log({
-    allOrders,
   });
 
   if (isLoading) return <div>Loading...</div>;

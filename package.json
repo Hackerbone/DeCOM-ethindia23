@@ -18,6 +18,7 @@
     "@truffle/hdwallet-provider": "^1.4.0",
     "@web3auth/safeauth-embed": "^0.0.0",
     "antd": "^5.12.1",
+    "eth-crypto": "^2.6.0",
     "ethers": "^5.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,16 +59,16 @@
     ]
   },
   "devDependencies": {
+    "browserify": "^17.0.0",
     "browserify-zlib": "^0.2.0",
+    "constants-browserify": "^1.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "react-app-rewired": "^2.2.1",
     "speed-measure-webpack-plugin": "^1.5.0",
     "stream-browserify": "^3.0.0",
-    "url": "^0.11.3",
-    "browserify": "^17.0.0",
-    "constants-browserify": "^1.0.0",
-    "crypto-browserify": "^3.12.0",
-    "https-browserify": "^1.0.0"
+    "url": "^0.11.3"
   }
 }

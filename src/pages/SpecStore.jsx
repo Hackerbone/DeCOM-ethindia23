@@ -10,10 +10,11 @@ import {
   checkVendor,
   getVendorByContractAddress,
 } from "services/vendorfactory.service";
+import { handleShippingDetailsEncrypt } from "services/encryptUpload";
 
 const { Meta } = Card;
 function SpecStore() {
-  const { isConnected } = useSelector((state) => state.user);
+  const { isConnected, walletAddress } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
 
@@ -64,14 +65,26 @@ function SpecStore() {
       return;
     }
 
-    await placeOrderMutation.mutateAsync({
-      vendorAddress: storeAddress,
-      id: selectedProduct.id,
-      shippingAddress,
-      productPrice: selectedProduct.price,
-    });
+    const vendorWalletAddress = await getVendorByContractAddress(storeAddress);
 
-    setSelectedProduct(null);
+    const { encryptedUserShipping, encryptedVendorShipping } =
+      await handleShippingDetailsEncrypt({
+        shippingDetails: shippingAddress,
+        vendorWalletAddress,
+        userWalletAddress: walletAddress,
+      });
+
+    console.log({ encryptedUserShipping, encryptedVendorShipping });
+
+    // await placeOrderMutation.mutateAsync({
+    //   vendorAddress: storeAddress,
+    //   id: selectedProduct.id,
+    //   shippingAddress: encryptedUserShipping,
+    //   vendorShippingAddress: encryptedVendorShipping,
+    //   productPrice: selectedProduct.price,
+    // });
+
+    // setSelectedProduct(null);
   };
 
   const handleCancel = () => {

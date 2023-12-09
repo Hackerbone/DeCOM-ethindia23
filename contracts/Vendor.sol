@@ -24,6 +24,7 @@ contract Vendor {
         uint productId;
         address customer;
         string shippingAddress;
+        string vendorShippingAddress;
         bool isShipped;
     }
 
@@ -85,7 +86,8 @@ contract Vendor {
     // Place an order for a product
     function placeOrder(
         uint _productId,
-        string memory _shippingAddress
+        string memory _shippingAddress,
+        string memory _vendorShippingAddress
     ) public payable {
         require(products[_productId].isAvailable, "Product not available");
         require(
@@ -98,6 +100,7 @@ contract Vendor {
             _productId,
             msg.sender,
             _shippingAddress,
+            _vendorShippingAddress,
             false
         );
 
