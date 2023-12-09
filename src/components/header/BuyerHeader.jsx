@@ -63,7 +63,9 @@ const BuyerHeader = () => {
 
     return (
         <Row align="middle" justify="space-between" className={styles.navbarContainer}>
+            <a href="/">
             <Image src={fulllogo} preview={false} className={styles.loginPageLogo} />
+            </a>
             <div className={styles.navbarItems}>
                 {!walletAddress ?
                     <PrimaryButton onClick={handleSafeLogin} className={styles.loginButton}>Login</PrimaryButton> :

@@ -11,6 +11,7 @@ import { getOrdersOfVendor } from "services/vendor.service";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import StoreOrdersTable from "components/tables/StoreOrdersTable";
+import Loader from "components/Loader";
 
 const StoreOrders = () => {
   const { storeAddress } = useParams();
@@ -44,7 +45,7 @@ const StoreOrders = () => {
     allOrders,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />;
 
   return (
     <DashboardLayout>

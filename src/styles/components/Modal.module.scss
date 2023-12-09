@@ -381,3 +381,75 @@
         }
     }
 }
+
+
+.placeOrderModalContainer {
+
+    .sectionTitle {
+        margin-bottom: 0.8rem;
+        font-weight: 400;
+        color:var(--green-text);
+
+    }
+    .itemDetails {
+        padding: 0.5rem 0.8rem 1rem 0.8rem;
+
+        .itemName {
+            color: var(--text);
+            font-size: nth($fontSize, 3);
+            font-weight: 500;
+            .orderId {
+                font-size:nth($fontSize, 1);
+                color: var(--green-text);
+                font-weight: 400;
+            }
+        }
+
+        .itemCategory {
+            font-size: nth($fontSize, 1);
+            color: var(--text-hover);
+        }
+
+        .itemPrice {
+            margin-top: 1rem;
+            color: var(--text);
+            font-size: nth($fontSize, 3);
+            font-weight: 500;
+
+            span {
+                color: var(--text-hover);
+                font-size: nth($fontSize, 3);
+                margin-right: 0.4rem;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .divider {
+        background: var(--border);
+    }
+
+    .itemDetailsRow {
+        display: flex;
+        align-items: center;
+        justify-content:space-between;
+        margin-bottom: 0.5rem;
+
+        .key {
+            color: var(--text-secondary);
+
+        }
+
+        .value {
+
+        }
+    }
+
+    .heading {
+        margin-top: 0 !important;
+    }
+
+    .needHelpTag {
+        cursor: pointer;
+    }
+}

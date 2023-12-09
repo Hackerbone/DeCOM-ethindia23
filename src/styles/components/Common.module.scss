@@ -1,0 +1,14 @@
+@import "../_variables";
+
+
+.loaderPageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .loading {
+        font-size: nth($fontSize, 9);
+        color:var(--green-text)
+    }
+}
