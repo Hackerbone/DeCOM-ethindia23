@@ -36,6 +36,7 @@ export const getSpecVendorProducts = async (vendorAddress) => {
     name: product.name,
     picture: product.picture,
     price: product.price, // Keep as string if this is a Wei value
+    category: product.category,
     isAvailable: product.isAvailable,
   }));
 
@@ -49,6 +50,7 @@ export const addProductToVendor = async ({
   vendorAddress,
   name,
   picture,
+  category,
   price,
 }) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -58,7 +60,7 @@ export const addProductToVendor = async ({
     vendorContract.abi,
     signer
   );
-  const tx = await contract.addProduct(name, picture, price);
+  const tx = await contract.addProduct(name, picture, category, price);
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "ProductAdded");
   const newProductId = event.args.id;
@@ -80,9 +82,9 @@ export const removeProductFromVendor = async ({ vendorAddress, id }) => {
 export const placeOrder = async ({
   vendorAddress,
   id,
-  shippingAddress,
-  vendorShippingAddress,
+  encryptedData,
   productPrice,
+  isLighthouse,
 }) => {
   // call subscribeToChannel from push.service.js
 
@@ -98,15 +100,10 @@ export const placeOrder = async ({
 
   console.log("Ready to place order");
 
-  const tx = await contract.placeOrder(
-    id,
-    shippingAddress,
-    vendorShippingAddress,
-    {
-      from: signer.getAddress(),
-      value: productPrice,
-    }
-  );
+  const tx = await contract.placeOrder(id, encryptedData, isLighthouse, {
+    from: signer.getAddress(),
+    value: productPrice,
+  });
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "OrderPlaced");
   const orderId = event.args.id;
@@ -209,4 +206,26 @@ export const markOrderAsShipped = async ({ vendorAddress, order_id }) => {
   );
   const tx = await contract.updateOrderToShipped(order_id);
   await tx.wait();
+};
+
+export const isCustomer = async (vendorAddress, customerAddress) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(
+    vendorAddress,
+    vendorContract.abi,
+    provider
+  );
+  const isCustomer = await contract.isCustomer(customerAddress);
+  return isCustomer;
+};
+
+export const getCustomers = async (vendorAddress) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const contract = new ethers.Contract(
+    vendorAddress,
+    vendorContract.abi,
+    provider
+  );
+  const customers = await contract.getCustomers();
+  return customers;
 };
