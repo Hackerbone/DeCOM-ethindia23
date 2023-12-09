@@ -23,7 +23,7 @@ const StoreItemCard = ({ hanldePlaceOrder, item }) => {
         className={styles.itemCardFooter}
         onClick={() => hanldePlaceOrder(item)}
       >
-        Buy Now ( 0.3666666 ETH )
+        Buy Now ( {convertToEthers(item.price)} ETH )
       </div>
     </Card>
   );

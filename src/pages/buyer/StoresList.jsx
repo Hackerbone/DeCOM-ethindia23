@@ -48,7 +48,7 @@ const StoresList = () => {
                         <StoreListingCard key={idx} item={item} handleSelectStore={handleSelectStore} />
                     ))}
                 </div>
-                <div className={styles.endOfStores}>You've reached the end</div>
+                <div className={styles.endOfStores}>{isConnected ? "You've reached the end" : "Sign in to view stores"}</div>
             </div>
         </>
     )

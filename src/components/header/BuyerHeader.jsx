@@ -40,7 +40,7 @@ const BuyerHeader = () => {
                 dispatch(setIsConnected(true));
                 dispatch(setWalletAddress(accounts[0]));
                 dispatch(setUserType("user"));
-                navigate("/create-store");
+                navigate("/stores");
                 return;
             } else {
                 // Dispatch actions to update the Redux store

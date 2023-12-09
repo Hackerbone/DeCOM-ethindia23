@@ -192,6 +192,26 @@
             }
 
             :global {
+
+                .ant-radio-checked {
+
+                    .ant-radio-inner {
+                        background-color: var(--green-text);
+                        border-color: var(--green-text);
+
+                    }
+                }
+
+            }
+
+
+            .radio {
+                color: var(--text-secondary);
+
+               
+            }
+
+            :global {
                 .ant-radio-button-wrapper-checked {
                     border-color: var(--primary);
                     color: var(--text);

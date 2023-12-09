@@ -19,8 +19,7 @@ import {
   checkVendor,
   getVendorByContractAddress,
 } from "services/vendorfactory.service";
-
-import SupportChat from "components/modals/SupportChat";
+import SupportChatModal from "components/modals/SupportChatModal";
 
 const TheStore = () => {
   const { storeAddress } = useParams();
@@ -122,12 +121,6 @@ const TheStore = () => {
             </Row>
             <Row style={{ gap: 10 }}>
               <PrimaryButton
-                onClick={() => setSupportChatModal(true)}
-                className={styles.pastOrdersButton}
-              >
-                Chat
-              </PrimaryButton>
-              <PrimaryButton
                 onClick={() => setPastOrdersModal(true)}
                 className={styles.pastOrdersButton}
               >
@@ -148,7 +141,7 @@ const TheStore = () => {
           </div>
         </div>
 
-        <SupportChat
+        <SupportChatModal
           visible={supportChatModal}
           setVisible={setSupportChatModal}
         />
@@ -161,6 +154,7 @@ const TheStore = () => {
         <ViewPastOrdersModal
           visible={pastOrdersModal}
           setVisible={setPastOrdersModal}
+          setSupportChatModal={setSupportChatModal}
         />
       </div>
     </>

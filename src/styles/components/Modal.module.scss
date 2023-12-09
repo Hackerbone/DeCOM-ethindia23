@@ -54,7 +54,7 @@
           color: var(--text-secondary);
 
           &:hover {
-            color: var(--text-hover);
+            color: var(--text-500) !important;
           }
         }
       }
@@ -380,6 +380,13 @@
 }
 
 .placeOrderModalContainer {
+
+  :global {
+    .anticon {
+      color: var(--text-secondary);
+    }
+  }
+
   .sectionTitle {
     margin-bottom: 0.8rem;
     font-weight: 400;
@@ -455,6 +462,24 @@
 }
 
 .chatModalContainer {
-  height: 95vh;
+
+  :global {
+    .ant-modal-content {
+      max-height: 86vh !important;
   overflow: auto;
+
+
+    }
+  }
+
+  .heading {
+    margin-top: 0 !important;
+  }
+
+  :global {
+
+    .anticon {
+      color: var(--text-secondary);
+    }
+  }
 }
