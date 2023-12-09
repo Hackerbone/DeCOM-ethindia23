@@ -8,7 +8,6 @@ import {
 } from "services/vendor.service";
 import { Card, Input, Modal, Form, message, Button } from "antd";
 import { FaEthereum } from "react-icons/fa";
-import { isValidUrl } from "./VendorLanding";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { convertToEthers } from "utils/convert";
 

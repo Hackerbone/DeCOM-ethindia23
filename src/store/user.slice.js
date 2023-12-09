@@ -30,7 +30,7 @@ const userSlice = createSlice({
     },
     logout(state) {
       localStorage.removeItem("user");
-      Object.assign(state, initialState);
+      state = initialState;
     },
     setCurrentStore(state, action) {
       state.currentStore = action.payload;
