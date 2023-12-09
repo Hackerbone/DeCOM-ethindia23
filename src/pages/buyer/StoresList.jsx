@@ -1,4 +1,3 @@
-import Navbar from "components/Navbar";
 import SearchBar from "components/SearchBar";
 import StoreListingCard from "components/cards/StoreListingCard";
 import React from "react";

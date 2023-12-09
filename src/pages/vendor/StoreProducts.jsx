@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AddProductModal from "components/modals/AddProductModal";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import Loader from "components/Loader";
 
 const StoreProducts = () => {
   const { storeAddress } = useParams();
@@ -70,6 +71,9 @@ const StoreProducts = () => {
     enabled: isConnected,
   });
 
+  if (isLoading) return <Loader />;
+
+
   return (
     <DashboardLayout>
       <div className={styles.dashboardContainer}>
@@ -100,7 +104,7 @@ const StoreProducts = () => {
         <div className={styles.dashboardTableContainer}>
           <StoreProductsTable
             productsDropdownItems={productsDropdownItems}
-            allProducts={allProducts}
+            allProducts={allProducts[0].name ? allProducts : []}
           />
         </div>
 

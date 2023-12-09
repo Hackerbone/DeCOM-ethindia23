@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/edge-functions/node_modules
 
 # testing
 /coverage

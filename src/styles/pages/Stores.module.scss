@@ -5,9 +5,9 @@
     padding-top: 64px;
 
     .endOfStores {
-    text-align: center;
-    color:var(--text-hover);
-    margin-top: 5rem;
+        text-align: center;
+        color: var(--text-hover);
+        margin-top: 5rem;
     }
 
     .storesListContainerHeader {
@@ -16,7 +16,7 @@
             font-weight: 400;
 
             span {
-                color: var(--green-text)
+                color: var(--green-text);
             }
         }
 
@@ -36,7 +36,7 @@
         margin-top: 0.5rem;
         display: flex;
         flex-wrap: wrap;
-        gap:1.5rem;
+        gap: 1.5rem;
 
         .storeListingCardContainer {
             background: none;
@@ -46,7 +46,6 @@
             @include responsive(tablet4) {
                 flex-basis: calc(50% - 0.75rem);
             }
-
 
             .storeListBrand {
                 width: 100%;
@@ -76,12 +75,11 @@
                     align-items: center;
                     justify-content: center;
                     background-color: var(--card-bg);
-                    border-radius:50%;
+                    border-radius: 50%;
 
                     .icon {
                         color: var(--text-hover);
                     }
-
                 }
             }
 
@@ -107,9 +105,229 @@
 
                 &:hover {
                     color: var(--green-text) !important;
-
                 }
             }
+        }
+    }
+}
+
+.theStoresPageContainer {
+    .storeHeaderContainer {
+        margin-top: 64px;
+        position: relative;
+
+        .banner {
+            width: 100vw;
+            height: 16rem;
+            background: #e5e5e5;
+            object-fit: cover;
+        }
+
+        .storeDetailsContainer {
+            padding: 0 3rem;
+            transform: translateY(-70px);
+
+            .storeLogo {
+                border: 3px solid var(--bg);
+                background: #fff;
+            }
+            .storeDetails {
+                margin: 1rem 0;
+
+                .storeName {
+                    font-size: nth($fontSize, 6);
+                    color: var(--text);
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .verifyIcon {
+                        color: var(--green-text);
+                    }
+                }
+
+                .storeSocials {
+                    display: flex;
+                    align-items: center;
+                    color: var(--text-hover);
+                    font-size: nth($fontSize, 5);
+                    gap: 2rem;
+
+                    .social {
+                        cursor: pointer;
+
+                        &:hover {
+                            color: var(--green-text);
+                        }
+                    }
+                }
+            }
+            .storeDescription {
+                color: var(--green-text);
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                .content {
+                    color: var(--text-hover);
+                    font-weight: 400;
+                    width: 40rem;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+            }
+
+            .storeSpecs {
+                margin-top: 2.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .storeSpec {
+                    color: var(--text-hover);
+                    font-size: nth($fontSize, 3);
+
+                    span {
+                        color: var(--text);
+                        margin-left: 4px;
+                    }
+                }
+
+                .specSeparator {
+                    width: 2px;
+                    height: 2px;
+                    border-radius: 50%;
+                    background-color: var(--text-hover);
+                }
+            }
+        }
+    }
+
+    .pageContent {
+        padding: 0 3rem;
+        margin-top: -70px;
+
+        .divider {
+            background: var(--border);
+        }
+
+        .searchRow {
+            gap: 1rem;
+
+            .bar {
+                width: 40rem;
+            }
+            .results {
+                color: var(--text-secondary);
+            }
+        }
+
+        .itemsList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem 10px;
+            margin-top: 2rem;
+            padding-bottom: 5rem;
+        }
+    }
+
+    .itemCardContainer {
+        background: none;
+        border: none;
+        max-width: 25%;
+        border-radius: 0px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        position: relative;
+
+        &:hover {
+            border: 1px solid var(--text-secondary);
+        }
+
+        :global {
+            .ant-card-body {
+                padding: 0;
+            }
+        }
+
+        .itemCardImage {
+            object-fit: cover;
+            transition: all 0.3s ease;
+            height: 25rem;
+            border-radius: 0px;
+        }
+
+        .itemDetails {
+            padding: 0.5rem 0.8rem 1rem 0.8rem;
+
+            .itemName {
+                color: var(--text);
+                font-size: nth($fontSize, 3);
+                font-weight: 500;
+            }
+
+            .itemCategory {
+                font-size: nth($fontSize, 1);
+                color: var(--text-hover);
+            }
+
+            .itemPrice {
+                margin-top: 1rem;
+                color: var(--text);
+                font-size: nth($fontSize, 3);
+                font-weight: 500;
+
+                span {
+                    color: var(--text-hover);
+                    font-size: nth($fontSize, 3);
+                    margin-right: 0.4rem;
+                    font-weight: 400;
+                }
+            }
+        }
+
+        .itemCardFooter {
+            display: none !important;
+            background: var(--green-text);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.7rem 0;
+            font-size: nth($fontSize, 2);
+            font-weight: 500;
+            width: 100%;
+            border: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-top: 1px solid var(--text-secondary);
+        }
+
+        &:hover {
+            .itemCardFooter {
+                display: block !important;
+            }
+        }
+    }
+
+    .pastOrdersButton {
+        background: var(--text-100);
+        color: var(--text-secondary);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.5rem;
+        font-size: nth($fontSize, 2);
+
+        &:hover {
+            color: var(--text-secondary) !important;
         }
     }
 }

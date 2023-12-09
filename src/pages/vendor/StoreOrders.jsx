@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import StoreOrdersTable from "components/tables/StoreOrdersTable";
 import { FaCheckDouble } from "react-icons/fa";
+import Loader from "components/Loader";
 
 const StoreOrders = () => {
   const { storeAddress } = useParams();
@@ -39,7 +40,11 @@ const StoreOrders = () => {
     enabled: isConnected,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  console.log({
+    allOrders,
+  });
+
+  if (isLoading) return <Loader />;
 
   return (
     <DashboardLayout>

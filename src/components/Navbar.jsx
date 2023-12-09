@@ -6,7 +6,9 @@ import styles from 'styles/components/Navbar.module.scss'
 const Navbar = () => {
     return (
         <Row align="middle" className={styles.navbarContainer}>
+            <a href="/">
             <Image src={fulllogo} preview={false} className={styles.loginPageLogo} />
+            </a>
         </Row>
     )
 }
