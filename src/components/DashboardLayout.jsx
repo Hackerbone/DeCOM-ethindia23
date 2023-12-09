@@ -21,13 +21,6 @@ const DashboardLayout = ({ children, hideSidebar }) => {
 
   const user = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (!user?.isConnected) {
-  //     console.log("User is not connected")
-  //     navigate("/auth");
-  //   }
-  // }, [user]);
-
   useEffect(() => {
     async function connectWalletAndGetUserData() {
       if (window.ethereum) {

@@ -29,7 +29,6 @@ function SpecStore() {
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
     onSuccess: (res) => {
-      console.log("New product added", res);
       message.success("Product added successfully");
     },
     onError: (err) => {
@@ -44,8 +43,6 @@ function SpecStore() {
       message.error("Please fill all the fields");
       return;
     }
-
-    console.log(shippingAddress);
 
     if (!selectedProduct || !selectedProduct.id) {
       message.error("Invalid product");
@@ -121,7 +118,6 @@ function SpecStore() {
           );
         })}
       </div>
-      {console.log(selectedProduct)}
       {selectedProduct && (
         <Modal
           title={`Buy ${selectedProduct?.name} for ${convertToEthers(

@@ -46,9 +46,19 @@ contract Vendor {
     }
 
     // Add a new product to the store
-    function addProduct(string memory _name, string memory _picture, uint _price) public onlyOwner {
+    function addProduct(
+        string memory _name,
+        string memory _picture,
+        uint _price
+    ) public onlyOwner {
         productCount++;
-        products[productCount] = Product(productCount, _name, _picture, _price, true);
+        products[productCount] = Product(
+            productCount,
+            _name,
+            _picture,
+            _price,
+            true
+        );
         emit ProductAdded(productCount);
     }
 
@@ -59,7 +69,12 @@ contract Vendor {
     }
 
     // Update details of an existing product
-    function updateProduct(uint _productId, string memory _name, string memory _picture, uint _price) public onlyOwner {
+    function updateProduct(
+        uint _productId,
+        string memory _name,
+        string memory _picture,
+        uint _price
+    ) public onlyOwner {
         Product storage product = products[_productId];
         product.name = _name;
         product.picture = _picture;
@@ -68,13 +83,27 @@ contract Vendor {
     }
 
     // Place an order for a product
-    function placeOrder(uint _productId, string memory _shippingAddress) public payable {
+    function placeOrder(
+        uint _productId,
+        string memory _shippingAddress
+    ) public payable {
         require(products[_productId].isAvailable, "Product not available");
-        require(msg.value >= products[_productId].price, "Insufficient payment");
+        require(
+            msg.value >= products[_productId].price,
+            "Insufficient payment"
+        );
 
+        Order memory newOrder = Order(
+            orderCount,
+            _productId,
+            msg.sender,
+            _shippingAddress,
+            false
+        );
+
+        orders[orderCount] = newOrder;
         orderCount++;
-        orders[orderCount] = Order(orderCount, _productId, msg.sender, _shippingAddress, false);
-        emit OrderPlaced(orderCount);
+        emit OrderPlaced(orderCount - 1);
     }
 
     // Track details of a specific order
@@ -87,13 +116,10 @@ contract Vendor {
     function getOrders() public view returns (Order[] memory) {
         Order[] memory orderList = new Order[](orderCount);
         for (uint i = 0; i < orderCount; i++) {
-            if (orders[i].customer == msg.sender) {
-                orderList[i] = orders[i];
-            }
+            orderList[i] = orders[i];
         }
         return orderList;
     }
-
 
     // Get a list of all available products
     function getProductList() public view returns (Product[] memory) {

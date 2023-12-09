@@ -10,7 +10,7 @@ import { getVendorByContractAddress } from "services/vendorfactory.service";
 
 const { Meta } = Card;
 function SpecStore() {
-  const { isConnected, currentStore } = useSelector((state) => state.user);
+  const { isConnected } = useSelector((state) => state.user);
   const { storeAddress } = useParams();
   const [selectedProduct, setSelectedProduct] = useState(false);
 
@@ -26,7 +26,6 @@ function SpecStore() {
     enabled: isConnected && !!storeAddress,
   });
 
-  console.log({ vendorData });
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
     onSuccess: (res) => {
@@ -73,13 +72,11 @@ function SpecStore() {
     return <div>Loading...</div>;
   }
 
-  console.log({ specStoreProducts });
-
   return (
     <div className="store-container">
       <div>
         <h1 style={{ fontSize: "3.5rem", marginBottom: "0.6rem" }}>
-          {currentStore?.name}
+          {vendorData?.name}
         </h1>
         <Input placeholder="Search for stores" style={{ width: "24rem" }} />
       </div>

@@ -56,7 +56,7 @@ export const addProductToVendor = async ({
   return newProductId;
 };
 
-export const removeProductFromVendor = async ({ vendorAddress,id }) => {
+export const removeProductFromVendor = async ({ vendorAddress, id }) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -112,7 +112,11 @@ export const getOrdersOfVendor = async (vendorAddress) => {
     vendorContract.abi,
     signer
   );
-  const orders = await contract.getOrders();
+
+  const address = await signer.getAddress();
+  const orders = await contract.getOrders({
+    from: address,
+  });
 
   const processedResponse = orders.map((order) => ({
     id: order.id.toNumber(), // Convert BigNumber to number

@@ -19,7 +19,7 @@ const Login = () => {
   const { walletAddress, isConnected, storeId } = useSelector(
     (state) => state.user
   );
-  console.log({ walletAddress, isConnected, storeId });
+
   useEffect(() => {
     if (isConnected) {
       if (!storeId) {
@@ -36,7 +36,6 @@ const Login = () => {
       const accounts = await web3.eth.requestAccounts();
 
       const userData = await checkVendor(accounts[0]);
-      console.log({ userData });
 
       if (!userData) {
         dispatch(setIsConnected(true));
@@ -62,8 +61,6 @@ const Login = () => {
         const accounts = await web3.eth.requestAccounts();
 
         const userData = await checkVendor(accounts[0]);
-        console.log({ userData });
-
         if (!userData) {
           dispatch(setIsConnected(true));
           dispatch(setWalletAddress(accounts[0]));

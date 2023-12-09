@@ -23,8 +23,6 @@ function Stores() {
     return <div>Loading...</div>;
   }
 
-  console.log({ vendors });
-
   return (
     <div className="store-container">
       <div>

@@ -28,7 +28,6 @@ export const createVendorContract = async (vendorDetails) => {
   );
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "VendorCreated");
-  console.log(event);
   const newVendorAddress = event.args.vendorAddress;
   return newVendorAddress;
 };

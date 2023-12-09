@@ -42,7 +42,6 @@
  */
 
 require("dotenv").config();
-const { PRIVATE_KEY_POLYGON_TESTNET } = process.env;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
