@@ -6,18 +6,10 @@ import kavach from "@lighthouse-web3/kavach";
 
 export const handleShippingDetailsEncrypt = async ({
   shippingDetails,
-  userWalletAddress,
   vendorWalletAddress,
 }) => {
   try {
-    // Convert shipping details to a string
     const shippingDetailsString = JSON.stringify(shippingDetails);
-
-    let userPublicKey = await window.ethereum.request({
-      method: "eth_getEncryptionPublicKey",
-      params: [userWalletAddress],
-    });
-    console.log("User Public Key:", userPublicKey);
 
     let vendorPublicKey = await window.ethereum.request({
       method: "eth_getEncryptionPublicKey",
@@ -25,17 +17,11 @@ export const handleShippingDetailsEncrypt = async ({
     });
     console.log("Vendor Public Key:", vendorPublicKey);
 
-    // Encrypt the shipping details with the public keys
-    const encryptedUserShipping = encryptWithPublicKey(
-      userPublicKey,
-      shippingDetailsString
-    );
     const encryptedVendorShipping = encryptWithPublicKey(
       vendorPublicKey,
       shippingDetailsString
     );
     return {
-      encryptedUserShipping,
       encryptedVendorShipping,
     };
   } catch (error) {
@@ -123,4 +109,34 @@ export const decryptLighthouse = async (cid) => {
   console.log(decryptedString);
 
   return decryptedString;
+};
+
+export const encryptUsingLighthouse = async ({
+  apiKey,
+  shippingAddress,
+  publicKey,
+  signedMessage,
+  vendorWalletAddress,
+}) => {
+  const response = await lighthouse.textUploadEncrypted(
+    shippingAddress,
+    apiKey,
+    publicKey,
+    signedMessage
+  );
+
+  console.log({ response });
+
+  const cid = response?.data?.Hash;
+
+  const shareFileRes = await lighthouse.shareFile(
+    publicKey,
+    [vendorWalletAddress],
+    cid,
+    signedMessage
+  );
+
+  console.log(shareFileRes);
+
+  return cid;
 };

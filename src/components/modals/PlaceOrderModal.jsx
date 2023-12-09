@@ -8,8 +8,10 @@ import { convertToEthers } from "utils/convert";
 import PrimaryButton from "components/PrimaryButton";
 import moment from "moment";
 import lighthouse from "@lighthouse-web3/sdk";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import {
-  decryptLighthouse,
+  encryptUsingLighthouse,
   encryptionSignature,
   handleShippingDetailsEncrypt,
 } from "services/encryptUpload";
@@ -97,96 +99,70 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
       return;
     }
 
-    /**Comment start */
-    // const apiKey = "90d7bbf3.13366db08cb74c8d91875b87f2399e15";
-    const apiKey = "3e9c735a.23e40d7f7cb544c09655e9070ffbeb57";
-
-    // sign the shipping address with the my public key
-    // const usignedShippingAddress = await window.ethereum.request({
-    //   method: "personal_sign",
-    //   params: [shippingAddress, walletAddress],
-    // });
-
-    const { publicKey, signedMessage } = await encryptionSignature();
-
-    const response = await lighthouse.textUploadEncrypted(
-      shippingAddress,
-      apiKey,
-      publicKey,
-      signedMessage
-    );
-
-    console.log({ response });
-
-    const cid = response?.data?.Hash;
-
     const vendorWalletAddress = await getVendorByContractAddress(storeAddress);
 
-    const shareFileRes = await lighthouse.shareFile(
+    if (!vendorWalletAddress) {
+      message.error("Invalid store wallet address");
+      return;
+    }
+
+    // const apiKey = "3e9c735a.23e40d7f7cb544c09655e9070ffbeb57";
+    const apiKey = "1a21c052.6fddd3e2c66f439e9e83c8f157af8b1e";
+    const { publicKey, signedMessage } = await encryptionSignature();
+
+    // Encrypt using lighthouse
+    const encryptedData = await encryptUsingLighthouse({
+      apiKey,
+      shippingAddress,
       publicKey,
-      [vendorWalletAddress],
-      cid,
-      signedMessage
-    );
-
-    console.log(shareFileRes);
-
-    // const decryptData = await decryptLighthouse(cid);
-    // console.log("===========Decrypt Data===========");
-    // console.log({ decryptData });
-
-    // console.log({ vendorWalletAddress, walletAddress, shippingAddress });
-
-    // const { encryptedUserShipping, encryptedVendorShipping } =
-    //   await handleShippingDetailsEncrypt({
-    //     shippingDetails: shippingAddress,
-    //     vendorWalletAddress,
-    //     userWalletAddress: walletAddress,
-    //   });
-
-    // // sign the shipping address with the vendor's public key
-    // const vsignedShippingAddress = await window.ethereum.request({
-    //   method: "personal_sign",
-    //   params: [shippingAddress, vendorWalletAddress],
-    //   from: walletAddress,
-    // });
-
-    // const response2 = await lighthouse.textUploadEncrypted(
-    //   shippingAddress,
-    //   apiKey,
-    //   vendorWalletAddress,
-    //   vsignedShippingAddress,
-    //   "Lets test 2"
-    // );
-
-    // console.log({ response2 });
-
-    // console.log({ vsignedShippingAddress });
-
-    // console.log({ usignedShippingAddress });
-
-    /**Comment end */
-
-    // const { encryptedUserShipping, encryptedVendorShipping } =
-    //   await handleShippingDetailsEncrypt({
-    //     shippingDetails: shippingAddress,
-    //     vendorWalletAddress,
-    //     userWalletAddress: walletAddress,
-    //   });
-
-    // await placeOrderMutation.mutateAsync({
-    //   vendorAddress: storeAddress,
-    //   id: visible.id,
-    //   shippingAddress: encryptedUserShipping,
-    //   vendorShippingAddress: encryptedVendorShipping,
-    //   productPrice: visible.price,
-    // });
+      signedMessage,
+      storeAddress,
+      vendorWalletAddress,
+    });
 
     await placeOrderMutation.mutateAsync({
       vendorAddress: storeAddress,
       id: visible.id,
-      shippingAddress: cid,
-      vendorShippingAddress: cid,
+      encryptedData: encryptedData,
+      productPrice: visible.price,
+    });
+
+    // Encrypt self wallet address
+
+    const { encryptedVendorShipping } = await handleShippingDetailsEncrypt({
+      shippingDetails: shippingAddress,
+      vendorWalletAddress,
+    });
+
+    // Common (DONT REMOVE)
+    const input = document.getElementById("invoice");
+    const canvas = await html2canvas(input);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, "PNG", 0, 0);
+
+    const pdfBlob = pdf.output("blob");
+    const file = new File([pdfBlob], `cus_${walletAddress}.pdf`, {
+      type: "application/pdf",
+    });
+
+    const invoiceRes = await lighthouse.uploadEncrypted(
+      file,
+      apiKey,
+      publicKey,
+      signedMessage,
+      (fd) => console.log({ fd })
+    );
+
+    console.log({ invoiceRes });
+
+    const invoiceCID = invoiceRes?.data?.Hash;
+    console.log(`Decrypt at https://decrypt.mesh3.network/evm/${invoiceCID}`);
+
+    await placeOrderMutation.mutateAsync({
+      vendorAddress: storeAddress,
+      id: visible.id,
+      encryptedData: encryptedVendorShipping,
       productPrice: visible.price,
     });
   };
@@ -302,6 +278,30 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
             </PrimaryButton>
           </Row>
         </Form>
+      </div>
+
+      <div id="invoice">
+        <h1>Order Invoice - {visible?.name}</h1>
+        <h4>Customer: {walletAddress}</h4>
+        <h4>Vendor: {storeAddress}</h4>
+        <p>Order Number: {Math.random().toString(36).substr(2, 6)}</p>
+        <p>Date: {moment().format("DD-MM-YYYY")}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Quantity</th>
+              <th>Item</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{visible?.id}</td>
+              <td>{visible?.name}</td>
+              <td>{convertToEthers(visible?.price ?? "0")} ETH</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </Modal>
   );
