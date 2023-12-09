@@ -1,4 +1,4 @@
-import { Row } from "antd";
+import { Image, Row } from "antd";
 import Navbar from "components/Navbar";
 import React from "react";
 import styles from "styles/pages/Landing.module.scss";
@@ -17,6 +17,10 @@ export default function LandingPage() {
         <a href="/auth">I'm a vendor</a>
         <a href="/stores">I'm a customer</a>
         </Row>
+
+        <div className={styles.airstackWrap}>
+          <Image src="/vitalik_eth_collage.png" className={styles.airstackWrapImage} />
+        </div>
       </div>
     </div>
     </>
