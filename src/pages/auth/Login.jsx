@@ -37,12 +37,13 @@ const Login = () => {
         dispatch(setUserType("user"));
         navigate("/create-store");
         return;
+      } else {
+        // Dispatch actions to update the Redux store
+        dispatch(setWalletAddress(userData.vendorWalletAddress));
+        dispatch(setIsConnected(true));
+        dispatch(setUserType("vendor"));
+        dispatch(setStoreId(userData.vendorAddress));
       }
-      // Dispatch actions to update the Redux store
-      dispatch(setWalletAddress(userData.vendorWalletAddress));
-      dispatch(setIsConnected(true));
-      dispatch(setUserType(userData?.userType ?? "vendor"));
-      dispatch(setStoreId(userData.vendorAddress));
     } else {
       console.error("MetaMask is not installed");
     }
