@@ -7,6 +7,10 @@ contract Vendor {
     uint public orderCount = 0;
     bool public wantsKYC = false;
 
+    // maintain a variable of releasable funds that the vendor can withdraw
+    // this is in wei
+    uint public releasableFunds = 0;
+
     mapping(uint => Product) public products;
     mapping(uint => Order) public orders;
 
@@ -30,6 +34,7 @@ contract Vendor {
         string encryptedData;
         bool isShipped;
         bool isLighthouse;
+        bool isReceived;
     }
 
     // Events
@@ -110,7 +115,8 @@ contract Vendor {
             msg.sender,
             _encryptedData,
             false,
-            _isLighthouse
+            _isLighthouse,
+            false
         );
 
         orders[orderCount] = newOrder;
@@ -167,7 +173,8 @@ contract Vendor {
     function withdraw() public onlyOwner {
         uint balance = address(this).balance;
         require(balance > 0, "No funds to withdraw");
-        payable(owner).transfer(balance);
+        payable(owner).transfer(releasableFunds);
+        releasableFunds = 0;
     }
 
     // aadhar verified set to true for a customer
@@ -202,5 +209,14 @@ contract Vendor {
             }
         }
         return false;
+    }
+
+    // function for the buyer to mark a good as received
+    function markAsReceived(uint _orderId) public returns (bool) {
+        require(orders[_orderId].customer == msg.sender, "Not your order");
+        orders[_orderId].isReceived = true;
+        // increment the order amount to be released to the vendor
+        releasableFunds += products[orders[_orderId].productId].price;
+        return true;
     }
 }

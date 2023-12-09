@@ -199,7 +199,7 @@ export const withdrawFunds = async (vendorAddress) => {
     signer
   );
   const tx = await contract.withdrawFunds();
-  await tx.wait();
+  return await tx.wait();
 };
 
 export const markOrderAsShipped = async ({ vendorAddress, order_id }) => {
