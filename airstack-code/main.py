@@ -1,5 +1,3 @@
-from typing import Union
-from fastapi import FastAPI, Request
 from dotenv import load_dotenv
 import os
 import asyncio
@@ -7,10 +5,6 @@ import requests
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 from airstack.execute_query import AirstackClient
-from fastapi.middleware.cors import CORSMiddleware
-import base64
-
-app = FastAPI()
 
 load_dotenv()
 
@@ -18,21 +12,6 @@ api_key = os.environ.get("AIRSTACK_API_KEY")
 if api_key is None:
     raise Exception("Please set the AIRSTACK_API_KEY environment variable")
 api_client = AirstackClient(api_key=api_key)
-
-
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 
 def generate_query(owner_address):
@@ -55,46 +34,20 @@ def generate_query(owner_address):
     """
     return query_template.format(owner=owner_address)
 
+
 async def download_image(url):
     if url[-4:] != ".png":
         return None
     response = requests.get(url)
-    # print("Downloading image from " + url)
+    print("Downloading image from " + url)
     if response.status_code == 200:
         return Image.open(BytesIO(response.content))
     else:
         return None
 
-async def upload_image(filename):
-    # print("Uploading image to IPFS")
-    url = "https://api.imgbb.com/1/upload"
-    expiration = 86400
 
-    with open(filename, "rb") as file:
-        image_data = file.read()
-        base64_image = base64.b64encode(image_data).decode("utf-8")
-
-    client_api_key = os.environ.get("IMGBB_API_KEY")
-
-    payload = {
-        "key": client_api_key,
-        "expiration": expiration
-    }
-
-    files = [
-        ('image', (filename, open(filename, 'rb'), 'image/png'))
-    ]
-    headers = {}
-
-    response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-    return response.json()["data"]["url"]
-
-
-    
-
-
-async def main(owner_address):
+async def main():
+    owner_address = "dhruva.eth"
     query = generate_query(owner_address=owner_address)
     execute_query_client = api_client.create_execute_query_object(query=query)
     query_response = await execute_query_client.execute_query()
@@ -132,7 +85,7 @@ async def main(owner_address):
 
     # Add text
     draw = ImageDraw.Draw(collage)
-    font = ImageFont.truetype("./PangeaTrial-SemiBoldWeb.woff2", 80)
+    font = ImageFont.truetype("./Arial_Bold.ttf", 80)
     text = f"2023 wrapped {owner_address}"
     textwidth, textheight = draw.textsize(text, font=font)
     text_x = (collage.width - textwidth) / 2
@@ -142,17 +95,7 @@ async def main(owner_address):
     draw.text((text_x, text_y), text, fill="black", font=font)
 
     # Save the image
-    file_name = "nftwall_" + owner_address + ".png"
-    collage.save(file_name)
-    image_url = await upload_image(file_name)
-    return image_url
+    collage.save("vitalik_eth_collage.png")
 
-
-
-
-# create a post request to "/" with a json body containing the owner address and return the image
-@app.get("/nft/{owner_address}")
-async def get_nfts(owner_address: str):
-    url = await main(owner_address)
-    return {"url": url}
-
+if __name__ == '__main__':
+    asyncio.run(main())

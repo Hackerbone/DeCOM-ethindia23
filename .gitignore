@@ -11,6 +11,7 @@
 
 # production
 /build
+env*
 
 # misc
 .DS_Store
@@ -26,3 +27,6 @@ yarn-error.log*
 
 .env
 /src/abis
+
+/airstack/*.png
+/airstack-code/*.png

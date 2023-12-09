@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import pushRouter from "./functions/push.js";
-import lighthouseRouter from "./functions/lighthouse.js";
 
 dotenv.config();
 
@@ -18,7 +17,6 @@ app.use(express.json());
     });
 
     app.use("/api/push", pushRouter);
-    app.use("/api/lighthouse", lighthouseRouter);
     app.post("/send-notification", async (req, res) => {
       try {
         console.log(req.body);

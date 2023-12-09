@@ -9,3 +9,11 @@ query MyQuery {
 }
 `;
 };
+
+const AIRSTACK_API_URL = process.env.REACT_APP_AIRSTACK_API_URL;
+
+export const getNftWall2023 = async (owner_address) => {
+  const response = await fetch(`${AIRSTACK_API_URL}/nft/${owner_address}`);
+  const data = await response.json();
+  return data;
+}
