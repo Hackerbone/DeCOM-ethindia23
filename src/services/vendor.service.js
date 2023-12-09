@@ -96,6 +96,8 @@ export const placeOrder = async ({
     signer
   );
 
+  console.log("Ready to place order");
+
   const tx = await contract.placeOrder(
     id,
     shippingAddress,
@@ -105,13 +107,14 @@ export const placeOrder = async ({
       value: productPrice,
     }
   );
-  const receipt = await tx.wait();
-  const event = receipt.events.find((event) => event.event === "OrderPlaced");
-  const orderId = event.args.id;
+  // const receipt = await tx.wait();
+  // const event = receipt.events.find((event) => event.event === "OrderPlaced");
+  // const orderId = event.args.id;
+  await tx.wait();
 
   const address_id = await signer.getAddress();
 
-  console.log(address_id);
+  console.log("address_id", address_id);
 
   const send_noti = await axios.post(
     "http://localhost:8080/api/push/trigger-notification",
@@ -122,7 +125,7 @@ export const placeOrder = async ({
     }
   );
 
-  return orderId;
+  // return orderId;
 };
 
 export const trackOrderOfVendor = async (vendorAddress, { order_id }) => {
