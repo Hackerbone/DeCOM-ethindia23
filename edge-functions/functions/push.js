@@ -27,12 +27,17 @@ router.post("/trigger-notification", async (req, res) => {
     });
 
     console.log("check");
-    const response = await user.channel.send(req.body.subscribers, {
-      notification: noti,
-    });
 
-    console.log(response);
-    return res.status(200).send(response);
+    try {
+      const response = await user.channel.send(req.body.subscribers, {
+        notification: noti,
+      });
+    } catch (err) {
+      console.log(err);
+      // return res.status(500).send("error");
+    }
+
+    return res.status(200).json({ message: "notification sent" });
   } catch (error) {
     console.log(error);
     return res.status(500).send(error, "error");

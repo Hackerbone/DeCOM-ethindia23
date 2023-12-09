@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Row } from "antd";
 import SendNotificationsForm from "components/createStoreOnboarding/SendNotificationsForm";
 import axios from "axios";
+import { getOrdersOfVendor } from "services/vendor.service";
 
 const StoreMarketing = () => {
   const { storeAddress } = useParams();
@@ -19,10 +20,18 @@ const StoreMarketing = () => {
         return;
       }
       console.log(title, data);
+
+      const userAddress = await getOrdersOfVendor(storeAddress);
+      console.log(userAddress);
+      let vendorSubscribers = [];
+      await userAddress.map(async (item) => {
+        vendorSubscribers.push(item.customer);
+      });
+
       const res = await axios.post(
         "http://localhost:8080/api/push/trigger-notification",
         {
-          subscribers: ["*"],
+          subscribers: vendorSubscribers,
           title: title,
           notibody: data,
         }
