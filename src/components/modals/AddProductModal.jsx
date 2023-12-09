@@ -1,5 +1,5 @@
 import { Form, Input, Modal, Row, message } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "styles/components/Modal.module.scss";
 import formStyles from "styles/components/Form.module.scss";
 import { useMutation } from "@tanstack/react-query";
@@ -7,7 +7,6 @@ import { addProductToVendor } from "services/vendor.service";
 import { isValidUrl } from "components/createStoreOnboarding/Step1";
 import { convertToEthers, convertToWei } from "utils/convert";
 import PrimaryButton from "components/PrimaryButton";
-import { FaEthereum } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 
 const AddProductModal = ({ visible, setVisible, storeAddress }) => {
@@ -34,12 +33,12 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
     },
   });
 
+
   const handleCreateProduct = async (values) => {
     if (visible.edit) {
       // Edit product
     } else {
       const { name, price, picture } = values;
-      console.log("JFOSAJFID");
       if (!name || !price || !picture) {
         message.error("Please fill all the fields");
         return;
@@ -49,12 +48,7 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
         message.error("Invalid picture URL");
         return;
       }
-      console.log({
-        name: values.name,
-        price: convertToWei(price),
-        picture,
-        vendorAddress: storeAddress,
-      });
+ 
       await createProductMutation.mutateAsync({
         name: values.name,
         price: convertToWei(price),
@@ -64,19 +58,17 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (visible.edit) {
-  //     form.setFieldsValue({
-  //       resourceName: visible.resourceName,
-  //       resourceKey: visible.resourceKey,
-  //       description: visible.description,
-  //       actions: visible.actions,
-  //       tenant: tenantsList?.tenants?.find(tenant => tenant.tenantKey === visible.tenantKey)?._id
-  //     })
-  //   } else {
-  //     form.resetFields()
-  //   }
-  // }, [visible, tenantsList, form])
+  useEffect(() => {
+    if (visible.edit) {
+      form.setFieldsValue({
+        name: visible.name,
+        price: convertToEthers(visible.price),
+        picture: visible.picture,
+      })
+    } else {
+      form.resetFields()
+    }
+  }, [visible, form])
 
   return (
     <>

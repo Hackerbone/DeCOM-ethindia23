@@ -56,7 +56,7 @@ export const addProductToVendor = async ({
   return newProductId;
 };
 
-export const removeProductFromVendor = async (vendorAddress, { id }) => {
+export const removeProductFromVendor = async ({ vendorAddress,id }) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(

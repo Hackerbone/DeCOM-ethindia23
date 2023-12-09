@@ -52,6 +52,10 @@
                     padding: 0 1rem;
                     height: 2.6rem;
                     color: var(--text-secondary);
+
+                    &:hover {
+                        color: var(--text-hover)
+                    }
                 }
             }
         }
@@ -214,6 +218,10 @@
             font-size: nth($fontSize, 2);
             font-weight: 500;
             cursor: pointer;
+
+             &:hover {
+                        color: var(--text-hover)
+                    }
         }
 
         .headerRow {
