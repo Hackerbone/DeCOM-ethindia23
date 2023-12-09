@@ -7,6 +7,7 @@ import { placeOrder } from "services/vendor.service";
 import { convertToEthers } from "utils/convert";
 import PrimaryButton from "components/PrimaryButton";
 import moment from "moment";
+import lighthouse from "@lighthouse-web3/sdk";
 import {
   decryptUserMessage,
   handleShippingDetailsEncrypt,
@@ -49,23 +50,64 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
       message.error("Invalid store address");
       return;
     }
+
+    const apiKey = "90d7bbf3.13366db08cb74c8d91875b87f2399e15";
+
+    // sign the shipping address with the my public key
+    const usignedShippingAddress = await window.ethereum.request({
+      method: "personal_sign",
+      params: [shippingAddress, walletAddress],
+    });
+
+    const response = await lighthouse.uploadText(
+      shippingAddress,
+      apiKey,
+      "Jhoom barabar"
+      //   walletAddress,
+      //   usignedShippingAddress
+    );
+
+    console.log({ response });
+
     const vendorWalletAddress = await getVendorByContractAddress(storeAddress);
 
     console.log({ vendorWalletAddress, walletAddress, shippingAddress });
-    const { encryptedUserShipping, encryptedVendorShipping } =
-      await handleShippingDetailsEncrypt({
-        shippingDetails: shippingAddress,
-        vendorWalletAddress,
-        userWalletAddress: walletAddress,
-      });
 
-    await placeOrderMutation.mutateAsync({
-      vendorAddress: storeAddress,
-      id: visible.id,
-      shippingAddress: encryptedUserShipping,
-      vendorShippingAddress: encryptedVendorShipping,
-      productPrice: visible.price,
+    // sign the shipping address with the vendor's public key
+    const signedShippingAddress = await window.ethereum.request({
+      method: "personal_sign",
+      params: [shippingAddress, vendorWalletAddress],
+      from: walletAddress,
     });
+
+    const response2 = await lighthouse.uploadText(
+      shippingAddress,
+      apiKey,
+      "Jhoom barabar 2"
+      //   vendorWalletAddress,
+      //   signedShippingAddress
+    );
+
+    console.log({ response2 });
+
+    console.log({ signedShippingAddress });
+
+    console.log({ usignedShippingAddress });
+
+    // const { encryptedUserShipping, encryptedVendorShipping } =
+    //   await handleShippingDetailsEncrypt({
+    //     shippingDetails: shippingAddress,
+    //     vendorWalletAddress,
+    //     userWalletAddress: walletAddress,
+    //   });
+
+    // await placeOrderMutation.mutateAsync({
+    //   vendorAddress: storeAddress,
+    //   id: visible.id,
+    //   shippingAddress: encryptedUserShipping,
+    //   vendorShippingAddress: encryptedVendorShipping,
+    //   productPrice: visible.price,
+    // });
   };
 
   return (

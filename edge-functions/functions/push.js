@@ -1,6 +1,7 @@
-const { ethers } = require("ethers");
-const express = require("express");
-const { PushAPI, CONSTANTS } = require("@pushprotocol/restapi");
+import express from "express";
+import { ethers } from "ethers";
+import { PushAPI, CONSTANTS } from "@pushprotocol/restapi";
+
 const router = express.Router();
 
 router.post("/trigger-notification", async (req, res) => {
@@ -36,4 +37,4 @@ router.post("/trigger-notification", async (req, res) => {
 
 // export router
 
-module.exports = router;
+export default router;

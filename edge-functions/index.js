@@ -1,7 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-// dotenv
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import pushRouter from "./functions/push.js";
+import lighthouseRouter from "./functions/lighthouse.js";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -11,8 +15,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/api/push", require("./functions/push"));
-
+app.use("/api/push", pushRouter);
+app.use("/api/lighthouse", lighthouseRouter);
 app.post("/send-notification", async (req, res) => {
   try {
     console.log(req.body);
