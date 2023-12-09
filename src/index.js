@@ -80,7 +80,7 @@ ReactDOM.render(
         }}
       >
         <QueryClientProvider client={queryClient}>
-          <AnonAadhaarProvider _appId={anon_app_id} _isWeb={false}> 
+          <AnonAadhaarProvider _appId={anon_app_id} _testing={false}> 
           <RouterProvider router={router} />
           </AnonAadhaarProvider>
         </QueryClientProvider>
