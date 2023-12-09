@@ -29,7 +29,6 @@ const userSlice = createSlice({
       state.storeId = action.payload;
     },
     logout(state) {
-      localStorage.removeItem("user");
       state = initialState;
     },
     setCurrentStore(state, action) {

@@ -2,14 +2,41 @@
 
 .navbarContainer {
     height: 64px;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     width: 100%;
     padding: 0 3rem;
+    background: var(--bg);
 
     .loginPageLogo {
         width: 7.5rem;
+    }
+
+    .navbarItems {
+        .loginButton {
+            height: 2.5rem;
+            padding: 0 1.6rem;
+        }
+
+        .accountButton {
+            background: var(--text-100 );
+            color: var(--text-secondary);
+            border:none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+
+            &:hover {
+                color: var(--text-secondary) !important;
+            }
+
+            .accountIcon {
+                font-size:nth($fontSize,5);
+
+            }
+        }
     }
 }

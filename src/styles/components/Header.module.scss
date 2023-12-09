@@ -94,6 +94,10 @@
         gap: 0.6rem;
         cursor: pointer;
         margin: 0.4rem 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: nowrap;
 
         &:hover {
             background-color: var(--sidebar-active);
@@ -123,6 +127,8 @@
             text-overflow: ellipsis;
         }
     }
+
+ 
 
     .divider {
         background-color: var(--border);

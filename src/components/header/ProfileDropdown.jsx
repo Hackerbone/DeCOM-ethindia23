@@ -2,8 +2,10 @@ import { Card, Row } from "antd";
 import React from "react";
 import styles from "styles/components/Header.module.scss";
 import { AiOutlineLogout } from "react-icons/ai";
+import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 
-const ProfileDropdown = ({ handleLogout }) => {
+const ProfileDropdown = ({ handleLogout, address }) => {
+
   const dropdownItems = [
     {
       icon: <AiOutlineLogout className={styles.icon} />,
@@ -14,6 +16,13 @@ const ProfileDropdown = ({ handleLogout }) => {
 
   return (
     <Card className={styles.profileDropdownCard}>
+      {address && <Row
+            align="middle"
+            className={styles.profileItem}
+          >
+            <MdOutlineAccountBalanceWallet className={styles.icon} />
+            <div className={styles.profileItemNameAddress}>{address}</div>
+          </Row>}
       {dropdownItems.map((item, index) => (
         <>
           <Row
