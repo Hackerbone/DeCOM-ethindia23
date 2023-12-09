@@ -14,10 +14,11 @@ import {
     setStoreId,
     setUserType,
     setWalletAddress,
-  } from "store/user.slice";
-  import Web3 from "web3";
+} from "store/user.slice";
+import Web3 from "web3";
 import { checkVendor } from 'services/vendorfactory.service'
-
+import { RiNotification2Line } from "react-icons/ri"
+import NotificationsDropdown from './NotificationsDropdown'
 
 const BuyerHeader = () => {
     const { storeId, walletAddress } = useSelector((state) => state.user);
@@ -27,28 +28,28 @@ const BuyerHeader = () => {
 
     const handleSafeLogin = async () => {
         if (window.ethereum) {
-          const web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.requestAccounts();
-    
-          const userData = await checkVendor(accounts[0]);
-    
-          if (!userData) {
-            dispatch(setIsConnected(true));
-            dispatch(setWalletAddress(accounts[0]));
-            dispatch(setUserType("user"));
-            navigate("/create-store");
-            return;
-          } else {
-            // Dispatch actions to update the Redux store
-            dispatch(setWalletAddress(userData.vendorWalletAddress));
-            dispatch(setIsConnected(true));
-            dispatch(setUserType("vendor"));
-            dispatch(setStoreId(userData.vendorAddress));
-          }
+            const web3 = new Web3(window.ethereum);
+            const accounts = await web3.eth.requestAccounts();
+
+            const userData = await checkVendor(accounts[0]);
+
+            if (!userData) {
+                dispatch(setIsConnected(true));
+                dispatch(setWalletAddress(accounts[0]));
+                dispatch(setUserType("user"));
+                navigate("/create-store");
+                return;
+            } else {
+                // Dispatch actions to update the Redux store
+                dispatch(setWalletAddress(userData.vendorWalletAddress));
+                dispatch(setIsConnected(true));
+                dispatch(setUserType("vendor"));
+                dispatch(setStoreId(userData.vendorAddress));
+            }
         } else {
-          console.error("MetaMask is not installed");
+            console.error("MetaMask is not installed");
         }
-      };
+    };
 
     const handleLogout = () => {
         showConfirm({
@@ -64,14 +65,28 @@ const BuyerHeader = () => {
     return (
         <Row align="middle" justify="space-between" className={styles.navbarContainer}>
             <a href="/">
-            <Image src={fulllogo} preview={false} className={styles.loginPageLogo} />
+                <Image src={fulllogo} preview={false} className={styles.loginPageLogo} />
             </a>
             <div className={styles.navbarItems}>
                 {!walletAddress ?
                     <PrimaryButton onClick={handleSafeLogin} className={styles.loginButton}>Login</PrimaryButton> :
-                    <Dropdown trigger={["click"]} dropdownRender={() => <ProfileDropdown handleLogout={handleLogout} address={walletAddress} />}>
-                        <PrimaryButton className={styles.accountButton} icon={<MdOutlineAccountCircle className={styles.accountIcon} />} />
-                    </Dropdown>}
+                    <Row align="middle"
+                        style={{
+                            gap: "2rem"
+                        }}>
+                        <div className={`${styles.profileDropdownContainer} ${styles.notificationContainer}`}>
+                            <Dropdown trigger={["click"]} dropdownRender={() => <NotificationsDropdown  notifications={[]} />} >
+                                <Row align="middle" className={styles.profileDropdownButton}>
+                                    <RiNotification2Line className={styles.downArrow} />
+                                </Row>
+                            </Dropdown>
+                        </div>
+
+                        <Dropdown trigger={["click"]} dropdownRender={() => <ProfileDropdown handleLogout={handleLogout} address={walletAddress} />}>
+                            <PrimaryButton className={styles.accountButton} icon={<MdOutlineAccountCircle className={styles.accountIcon} />} />
+                        </Dropdown>
+                    </Row>
+                }
             </div>
         </Row>
     )

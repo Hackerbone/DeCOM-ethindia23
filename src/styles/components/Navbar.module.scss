@@ -39,5 +39,48 @@
 
             }
         }
+
+        .profileDropdownContainer {
+            .profileDropdownButton {
+                gap: 4px;
+                height: 1.9rem;
+                padding: 0 1.1rem;
+                border-radius: 24px;
+                cursor: pointer;
+                border: 1px solid var(--border);
+
+                &:hover {
+                    background-color: var(--sidebar-active);
+                }
+
+                .userName {
+                    font-size: nth($fontSize, 2);
+                    max-width: 10rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .downArrow {
+                    color: var(--text-secondary);
+                }
+            }
+        }
+
+        .notificationContainer {
+        
+            .profileDropdownButton {
+                height: 1.9rem;
+                width: 1.9rem;
+                padding: 0;
+                border-radius: 50%;
+                justify-content: center;
+
+                .downArrow {
+                    color: var(--text);
+                    font-size: nth($fontSize, 2);
+                }
+            }
+        }
     }
 }

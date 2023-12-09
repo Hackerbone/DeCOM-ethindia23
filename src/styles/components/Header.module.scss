@@ -128,10 +128,59 @@
         }
     }
 
- 
-
     .divider {
         background-color: var(--border);
         margin: 0.4rem 0;
+    }
+}
+
+.notificationsDropdownCard {
+    max-height: 35rem;
+    overflow-y: auto;
+    position: relative;
+
+    :global {
+        .ant-card-body {
+            width: 36rem;
+        }
+    }
+
+    .notificationsHeader {
+        position: sticky;
+        background-color: var(--green-text);
+        border-radius: 8px 8px 0 0;
+        padding: 0.8rem 1rem;
+        font-size: nth($fontSize, 3);
+        font-weight: 500;
+        right: 0;
+        left: 0;
+        top: 0;
+        z-index: 10;
+    }
+
+    .notificationCard {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid var(--border);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .contents {
+            .notificationTitle {
+                color: var(--text);
+                font-size: nth($fontSize, 3);
+            }
+
+            .notificationContent {
+                color: var(--text-hover);
+                font-size: nth($fontSize, 2);
+            }
+        }
+
+        .times {
+            color: var(--text-hover);
+            font-size: nth($fontSize, 1);
+        }
     }
 }
