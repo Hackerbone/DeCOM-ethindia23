@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@metamask/eth-sig-util": "^7.0.1",
+    "@airstack/airstack-react": "^0.6.1",
     "@pushprotocol/restapi": "^1.4.45",
     "@pushprotocol/socket": "^0.5.3",
     "@pushprotocol/uiweb": "^1.1.22",

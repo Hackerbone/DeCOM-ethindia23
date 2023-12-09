@@ -10,7 +10,7 @@ router.post("/trigger-notification", async (req, res) => {
   // const notification = req.body.notification;
 
   if (req.body.subscribers.length === 0) {
-    return res.send("no subscribers found");
+    return res.status(500).send("no subscribers found");
   }
 
   let noti = {
@@ -19,6 +19,7 @@ router.post("/trigger-notification", async (req, res) => {
   };
 
   const privateKey = process.env.PRIVATE_KEY;
+  console.log(privateKey);
   const wallet = new ethers.Wallet(privateKey);
 
   const user = await PushAPI.initialize(wallet, {
@@ -30,7 +31,7 @@ router.post("/trigger-notification", async (req, res) => {
   });
 
   console.log(response);
-  return res.send(response);
+  return res.status(200).send(response);
 });
 
 // export router
