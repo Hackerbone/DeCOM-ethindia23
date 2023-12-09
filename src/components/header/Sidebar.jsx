@@ -44,11 +44,6 @@ const Sidebar = () => {
           path: `/vendor/${storeId}/products`,
         },
         {
-          icon: <PiUsersBold />,
-          label: `Customers`,
-          path: `/vendor/${storeId}/customers`,
-        },
-        {
           icon: <PiBuildingsBold />,
           label: `Marketing`,
           path: `/vendor/${storeId}/marketing`,
