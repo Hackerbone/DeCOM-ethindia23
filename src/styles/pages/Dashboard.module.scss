@@ -105,6 +105,16 @@
             width: 40rem !important;
         }
     }
+
+    .graphGrid {
+        gap: 12px;
+
+        .graphGridCol {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+    }
 }
 
 .addButtonActionsCard {
