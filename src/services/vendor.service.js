@@ -2,11 +2,6 @@ import { ethers } from "ethers";
 import vendorFactoryContract from "abis/VendorFactory.json";
 import vendorContract from "abis/Vendor.json";
 import axios from "axios";
-import {
-  subscribeToChannel,
-  callTriggerNotification,
-  readMessages,
-} from "./push.service";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -64,6 +59,23 @@ export const addProductToVendor = async ({
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "ProductAdded");
   const newProductId = event.args.id;
+
+  const userAddress = await getOrdersOfVendor(vendorAddress);
+  let vendorSubscribers = [];
+  await userAddress.map(async (item) => {
+    vendorSubscribers.push(item.customer);
+  });
+
+  const res = await axios.post(
+    "http://localhost:8080/api/push/trigger-notification",
+    {
+      subscribers: vendorSubscribers,
+      title: "New Product Announced",
+      notibody: name,
+    }
+  );
+  console.log(res);
+
   return newProductId;
 };
 
@@ -89,8 +101,6 @@ export const placeOrder = async ({
 }) => {
   // call subscribeToChannel from push.service.js
 
-  // const subscribe_noti = await subscribeToChannel();
-  console.log({ invoiceCid });
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -118,15 +128,6 @@ export const placeOrder = async ({
   const address_id = await signer.getAddress();
 
   console.log("address_id", address_id);
-
-  // const send_noti = await axios.post(
-  //   "http://localhost:8080/api/push/trigger-notification",
-  //   {
-  //     subscribers: [address_id],
-  //     title: "New Order",
-  //     notibody: "You have placed new order",
-  //   }
-  // );
 
   return orderId;
 };
@@ -200,7 +201,7 @@ export const withdrawFunds = async (vendorAddress) => {
     signer
   );
   const tx = await contract.withdrawFunds();
-  await tx.wait();
+  return await tx.wait();
 };
 
 export const markOrderAsShipped = async ({ vendorAddress, order_id }) => {

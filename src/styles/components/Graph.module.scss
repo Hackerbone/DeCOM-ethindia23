@@ -1,0 +1,56 @@
+@import "../_variables";
+
+.graphCard {
+    width: 30rem;
+    border-radius: 4px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+
+    .statDetails {
+
+        .stat {
+            color: var(--text-hover);
+            font-size: nth($fontSize, 3 );
+
+
+
+        }
+
+        .statValue {
+            font-size: nth($fontSize, 6 );
+            font-weight: 600;
+            color: var(--text);
+        }
+    }
+
+    .graph {
+        margin-top: 2rem;
+
+
+        .graphTitle {
+            font-size: nth($fontSize,2);
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        
+        
+    }
+    .statRow {
+        margin-top: 1rem;
+
+        .rowKey {
+            color: var(--text);
+            font-size: nth($fontSize,2);
+
+
+        }
+        .rowValue {
+            font-size: nth($fontSize,2);
+            color: var(--text-secondary);
+
+        }
+    }
+
+
+}

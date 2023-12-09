@@ -9,31 +9,39 @@ router.post("/trigger-notification", async (req, res) => {
   // if not empty then send notification to all subscribers
   // const subscribers = req.body.subscribers;
   // const notification = req.body.notification;
+  try {
+    if (req.body.subscribers.length === 0) {
+      return res.status(500).send("no subscribers found");
+    }
+    let noti = {
+      title: req.body.title,
+      body: req.body.notibody,
+    };
 
-  if (req.body.subscribers.length === 0) {
-    return res.status(500).send("no subscribers found");
+    const privateKey = process.env.PRIVATE_KEY;
+    console.log(privateKey);
+    const wallet = new ethers.Wallet(privateKey);
+
+    const user = await PushAPI.initialize(wallet, {
+      env: CONSTANTS.ENV.STAGING,
+    });
+
+    console.log("check");
+
+    try {
+      const response = await user.channel.send(req.body.subscribers, {
+        notification: noti,
+      });
+    } catch (err) {
+      console.log(err);
+      // return res.status(500).send("error");
+    }
+
+    return res.status(200).json({ message: "notification sent" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error, "error");
   }
-
-  let noti = {
-    title: req.body.title,
-    body: req.body.notibody,
-  };
-
-  const privateKey = process.env.PRIVATE_KEY;
-  console.log(privateKey);
-  const wallet = new ethers.Wallet(privateKey);
-
-  const user = await PushAPI.initialize(wallet, {
-    env: CONSTANTS.ENV.STAGING,
-  });
-
-  console.log("check");
-  const response = await user.channel.send(req.body.subscribers, {
-    notification: noti,
-  });
-
-  console.log(response);
-  return res.status(200).send(response);
 });
 
 // export router

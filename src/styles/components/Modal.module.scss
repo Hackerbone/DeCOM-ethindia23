@@ -380,7 +380,6 @@
 }
 
 .placeOrderModalContainer {
-
   :global {
     .anticon {
       color: var(--text-secondary);
@@ -462,24 +461,61 @@
 }
 
 .chatModalContainer {
-
-  :global {
-    .ant-modal-content {
-      max-height: 86vh !important;
-  overflow: auto;
-
-
-    }
-  }
+  
 
   .heading {
     margin-top: 0 !important;
   }
 
   :global {
-
     .anticon {
       color: var(--text-secondary);
+    }
+  }
+
+
+  .chatContainer {
+    position: relative;
+    max-height: 80vh !important;
+    min-height: 16rem !important;
+    overflow: auto;
+    position: relative;
+  
+
+    .chatInputContainer {
+      display: flex;
+      width: 100%;
+      gap: 10px;
+      position: sticky;
+      bottom: 0;
+      background: var(--card-bg);
+      padding-top: 1rem;
+
+
+      .chatSendButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.2rem;
+        font-size: nth($fontSize, 5);
+      }
+    }
+
+
+    .chatInput {
+      height: 3rem;
+      border: 1px solid var(--border);
+      background: none;
+      border-radius: 4px;
+      color: var(--text);
+
+      &::placeholder {
+          color: var(--placeholder);
+      }
+
+      &:disabled {
+          color: var(--text-secondary);
+      }
     }
   }
 }
