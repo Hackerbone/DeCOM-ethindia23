@@ -73,7 +73,7 @@ const Login = () => {
     }
 
     connectWalletAndGetUserData();
-  }, [dispatch]); // Add `dispatch` to the dependency array
+  }, [dispatch, isConnected, navigate]); // Add `dispatch` to the dependency array
 
   return (
     <div className={styles.loginPageContainer}>
