@@ -1,10 +1,7 @@
 import DashboardLayout from "components/DashboardLayout";
 import React from "react";
 import styles from "styles/pages/Dashboard.module.scss";
-import {
-  sendNotification,
-  subscribeToChannel,
-} from "../../services/push.service";
+import { sendNotification, subscribeToChannel } from "services/push.service.js";
 
 const StoreDashboard = () => {
   return (
