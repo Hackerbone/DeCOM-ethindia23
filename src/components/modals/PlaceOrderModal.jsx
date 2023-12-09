@@ -248,6 +248,9 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
           className={`${formStyles.formContainer} ${styles.modalForm}`}
           layout="vertical"
           style={{ marginTop: 0 }}
+          initialValues={{
+            encryption: "lighthouse",
+          }}
           onFinish={handlePlaceOrder}
         >
           <Form.Item
@@ -279,7 +282,6 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
             ]}
           >
             <Radio.Group
-              defaultValue={"lighthouse"}
               className={formStyles.formRadioGroup}
             >
               <Radio value={"lighthouse"} className={formStyles.radio}>
