@@ -4,18 +4,18 @@ import styles from "styles/components/Modal.module.scss";
 import formStyles from "styles/components/Form.module.scss";
 import { useMutation } from "@tanstack/react-query";
 import { placeOrder } from "services/vendor.service";
-import { convertToEthers } from "utils/convert";
+import { blobToBase64, convertToEthers } from "utils/convert";
 import PrimaryButton from "components/PrimaryButton";
 import moment from "moment";
 import lighthouse from "@lighthouse-web3/sdk";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import {
+  // decryptLighthouse,
   encryptUsingLighthouse,
   encryptionSignature,
   handleShippingDetailsEncrypt,
 } from "services/encryptUpload";
-import { ethers } from "ethers";
 import { getVendorByContractAddress } from "services/vendorfactory.service";
 import { useSelector } from "react-redux";
 import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
@@ -78,10 +78,10 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
   });
 
   const handlePlaceOrder = async (values) => {
-    if (anonAadhaar?.status !== "logged-in" && wantsKYC) {
-      message.error("Please verify your Aadhaar to place order");
-      return;
-    }
+    // if (anonAadhaar?.status !== "logged-in" && wantsKYC) {
+    //   message.error("Please verify your Aadhaar to place order");
+    //   return;
+    // }
 
     const { shippingAddress, encryption } = values;
     if (!shippingAddress || !encryption) {
@@ -107,33 +107,37 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
     }
 
     // const apiKey = "3e9c735a.23e40d7f7cb544c09655e9070ffbeb57";
-    const apiKey = "1a21c052.6fddd3e2c66f439e9e83c8f157af8b1e";
+    // const apiKey = "1a21c052.6fddd3e2c66f439e9e83c8f157af8b1e";
+    const apiKey = "e899de11.df498248e363489590d9b73739684bc3";
+
     const { publicKey, signedMessage } = await encryptionSignature();
 
-    // Common (DONT REMOVE)
-    // const input = document.getElementById("invoice");
-    // const canvas = await html2canvas(input);
-    // const imgData = canvas.toDataURL("image/png");
-    // const pdf = new jsPDF();
-    // pdf.addImage(imgData, "PNG", 0, 0);
+    const input = document.getElementById("invoice");
+    const canvas = await html2canvas(input);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, "PNG", 0, 0);
+    const pdfBlob = pdf.output("blob");
+    console.log({ pdfBlob });
+    const pdfString = await blobToBase64(pdfBlob);
 
-    // const pdfBlob = pdf.output("blob");
-    // const file = new File([pdfBlob], `cus_${walletAddress}.pdf`, {
-    //   type: "application/pdf",
-    // });
+    console.log({ pdfString });
 
-    // const invoiceRes = await lighthouse.uploadEncrypted(
-    //   file,
-    //   apiKey,
-    //   publicKey,
-    //   signedMessage,
-    //   (fd) => console.log({ fd })
-    // );
+    const base64Data = pdfString.split(",")[1];
 
-    // console.log({ invoiceRes });
+    const pdfresponse = await lighthouse.textUploadEncrypted(
+      base64Data,
+      apiKey,
+      publicKey,
+      signedMessage
+    );
+    console.log({ pdfresponse });
+    const invoiceCid = pdfresponse?.data?.Hash;
 
-    // const invoiceCID = invoiceRes?.data?.Hash;
-    // console.log(`Decrypt at https://decrypt.mesh3.network/evm/${invoiceCID}`);
+    if (!invoiceCid) {
+      message.error("Invoice upload failed, try again");
+      return;
+    }
 
     if (encryption === "lighthouse") {
       // Encrypt using lighthouse
@@ -152,6 +156,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
         encryptedData: encryptedData,
         productPrice: visible.price,
         isLighthouse: true,
+        invoiceCid,
       });
     } else if (encryption === "self") {
       // Encrypt self wallet address
@@ -166,6 +171,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
         encryptedData: encryptedVendorShipping,
         productPrice: visible.price,
         isLighthouse: false,
+        invoiceCid,
       });
     }
   };
@@ -281,9 +287,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
               },
             ]}
           >
-            <Radio.Group
-              className={formStyles.formRadioGroup}
-            >
+            <Radio.Group className={formStyles.formRadioGroup}>
               <Radio value={"lighthouse"} className={formStyles.radio}>
                 Encrypt with lighthouse
               </Radio>

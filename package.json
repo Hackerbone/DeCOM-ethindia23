@@ -44,8 +44,8 @@
     "web3": "^4.3.0"
   },
   "scripts": {
-    "start": "truffle build && cp -r build/contracts src/abis && react-app-rewired start",
-    "build": "truffle build && cp -r build/contracts src/abis && react-app-rewired build",
+    "start": "truffle build && cp -r build/contracts src/abis && react-app-rewired --max-old-space-size=4096 start",
+    "build": "truffle build && cp -r build/contracts src/abis && react-app-rewired --max-old-space-size=4096 build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },

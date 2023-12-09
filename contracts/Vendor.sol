@@ -30,6 +30,7 @@ contract Vendor {
         string encryptedData;
         bool isShipped;
         bool isLighthouse;
+        string invoiceCid;
     }
 
     // Events
@@ -96,7 +97,8 @@ contract Vendor {
     function placeOrder(
         uint _productId,
         string memory _encryptedData,
-        bool _isLighthouse
+        bool _isLighthouse,
+        string memory _invoiceCid
     ) public payable {
         require(products[_productId].isAvailable, "Product not available");
         require(
@@ -110,7 +112,8 @@ contract Vendor {
             msg.sender,
             _encryptedData,
             false,
-            _isLighthouse
+            _isLighthouse,
+            _invoiceCid
         );
 
         orders[orderCount] = newOrder;

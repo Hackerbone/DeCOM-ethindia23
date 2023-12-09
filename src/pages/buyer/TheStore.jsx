@@ -1,4 +1,4 @@
-import { Avatar, Col, Divider, Image, Row } from "antd";
+import { Avatar, Divider, Image, Row } from "antd";
 import BuyerHeader from "components/header/BuyerHeader";
 import React, { useState } from "react";
 import styles from "styles/pages/Stores.module.scss";
@@ -15,15 +15,12 @@ import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getSpecVendorProducts } from "services/vendor.service";
 import Loader from "components/Loader";
-import { Upload, Button } from "antd";
-import lighthouse from "@lighthouse-web3/sdk";
 
 import {
   checkVendor,
   getVendorByContractAddress,
 } from "services/vendorfactory.service";
 import SupportChatModal from "components/modals/SupportChatModal";
-import { encryptionSignature } from "services/encryptUpload";
 
 const TheStore = () => {
   const { storeAddress } = useParams();
@@ -49,7 +46,7 @@ const TheStore = () => {
     },
     enabled: isConnected && !!storeAddress,
   });
-  console.log(vendorData);
+
   const hanldePlaceOrder = (item) => {
     setBuyProductModal(item);
   };
@@ -107,26 +104,6 @@ const TheStore = () => {
               <div className={styles.storeSpec}>
                 Chain <span>Ethereum</span>
               </div>
-              <Upload
-                onChange={async (info) => {
-                  console.log(info.file.originFileObj);
-                  const apiKey = "1a21c052.6fddd3e2c66f439e9e83c8f157af8b1e";
-                  const { publicKey, signedMessage } =
-                    await encryptionSignature();
-
-                  const invoiceRes = await lighthouse.uploadEncrypted(
-                    info.file.originFileObj,
-                    apiKey,
-                    publicKey,
-                    signedMessage,
-                    (fd) => console.log({ fd })
-                  );
-
-                  console.log({ invoiceRes });
-                }}
-              >
-                <Button>Click to Upload</Button>
-              </Upload>
             </Row>
           </div>
         </div>
@@ -176,10 +153,12 @@ const TheStore = () => {
           storeAddress={storeAddress}
           wantsKYC={vendorData?.wantsKYC}
         />
+
         <ViewPastOrdersModal
           visible={pastOrdersModal}
           setVisible={setPastOrdersModal}
           setSupportChatModal={setSupportChatModal}
+          storeAddress={storeAddress}
         />
       </div>
     </>

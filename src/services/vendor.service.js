@@ -85,11 +85,12 @@ export const placeOrder = async ({
   encryptedData,
   productPrice,
   isLighthouse,
+  invoiceCid,
 }) => {
   // call subscribeToChannel from push.service.js
 
   // const subscribe_noti = await subscribeToChannel();
-
+  console.log({ invoiceCid });
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -100,10 +101,16 @@ export const placeOrder = async ({
 
   console.log("Ready to place order");
 
-  const tx = await contract.placeOrder(id, encryptedData, isLighthouse, {
-    from: signer.getAddress(),
-    value: productPrice,
-  });
+  const tx = await contract.placeOrder(
+    id,
+    encryptedData,
+    isLighthouse,
+    invoiceCid,
+    {
+      from: signer.getAddress(),
+      value: productPrice,
+    }
+  );
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "OrderPlaced");
   const orderId = event.args.id;
@@ -161,24 +168,24 @@ export const getOrdersOfVendor = async (vendorAddress) => {
   return processedResponse;
 };
 
-export const getOrdersByCustomer = async (customerAddress) => {
+export const getOrdersByCustomer = async (vendorAddress) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
-    customerAddress,
+    vendorAddress,
     vendorContract.abi,
     signer
   );
 
   const address = await signer.getAddress();
   const orders = await contract.getOrdersByCustomer(address);
-
   const processedResponse = orders.map((order) => ({
     id: order.id.toNumber(), // Convert BigNumber to number
     productId: order.productId.toNumber(),
     customer: order.customer,
     shippingAddress: order.shippingAddress,
     isShipped: order.isShipped,
+    invoiceCid: order.invoiceCid,
   }));
 
   return processedResponse;

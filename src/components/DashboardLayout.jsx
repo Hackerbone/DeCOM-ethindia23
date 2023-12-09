@@ -67,6 +67,7 @@ const DashboardLayout = ({ children, hideSidebar }) => {
 
     // Event listener for account changes
     const handleAccountsChanged = (accounts) => {
+      console.log("account changed", accounts);
       if (accounts.length === 0) {
         console.log("Please connect to MetaMask.");
       } else {
