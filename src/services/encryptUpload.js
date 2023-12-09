@@ -104,11 +104,13 @@ export const decryptLighthouse = async (cid) => {
   const decrypted = await lighthouse.decryptFile(cid, keyObject.data.key);
   console.log(decrypted);
 
-  // decrypted is a blob, convert to string
-  const decryptedString = await decrypted.text();
-  console.log(decryptedString);
+  return new Blob([decrypted], { type: "application/pdf" });
 
-  return decryptedString;
+  // // decrypted is a blob, convert to string
+  // const decryptedString = await decrypted.text();
+  // console.log(decryptedString);
+
+  // return decryptedString;
 };
 
 export const encryptUsingLighthouse = async ({

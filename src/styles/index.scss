@@ -256,7 +256,8 @@ p {
   }
 }
 
-#invoice {
+#invoice,
+#invoice-new {
   transform: translate(-500%, -500%);
   color: #000 !important;
   padding: 4rem;

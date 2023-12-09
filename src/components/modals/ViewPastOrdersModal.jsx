@@ -7,7 +7,10 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import PrimaryButton from "components/PrimaryButton";
 import { decryptLighthouse } from "services/encryptUpload";
-
+import { useSelector } from "react-redux";
+import { convertToEthers } from "utils/convert";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 const ViewPastOrdersModal = ({
   visible,
   setVisible,
@@ -15,6 +18,8 @@ const ViewPastOrdersModal = ({
   storeAddress,
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
+  const { walletAddress } = useSelector((state) => state.user);
+  const [selected, setSelected] = React.useState(null);
   const closeModal = () => {
     setVisible(false);
   };
@@ -72,15 +77,18 @@ const ViewPastOrdersModal = ({
                           marginTop: "1rem",
                         }}
                         onClick={async () => {
-                          const decryptedInvoice = await decryptLighthouse(
-                            item.invoiceCid
-                          );
-                          console.log({ decryptedInvoice });
-                          const newpdfBlob = new Blob([decryptedInvoice], {
-                            type: "application/pdf",
-                          });
+                          setSelected(item);
+                          await decryptLighthouse(item.invoiceCid);
+                          const input = document.getElementById("invoice-new");
+                          const canvas = await html2canvas(input);
+                          const imgData = canvas.toDataURL("image/png");
+                          const pdf = new jsPDF();
+                          pdf.addImage(imgData, "PNG", 0, 0);
+
+                          const pdfBlob = pdf.output("blob");
+
                           const file = new File(
-                            [newpdfBlob],
+                            [pdfBlob],
                             `cus_${item.invoiceCid}.pdf`,
                             {
                               type: "application/pdf",
@@ -108,6 +116,27 @@ const ViewPastOrdersModal = ({
               </React.Fragment>
             );
           })}
+        </div>
+        <div id="invoice-new">
+          <h1>Order Invoice</h1>
+          <h4>Customer: {walletAddress}</h4>
+          <h4>Vendor: {storeAddress}</h4>
+          <p>Order Number: {Math.random().toString(36).substr(2, 6)}</p>
+          <p>Date: {moment().format("DD-MM-YYYY")}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Product ID: {selected?.id}</td>
+                <td>{selected?.invoiceCid}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Modal>
     </>
