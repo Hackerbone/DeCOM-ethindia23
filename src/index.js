@@ -7,7 +7,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "pages/Landing";
 import { ConfigProvider } from "antd";
 import Login from "pages/auth/Login";
-import SpecStore from "pages/SpecStore";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Dashboard from "pages/Dashboard";
 import CreateStore from "pages/vendor/CreateStore";
@@ -47,11 +46,6 @@ const router = createBrowserRouter([
     element: <StoreOrders />,
   },
 
-  {
-    path: "/stores/:storeAddress/dashboard",
-    element: <Dashboard />,
-  },
-
   // Buyer side
   {
     path: "/stores",
@@ -60,6 +54,12 @@ const router = createBrowserRouter([
   {
     path: "/stores/:storeAddress",
     element: <TheStore />,
+  },
+
+  // old code
+  {
+    path: "/stores/:storeAddress/dashboard",
+    element: <Dashboard />,
   },
 ]);
 
