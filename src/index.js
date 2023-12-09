@@ -8,13 +8,13 @@ import LandingPage from "pages/Landing";
 import { ConfigProvider } from "antd";
 import Login from "pages/auth/Login";
 import SpecStore from "pages/SpecStore";
-import Stores from "pages/Stores";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Dashboard from "pages/Dashboard";
 import CreateStore from "pages/vendor/CreateStore";
 import StoreDashboard from "pages/vendor/StoreDashboard";
 import StoreProducts from "pages/vendor/StoreProducts";
 import StoreOrders from "pages/vendor/StoreOrders";
+import StoresList from "pages/buyer/StoresList";
 
 const queryClient = new QueryClient();
 
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/stores",
-    element: <Stores />,
+    element: <StoresList />,
   },
 ]);
 

@@ -1,0 +1,115 @@
+@import "../_variables";
+
+.storesListContainer {
+    padding: 0 3rem;
+    padding-top: 64px;
+
+    .endOfStores {
+    text-align: center;
+    color:var(--text-hover);
+    margin-top: 5rem;
+    }
+
+    .storesListContainerHeader {
+        h1 {
+            font-size: nth($fontSize, 11);
+            font-weight: 400;
+
+            span {
+                color: var(--green-text)
+            }
+        }
+
+        .searchbar {
+            width: 40rem;
+            height: 2.5rem;
+        }
+
+        .storesCount {
+            font-size: nth($fontSize, 2);
+            color: var(--text-hover);
+            margin-top: 3rem;
+        }
+    }
+
+    .storesList {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap:1.5rem;
+
+        .storeListingCardContainer {
+            background: none;
+            border: 1px solid var(--border);
+            flex-basis: calc(33.33333% - 1rem);
+
+            @include responsive(tablet4) {
+                flex-basis: calc(50% - 0.75rem);
+            }
+
+
+            .storeListBrand {
+                width: 100%;
+
+                .brandLogo {
+                    background: #fff;
+                    color: #000;
+                    border: none;
+                }
+                .brandDetails {
+                    margin-left: 1rem;
+                    .brandName {
+                        color: var(--text);
+                        font-size: nth($fontSize, 4);
+                        font-weight: 500;
+                    }
+
+                    .brandCategory {
+                        color: var(--text-hover);
+                    }
+                }
+
+                .storeAddress {
+                    width: 2rem;
+                    height: 2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--card-bg);
+                    border-radius:50%;
+
+                    .icon {
+                        color: var(--text-hover);
+                    }
+
+                }
+            }
+
+            .description {
+                color: var(--text-hover);
+                margin: 1rem 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2; /* number of lines to show */
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+
+            .visitButton {
+                color: var(--green-text);
+                font-weight: 400;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-top: 0.5rem;
+                height: fit-content;
+
+                &:hover {
+                    color: var(--green-text) !important;
+
+                }
+            }
+        }
+    }
+}
