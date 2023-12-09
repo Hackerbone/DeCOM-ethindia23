@@ -33,13 +33,12 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
     },
   });
 
-
   const handleCreateProduct = async (values) => {
     if (visible.edit) {
       // Edit product
     } else {
-      const { name, price, picture } = values;
-      if (!name || !price || !picture) {
+      const { name, price, picture, category } = values;
+      if (!name || !price || !picture || !category) {
         message.error("Please fill all the fields");
         return;
       }
@@ -48,12 +47,13 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
         message.error("Invalid picture URL");
         return;
       }
- 
+
       await createProductMutation.mutateAsync({
         name: values.name,
         price: convertToWei(price),
         picture,
         vendorAddress: storeAddress,
+        category,
       });
     }
   };
@@ -64,11 +64,11 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
         name: visible.name,
         price: convertToEthers(visible.price),
         picture: visible.picture,
-      })
+      });
     } else {
-      form.resetFields()
+      form.resetFields();
     }
-  }, [visible, form])
+  }, [visible, form]);
 
   return (
     <>
@@ -146,6 +146,25 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
                 placeholder="Product Price (ETH)"
               />
             </Form.Item>
+
+            {/* add product category input */}
+            <Form.Item
+              name="category"
+              label="Product category"
+              className={formStyles.formItem}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input a Product category",
+                },
+              ]}
+            >
+              <Input
+                className={`${formStyles.formInput} ${styles.modalInput}`}
+                placeholder="Apparel, Shoes, etc."
+              />
+            </Form.Item>
+
             <Row justify="end" className={styles.modalButtonsContainer}>
               <PrimaryButton
                 size="small"
