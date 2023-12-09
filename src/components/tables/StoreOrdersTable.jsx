@@ -29,9 +29,9 @@ const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
     },
     {
       title: "Shipping Address",
-      dataIndex: "shippingAddress",
-      key: "shippingAddress",
-      render: (shippingAddress) => (
+      dataIndex: "encryptedData",
+      key: "encryptedData",
+      render: (encryptedData) => (
         <div className={styles.shippingAddressContainer}>
           <PrimaryButton
             onClick={() => {
@@ -44,7 +44,7 @@ const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
               //     icon: <FaCheckCircle size={20} />,
               //   });
               // });
-              decryptLighthouse(shippingAddress).then((res) => {
+              decryptLighthouse(encryptedData).then((res) => {
                 showConfirm({
                   title: "Shipping Address",
                   content: res,
