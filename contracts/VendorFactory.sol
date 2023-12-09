@@ -9,6 +9,7 @@ contract VendorFactory {
         address vendorWalletAddress;
         string name;
         string logo;
+        bool wantsKYC;
     }
 
     address public owner;
@@ -21,7 +22,8 @@ contract VendorFactory {
         address indexed vendorAddress,
         address vendorWalletAddress,
         string name,
-        string logo
+        string logo,
+        bool wantsKYC
     );
 
     constructor() {
@@ -39,13 +41,20 @@ contract VendorFactory {
 
         Vendor newVendor = new Vendor(msg.sender, _wantsKYC);
         vendors.push(
-            VendorDetails(address(newVendor), address(msg.sender), _name, _logo)
+            VendorDetails(
+                address(newVendor),
+                address(msg.sender),
+                _name,
+                _logo,
+                _wantsKYC
+            )
         );
         emit VendorCreated(
             address(newVendor),
             address(msg.sender),
             _name,
-            _logo
+            _logo,
+            _wantsKYC
         );
     }
 
