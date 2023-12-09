@@ -27,9 +27,13 @@ export const createVendorContract = async (vendorDetails) => {
     vendorDetails.logo,
     vendorDetails.wantsKYC
   );
+  console.log("tx", tx);
   const receipt = await tx.wait();
+  console.log("receipt", receipt);
   const event = receipt.events.find((event) => event.event === "VendorCreated");
+  console.log("event", event);
   const newVendorAddress = event.args.vendorAddress;
+  console.log("newVendorAddress", newVendorAddress);
   return newVendorAddress;
 };
 

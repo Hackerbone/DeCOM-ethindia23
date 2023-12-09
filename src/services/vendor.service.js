@@ -154,7 +154,7 @@ export const getOrdersOfVendor = async (vendorAddress) => {
     id: order.id.toNumber(), // Convert BigNumber to number
     productId: order.productId.toNumber(),
     customer: order.customer,
-    shippingAddress: order.vendorShippingAddress,
+    encryptedData: order.encryptedData,
     isShipped: order.isShipped,
   }));
 
