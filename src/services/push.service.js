@@ -97,6 +97,34 @@ export const readMessages = async (channelAddress) => {
   return response;
 };
 
+export const pushChat = async (recieverAddress) => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const user = await PushAPI.initialize(signer, {
+      env: CONSTANTS.ENV.STAGING,
+    });
+
+    let reciever_address = "0x5a8D9A884eB721dB9d2a1EA7BA6EA58F257C35E7";
+
+    const sendMessage = await user.chat.send(reciever_address, {
+      content: "Gm gm! its kathan from ethindia",
+    });
+
+    // Initialize Stream
+    const stream = await user.initStream([CONSTANTS.STREAM.CHAT]);
+
+    // Configure stream listen events and what to do
+    stream.on(CONSTANTS.STREAM.CHAT, (message) => {
+      console.log(message);
+    });
+    // Connect Stream
+    stream.connect();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // export const createChannel = async () => {
 //   try {
 //     const provider = new ethers.providers.Web3Provider(window.ethereum);

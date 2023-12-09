@@ -2,7 +2,11 @@ import { ethers } from "ethers";
 import vendorFactoryContract from "abis/VendorFactory.json";
 import vendorContract from "abis/Vendor.json";
 import axios from "axios";
-import { subscribeToChannel, callTriggerNotification } from "./push.service";
+import {
+  subscribeToChannel,
+  callTriggerNotification,
+  readMessages,
+} from "./push.service";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -34,6 +38,9 @@ export const getSpecVendorProducts = async (vendorAddress) => {
     price: product.price, // Keep as string if this is a Wei value
     isAvailable: product.isAvailable,
   }));
+
+  // const data = await readMessages();
+  // console.log(data);
 
   return processedResponse;
 };
@@ -79,7 +86,7 @@ export const placeOrder = async ({
 }) => {
   // call subscribeToChannel from push.service.js
 
-  // const subscribe_noti = await subscribeToChannel();
+  const subscribe_noti = await subscribeToChannel();
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
