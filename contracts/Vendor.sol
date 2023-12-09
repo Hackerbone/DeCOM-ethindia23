@@ -5,6 +5,7 @@ contract Vendor {
     address public owner;
     uint public productCount = 0;
     uint public orderCount = 0;
+    bool public wantsKYC = false;
 
     mapping(uint => Product) public products;
     mapping(uint => Order) public orders;
@@ -18,6 +19,7 @@ contract Vendor {
         string picture;
         uint price;
         bool isAvailable;
+        string category;
     }
 
     // Order structure
@@ -25,9 +27,9 @@ contract Vendor {
         uint id;
         uint productId;
         address customer;
-        string shippingAddress;
-        string vendorShippingAddress;
+        string encryptedData;
         bool isShipped;
+        bool isLighthouse;
     }
 
     // Events
@@ -38,8 +40,9 @@ contract Vendor {
     event OrderUpdated(uint orderId);
 
     // Constructor sets the contract deployer as the owner
-    constructor(address _owner) {
+    constructor(address _owner, bool _wantsKYC) {
         owner = _owner;
+        wantsKYC = _wantsKYC;
     }
 
     // Modifier to restrict function access to only the owner
@@ -52,6 +55,7 @@ contract Vendor {
     function addProduct(
         string memory _name,
         string memory _picture,
+        string memory _category,
         uint _price
     ) public onlyOwner {
         productCount++;
@@ -60,7 +64,8 @@ contract Vendor {
             _name,
             _picture,
             _price,
-            true
+            true,
+            _category
         );
         emit ProductAdded(productCount);
     }
@@ -76,20 +81,22 @@ contract Vendor {
         uint _productId,
         string memory _name,
         string memory _picture,
+        string memory _category,
         uint _price
     ) public onlyOwner {
         Product storage product = products[_productId];
         product.name = _name;
         product.picture = _picture;
         product.price = _price;
+        product.category = _category;
         emit ProductUpdated(_productId);
     }
 
     // Place an order for a product
     function placeOrder(
         uint _productId,
-        string memory _shippingAddress,
-        string memory _vendorShippingAddress
+        string memory _encryptedData,
+        bool _isLighthouse
     ) public payable {
         require(products[_productId].isAvailable, "Product not available");
         require(
@@ -101,9 +108,9 @@ contract Vendor {
             orderCount,
             _productId,
             msg.sender,
-            _shippingAddress,
-            _vendorShippingAddress,
-            false
+            _encryptedData,
+            false,
+            _isLighthouse
         );
 
         orders[orderCount] = newOrder;
@@ -171,5 +178,29 @@ contract Vendor {
     // get aadhar verified status of a customer
     function getAadharVerified(address _customer) public view returns (bool) {
         return aadharVerified[_customer];
+    }
+
+    // set kyc requirement to true/false
+    function setKYC(bool _wantsKYC) public onlyOwner {
+        wantsKYC = _wantsKYC;
+    }
+
+    // function to get all wallet addresses of customers who have placed orders, remove duplicates
+    function getCustomers() public view returns (address[] memory) {
+        address[] memory customerList = new address[](orderCount);
+        for (uint i = 0; i < orderCount; i++) {
+            customerList[i] = orders[i].customer;
+        }
+        return customerList;
+    }
+
+    // function to check if a address has placed an order or not
+    function isCustomer(address _customer) public view returns (bool) {
+        for (uint i = 0; i < orderCount; i++) {
+            if (orders[i].customer == _customer) {
+                return true;
+            }
+        }
+        return false;
     }
 }

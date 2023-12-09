@@ -31,12 +31,13 @@ contract VendorFactory {
 
     function createVendorContract(
         string memory _name,
-        string memory _logo
+        string memory _logo,
+        bool _wantsKYC
     ) public {
         // Require the sender to send 0.1 ETH
         //require(msg.value == VENDOR_CREATION_FEE, "Must pay 0.1 ETH to create a vendor");
 
-        Vendor newVendor = new Vendor(msg.sender);
+        Vendor newVendor = new Vendor(msg.sender, _wantsKYC);
         vendors.push(
             VendorDetails(address(newVendor), address(msg.sender), _name, _logo)
         );
