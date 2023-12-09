@@ -29,28 +29,31 @@ const DashboardLayout = ({ children, hideSidebar }) => {
           const accounts = await web3.eth.requestAccounts();
 
           const userData = await checkVendor(accounts[0]);
-
-          if (!userData) {
-            dispatch(setIsConnected(true));
-            dispatch(setWalletAddress(accounts[0]));
-            dispatch(setUserType("user"));
-            if (
-              location.pathname.includes("/vendor") &&
-              user.isConnected &&
-              user.userType === "user"
-            ) {
-              navigate(`/stores`);
-            }
-            return;
-          } else {
+          console.log({ userData });
+          if (
+            userData &&
+            userData.vendorAddress &&
+            userData.vendorWalletAddress
+          ) {
             dispatch(setWalletAddress(userData.vendorWalletAddress));
             dispatch(setIsConnected(true));
-            dispatch(setUserType(userData?.userType ?? "vendor"));
+            dispatch(setUserType("vendor"));
             dispatch(setStoreId(userData.vendorAddress));
 
             if (!location.pathname.includes("/vendor")) {
               navigate(`/vendor/${userData.vendorAddress}`);
             }
+          } else {
+            dispatch(setIsConnected(true));
+            dispatch(setWalletAddress(accounts[0]));
+            dispatch(setUserType("user"));
+            if (
+              location.pathname.includes("/vendor") &&
+              user.userType === "user"
+            ) {
+              navigate(`/stores`);
+            }
+            return;
           }
         } catch (error) {
           console.error("Error connecting to MetaMask", error);

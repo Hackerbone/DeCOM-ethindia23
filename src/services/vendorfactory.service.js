@@ -58,6 +58,7 @@ export const checkVendor = async (walletAddress) => {
     if (error.data) {
       console.error("Error data:", error.data.message);
     }
+    return null;
   }
 };
 

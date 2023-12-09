@@ -10,13 +10,14 @@ import {
   setWalletAddress,
 } from "store/user.slice";
 import Web3 from "web3";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { checkVendor } from "services/vendorfactory.service";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isConnected, storeId, userType } = useSelector((state) => state.user);
+  const location = useLocation();
 
   useEffect(() => {
     if (isConnected && userType === "vendor") {
@@ -26,23 +27,30 @@ const Login = () => {
 
   const handleSafeLogin = async () => {
     if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
-      const accounts = await web3.eth.requestAccounts();
+      try {
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.requestAccounts();
 
-      const userData = await checkVendor(accounts[0]);
-
-      if (!userData) {
-        dispatch(setIsConnected(true));
-        dispatch(setWalletAddress(accounts[0]));
-        dispatch(setUserType("user"));
-        navigate("/create-store");
-        return;
-      } else {
-        // Dispatch actions to update the Redux store
-        dispatch(setWalletAddress(userData.vendorWalletAddress));
-        dispatch(setIsConnected(true));
-        dispatch(setUserType("vendor"));
-        dispatch(setStoreId(userData.vendorAddress));
+        const userData = await checkVendor(accounts[0]);
+        if (
+          userData &&
+          userData?.vendorAddress &&
+          userData?.vendorWalletAddress
+        ) {
+          dispatch(setWalletAddress(userData?.vendorWalletAddress));
+          dispatch(setIsConnected(true));
+          dispatch(setUserType("vendor"));
+          dispatch(setStoreId(userData?.vendorAddress));
+          navigate(`/vendor/${userData?.vendorAddress}`);
+        } else {
+          dispatch(setIsConnected(true));
+          dispatch(setWalletAddress(accounts[0]));
+          dispatch(setUserType("user"));
+          navigate(`/create-store`);
+          return;
+        }
+      } catch (error) {
+        console.error("Error connecting to MetaMask", error);
       }
     } else {
       console.error("MetaMask is not installed");
@@ -52,22 +60,30 @@ const Login = () => {
   useEffect(() => {
     async function connectWalletAndGetUserData() {
       if (window.ethereum) {
-        const web3 = new Web3(window.ethereum);
-        const accounts = await web3.eth.requestAccounts();
+        try {
+          const web3 = new Web3(window.ethereum);
+          const accounts = await web3.eth.requestAccounts();
 
-        const userData = await checkVendor(accounts[0]);
-        if (!userData && !isConnected) {
-          dispatch(setIsConnected(true));
-          dispatch(setWalletAddress(accounts[0]));
-          dispatch(setUserType("user"));
-          navigate("/create-store");
-          return;
+          const userData = await checkVendor(accounts[0]);
+          if (
+            userData &&
+            userData?.vendorAddress &&
+            userData?.vendorWalletAddress
+          ) {
+            dispatch(setWalletAddress(userData?.vendorWalletAddress));
+            dispatch(setIsConnected(true));
+            dispatch(setUserType("vendor"));
+            dispatch(setStoreId(userData?.vendorAddress));
+            navigate(`/vendor/${userData?.vendorAddress}`);
+          } else {
+            dispatch(setIsConnected(true));
+            dispatch(setWalletAddress(accounts[0]));
+            dispatch(setUserType("user"));
+            return;
+          }
+        } catch (error) {
+          console.error("Error connecting to MetaMask", error);
         }
-        // Dispatch actions to update the Redux store
-        dispatch(setWalletAddress(userData.vendorWalletAddress));
-        dispatch(setIsConnected(true));
-        dispatch(setUserType(userData?.userType ?? "vendor"));
-        dispatch(setStoreId(userData.vendorAddress));
       } else {
         console.error("MetaMask is not installed");
       }
@@ -88,11 +104,16 @@ const Login = () => {
           Launch my online retail store on web3 today
         </h3>
         <Button
-          onClick={handleSafeLogin}
-          disabled={isConnected}
+          onClick={
+            isConnected
+              ? () => {
+                  navigate(`/create-store`);
+                }
+              : handleSafeLogin
+          }
           className={styles.loginButton}
         >
-          {isConnected ? "Connected" : "Login with safe"}
+          {isConnected ? "Launch my Store" : "Connect Wallet"}
         </Button>
         <div className={styles.privacyText}>
           By logging in, You agree to our Terms of Service and our Privacy
