@@ -52,7 +52,7 @@ const Header = () => {
                 <Tooltip title={walletAddress} placement="left">
                   <Row align="middle" className={styles.profileDropdownButton}>
                     <div className={styles.userName}>
-                      {data?.Wallet?.socials ? (
+                      {(data?.Wallet?.socials && data?.Wallet?.socials[0]?.profileName) ? (
                         data?.Wallet?.socials[0]?.profileName
                       ) : (
                         <>

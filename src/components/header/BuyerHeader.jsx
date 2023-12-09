@@ -19,6 +19,9 @@ import Web3 from "web3";
 import { checkVendor } from 'services/vendorfactory.service'
 import { RiNotification2Line } from "react-icons/ri"
 import NotificationsDropdown from './NotificationsDropdown'
+import { useQuery } from "@airstack/airstack-react";
+import { query } from "../../services/airstack.service";
+
 
 const BuyerHeader = () => {
     const { storeId, walletAddress } = useSelector((state) => state.user);
@@ -62,6 +65,13 @@ const BuyerHeader = () => {
         })
     }
 
+    const { data, loading, error } = useQuery(
+        query(walletAddress),
+        {},
+        { cache: false }
+      );
+    
+
     return (
         <Row align="middle" justify="space-between" className={styles.navbarContainer}>
             <a href="/">
@@ -83,7 +93,17 @@ const BuyerHeader = () => {
                         </div>
 
                         <Dropdown trigger={["click"]} dropdownRender={() => <ProfileDropdown handleLogout={handleLogout} address={walletAddress} />}>
-                            <PrimaryButton className={styles.accountButton} icon={<MdOutlineAccountCircle className={styles.accountIcon} />} />
+                            <PrimaryButton className={styles.accountButton} icon={<MdOutlineAccountCircle className={styles.accountIcon} />}  > {(data?.Wallet?.socials && data?.Wallet?.socials[0]?.profileName) ? (
+                        data?.Wallet?.socials[0]?.profileName
+                      ) : (
+                        <>
+                          {walletAddress.slice(0, 7)}...
+                          {walletAddress.slice(
+                            walletAddress.length - 3,
+                            walletAddress.length
+                          )}
+                        </>
+                      )}</PrimaryButton>
                         </Dropdown>
                     </Row>
                 }

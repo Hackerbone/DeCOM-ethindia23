@@ -22,21 +22,21 @@
         }
 
         .accountButton {
-            background: var(--text-100 );
+            background: var(--text-100);
             color: var(--text-secondary);
-            border:none;
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 3rem;
+            width: fit-content;
+            font-size: nth($fontSize, 2);
 
             &:hover {
                 color: var(--text-secondary) !important;
             }
 
             .accountIcon {
-                font-size:nth($fontSize,5);
-
+                font-size: nth($fontSize, 2);
             }
         }
 
@@ -68,7 +68,6 @@
         }
 
         .notificationContainer {
-        
             .profileDropdownButton {
                 height: 1.9rem;
                 width: 1.9rem;
