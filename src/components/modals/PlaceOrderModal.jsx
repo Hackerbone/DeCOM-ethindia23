@@ -1,5 +1,5 @@
 import { Avatar, Divider, Form, Input, Modal, Row, message } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "styles/components/Modal.module.scss";
 import formStyles from "styles/components/Form.module.scss";
 import { useMutation } from "@tanstack/react-query";
@@ -8,18 +8,49 @@ import { convertToEthers } from "utils/convert";
 import PrimaryButton from "components/PrimaryButton";
 import moment from "moment";
 import {
-  decryptUserMessage,
   handleShippingDetailsEncrypt,
 } from "services/encryptUpload";
 import { getVendorByContractAddress } from "services/vendorfactory.service";
 import { useSelector } from "react-redux";
+import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
+import { MdCheck } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import { getAadharStatus, setAadharVerfied } from "services/anon.service";
+
 const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
-  const { walletAddress } = useSelector((state) => state.user);
+  const { walletAddress, isConnected } = useSelector((state) => state.user);
   const [form] = Form.useForm();
+  const [anonAadhaar] = useAnonAadhaar();
 
   const closeModal = () => {
     setVisible(false);
   };
+
+  const { data: aadharStatus, isLoading: loadingAadharStatus } = useQuery({
+    queryKey: ["get-buyer-aadhar-status", walletAddress],
+    queryFn: async () => await getAadharStatus({ walletAddress, vendorAddress: storeAddress }),
+    enabled: isConnected && !!walletAddress,
+  })
+
+  useEffect(() => {
+    (async () => {
+      if (anonAadhaar?.status === "logged-in") {
+        await handleVerifyAadhar()
+      }
+    })()
+  }, [anonAadhaar]);
+
+  const verifyAadharMutation = useMutation({
+    mutationFn: setAadharVerfied,
+    onSuccess: (res) => {
+      message.success("Aadhar verified successfully");
+    },
+    onError: (err) => {
+      console.log(err);
+      message.error("Aadhar verification failed");
+    },
+  })
+
 
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
@@ -51,7 +82,6 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
     }
     const vendorWalletAddress = await getVendorByContractAddress(storeAddress);
 
-    console.log({ vendorWalletAddress, walletAddress, shippingAddress });
     const { encryptedUserShipping, encryptedVendorShipping } =
       await handleShippingDetailsEncrypt({
         shippingDetails: shippingAddress,
@@ -67,6 +97,12 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
       productPrice: visible.price,
     });
   };
+
+  const handleVerifyAadhar = async () => {
+    await verifyAadharMutation.mutateAsync(
+      { walletAddress, vendorAddress: storeAddress }
+    )
+  }
 
   return (
     <Modal
@@ -106,6 +142,15 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
           <div className={styles.value}>
             {convertToEthers(visible?.price || "")} ETH
           </div>
+        </Row>
+        <Divider className={styles.divider} />
+        <div className={styles.sectionTitle}>Verify your identity</div>
+        <Row className={styles.itemDetailsRow}>
+          <div className={styles.key}>Verify your identity using <span className={"green-text"}>anon aadhar's</span> anonymized Aadhaar validation to ensure secure and accurate shipping address confirmation.</div>
+          <div className={styles.value}>
+            {anonAadhaar?.status === "logged-out" || !aadharStatus ?
+              <LogInWithAnonAadhaar /> : <div className={styles.aadharVerfied}><MdCheck />Success - Aadhaar verified!</div>
+            }          </div>
         </Row>
         <Divider className={styles.divider} />
         <div className={styles.sectionTitle}>Shipping</div>

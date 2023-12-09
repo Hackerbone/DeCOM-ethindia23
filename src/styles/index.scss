@@ -225,3 +225,35 @@ p {
   color: var(--text);
 }
 
+
+
+// ANON AADHAR DARK MODE
+.sc-hHftZz.gofQoZ  {
+  background-color: var(--green-text);
+  color: #000;
+  font-family: "pangea";
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 0 1rem;
+
+  * {
+    font-family: "pangea";
+  }
+
+  img {
+    height:1.2rem;
+    object-fit: contain;
+  }
+}
+
+.sc-dQpIV.iKGrva {
+  background-color: #2d2d2d;
+
+  .sc-idOjMB.sEZNE {
+    color: var(--green-text);
+  }
+
+  .sc-fFubCH.kykoaY {
+    color: var(--text-secondary);
+  }
+}
