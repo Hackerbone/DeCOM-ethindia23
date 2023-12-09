@@ -71,7 +71,7 @@ module.exports = {
     matic: {
       provider: () =>
         new HDWalletProvider({
-          privateKeys: [PRIVATE_KEY_POLYGON_TESTNET],
+          privateKeys: [process.env.PRIVATE_KEY_POLYGON_ZKEVM_TESTNET],
           providerOrUrl: `https://rpc-mumbai.maticvigil.com`,
         }),
       network_id: 80001,
