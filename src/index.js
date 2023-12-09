@@ -16,6 +16,9 @@ import StoreOrders from "pages/vendor/StoreOrders";
 import StoresList from "pages/buyer/StoresList";
 import TheStore from "pages/buyer/TheStore";
 import { init } from "@airstack/airstack-react";
+import { AnonAadhaarProvider } from "anon-aadhaar-react";
+
+const anon_app_id = process.env.NEXT_PUBLIC_ANON_APP_ID || "";
 
 init(process.env.REACT_APP_AIRSTACK_API_KEY);
 
@@ -77,7 +80,9 @@ ReactDOM.render(
         }}
       >
         <QueryClientProvider client={queryClient}>
+          <AnonAadhaarProvider _appId={anon_app_id} _testing={false}> 
           <RouterProvider router={router} />
+          </AnonAadhaarProvider>
         </QueryClientProvider>
       </ConfigProvider>
     </Provider>

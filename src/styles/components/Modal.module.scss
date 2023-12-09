@@ -437,11 +437,19 @@
 
         .key {
             color: var(--text-secondary);
+            max-width: 26rem;
 
         }
 
         .value {
 
+        }
+
+        .aadharVerfied {
+            color: var(--green-text);
+            display: flex;
+            align-items:center;
+            gap:10px;
         }
     }
 

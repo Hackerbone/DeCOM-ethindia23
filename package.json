@@ -20,6 +20,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@truffle/hdwallet-provider": "^1.4.0",
     "@web3auth/safeauth-embed": "^0.0.0",
+    "anon-aadhaar-react": "^0.1.14",
     "antd": "^5.12.1",
     "eth-crypto": "^2.6.0",
     "ethers": "^5.7.2",

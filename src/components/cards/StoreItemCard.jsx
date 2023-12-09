@@ -3,7 +3,7 @@ import React from "react";
 import styles from "styles/pages/Stores.module.scss";
 import { convertToEthers } from "utils/convert";
 
-const StoreItemCard = ({ setBuyProductModal, item }) => {
+const StoreItemCard = ({ hanldePlaceOrder, item }) => {
   return (
     <Card className={styles.itemCardContainer}>
       <Image
@@ -21,7 +21,7 @@ const StoreItemCard = ({ setBuyProductModal, item }) => {
       </div>
       <div
         className={styles.itemCardFooter}
-        onClick={() => setBuyProductModal(item)}
+        onClick={() => hanldePlaceOrder(item)}
       >
         Buy Now ( 0.3666666 ETH )
       </div>
