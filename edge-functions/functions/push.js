@@ -27,6 +27,7 @@ router.post("/trigger-notification", async (req, res) => {
     env: CONSTANTS.ENV.STAGING,
   });
 
+  console.log("check");
   const response = await user.channel.send(req.body.subscribers, {
     notification: noti,
   });
