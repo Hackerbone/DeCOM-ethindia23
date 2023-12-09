@@ -136,8 +136,10 @@
 
 .notificationsDropdownCard {
     max-height: 35rem;
+    min-height: 10rem;
     overflow-y: auto;
     position: relative;
+    background-color: var(--card-bg) !important;
 
     :global {
         .ant-card-body {
