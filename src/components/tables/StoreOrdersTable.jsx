@@ -7,7 +7,7 @@ import PrimaryButton from "components/PrimaryButton";
 import { showConfirm } from "components/modals/ConfirmModal";
 import { FaCheckCircle, FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { decryptUserMessage } from "services/encryptUpload";
+import { decryptLighthouse, decryptUserMessage } from "services/encryptUpload";
 const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
   const { walletAddress } = useSelector((state) => state.user);
 
@@ -35,8 +35,16 @@ const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
         <div className={styles.shippingAddressContainer}>
           <PrimaryButton
             onClick={() => {
-              decryptUserMessage(shippingAddress, walletAddress).then((res) => {
-                console.log(res);
+              // decryptUserMessage(shippingAddress, walletAddress).then((res) => {
+              //   console.log(res);
+              //   showConfirm({
+              //     title: "Shipping Address",
+              //     content: res,
+              //     okText: "Done",
+              //     icon: <FaCheckCircle size={20} />,
+              //   });
+              // });
+              decryptLighthouse(shippingAddress).then((res) => {
                 showConfirm({
                   title: "Shipping Address",
                   content: res,

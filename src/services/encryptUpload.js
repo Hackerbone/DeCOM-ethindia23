@@ -1,5 +1,8 @@
 import { encrypt } from "@metamask/eth-sig-util";
 import { bufferToHex } from "ethereumjs-util";
+import { ethers } from "ethers";
+import lighthouse from "@lighthouse-web3/sdk";
+import kavach from "@lighthouse-web3/kavach";
 
 export const handleShippingDetailsEncrypt = async ({
   shippingDetails,
@@ -85,3 +88,39 @@ export async function decryptUserMessage(encryptedData, walletAddress) {
     throw error;
   }
 }
+
+/** Lighthouse */
+
+export const encryptionSignature = async () => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const address = await signer.getAddress();
+  const messageRequested = (await lighthouse.getAuthMessage(address)).data
+    .message;
+  const signedMessage = await signer.signMessage(messageRequested);
+  const { JWT } = await kavach.getJWT(address, signedMessage);
+  return {
+    signedMessage: JWT,
+    publicKey: address,
+  };
+};
+
+export const decryptLighthouse = async (cid) => {
+  // Fetch file encryption key
+  const { publicKey, signedMessage } = await encryptionSignature();
+
+  const keyObject = await lighthouse.fetchEncryptionKey(
+    cid,
+    publicKey,
+    signedMessage
+  );
+
+  const decrypted = await lighthouse.decryptFile(cid, keyObject.data.key);
+  console.log(decrypted);
+
+  // decrypted is a blob, convert to string
+  const decryptedString = await decrypted.text();
+  console.log(decryptedString);
+
+  return decryptedString;
+};

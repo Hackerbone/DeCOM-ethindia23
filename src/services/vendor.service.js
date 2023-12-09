@@ -106,14 +106,14 @@ export const placeOrder = async ({
 
   console.log(address_id);
 
-  const send_noti = await axios.post(
-    "http://localhost:8080/api/push/trigger-notification",
-    {
-      subscribers: [address_id],
-      title: "New Order",
-      notibody: "You have placed new order",
-    }
-  );
+  // const send_noti = await axios.post(
+  //   "http://localhost:8080/api/push/trigger-notification",
+  //   {
+  //     subscribers: [address_id],
+  //     title: "New Order",
+  //     notibody: "You have placed new order",
+  //   }
+  // );
 
   return orderId;
 };

@@ -8,7 +8,12 @@ import { convertToEthers } from "utils/convert";
 import PrimaryButton from "components/PrimaryButton";
 import moment from "moment";
 import lighthouse from "@lighthouse-web3/sdk";
-import { handleShippingDetailsEncrypt } from "services/encryptUpload";
+import {
+  decryptLighthouse,
+  encryptionSignature,
+  handleShippingDetailsEncrypt,
+} from "services/encryptUpload";
+import { ethers } from "ethers";
 import { getVendorByContractAddress } from "services/vendorfactory.service";
 import { useSelector } from "react-redux";
 import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
@@ -71,10 +76,10 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   });
 
   const handlePlaceOrder = async (values) => {
-    if (anonAadhaar?.status !== "logged-in") {
-      message.error("Please verify your Aadhaar to place order");
-      return;
-    }
+    // if (anonAadhaar?.status !== "logged-in") {
+    //   message.error("Please verify your Aadhaar to place order");
+    //   return;
+    // }
 
     const { shippingAddress } = values;
     if (!shippingAddress) {
@@ -97,66 +102,68 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
     const apiKey = "3e9c735a.23e40d7f7cb544c09655e9070ffbeb57";
 
     // sign the shipping address with the my public key
-    const usignedShippingAddress = await window.ethereum.request({
-      method: "personal_sign",
-      params: [shippingAddress, walletAddress],
-    });
+    // const usignedShippingAddress = await window.ethereum.request({
+    //   method: "personal_sign",
+    //   params: [shippingAddress, walletAddress],
+    // });
 
-    // const response = await lighthouse.uploadText(
-    //   shippingAddress,
-    //   apiKey,
-    //   "Lets test"
-    //   //   walletAddress,
-    //   //   usignedShippingAddress
-    // );
+    const { publicKey, signedMessage } = await encryptionSignature();
+
     const response = await lighthouse.textUploadEncrypted(
       shippingAddress,
       apiKey,
-      walletAddress,
-      usignedShippingAddress,
-      "Lets test 2"
+      publicKey,
+      signedMessage
     );
 
     console.log({ response });
 
+    const cid = response?.data?.Hash;
+
     const vendorWalletAddress = await getVendorByContractAddress(storeAddress);
 
-    console.log({ vendorWalletAddress, walletAddress, shippingAddress });
-    const { encryptedUserShipping, encryptedVendorShipping } =
-      await handleShippingDetailsEncrypt({
-        shippingDetails: shippingAddress,
-        vendorWalletAddress,
-        userWalletAddress: walletAddress,
-      });
-
-    // sign the shipping address with the vendor's public key
-    const vsignedShippingAddress = await window.ethereum.request({
-      method: "personal_sign",
-      params: [shippingAddress, vendorWalletAddress],
-      from: walletAddress,
-    });
-
-    // const response2 = await lighthouse.uploadText(
-    //   shippingAddress,
-    //   apiKey,
-    //   "Lets test 2"
-    //   //   vendorWalletAddress,
-    //   //   signedShippingAddress
-    // );
-
-    const response2 = await lighthouse.textUploadEncrypted(
-      shippingAddress,
-      apiKey,
-      vendorWalletAddress,
-      vsignedShippingAddress,
-      "Lets test 2"
+    const shareFileRes = await lighthouse.shareFile(
+      publicKey,
+      [vendorWalletAddress],
+      cid,
+      signedMessage
     );
 
-    console.log({ response2 });
+    console.log(shareFileRes);
 
-    console.log({ vsignedShippingAddress });
+    // const decryptData = await decryptLighthouse(cid);
+    // console.log("===========Decrypt Data===========");
+    // console.log({ decryptData });
 
-    console.log({ usignedShippingAddress });
+    // console.log({ vendorWalletAddress, walletAddress, shippingAddress });
+
+    // const { encryptedUserShipping, encryptedVendorShipping } =
+    //   await handleShippingDetailsEncrypt({
+    //     shippingDetails: shippingAddress,
+    //     vendorWalletAddress,
+    //     userWalletAddress: walletAddress,
+    //   });
+
+    // // sign the shipping address with the vendor's public key
+    // const vsignedShippingAddress = await window.ethereum.request({
+    //   method: "personal_sign",
+    //   params: [shippingAddress, vendorWalletAddress],
+    //   from: walletAddress,
+    // });
+
+    // const response2 = await lighthouse.textUploadEncrypted(
+    //   shippingAddress,
+    //   apiKey,
+    //   vendorWalletAddress,
+    //   vsignedShippingAddress,
+    //   "Lets test 2"
+    // );
+
+    // console.log({ response2 });
+
+    // console.log({ vsignedShippingAddress });
+
+    // console.log({ usignedShippingAddress });
 
     /**Comment end */
 
@@ -175,13 +182,13 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
     //   productPrice: visible.price,
     // });
 
-    // await placeOrderMutation.mutateAsync({
-    //   vendorAddress: storeAddress,
-    //   id: visible.id,
-    //   shippingAddress: shippingAddress,
-    //   vendorShippingAddress: shippingAddress,
-    //   productPrice: visible.price,
-    // });
+    await placeOrderMutation.mutateAsync({
+      vendorAddress: storeAddress,
+      id: visible.id,
+      shippingAddress: cid,
+      vendorShippingAddress: cid,
+      productPrice: visible.price,
+    });
   };
 
   const handleVerifyAadhar = async () => {
@@ -299,5 +306,22 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
     </Modal>
   );
 };
+
+async function getSignerForAddress(address) {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // Request access to the user's Ethereum accounts
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+
+  // Check if the requested address is among the connected accounts
+  if (accounts.includes(address)) {
+    // Get the signer for the connected account
+    const signer = provider.getSigner(accounts.indexOf(address));
+    return signer;
+  } else {
+    throw new Error("Requested address is not connected");
+  }
+}
 
 export default PlaceOrderModal;
