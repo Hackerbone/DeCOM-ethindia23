@@ -110,7 +110,6 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
     const apiKey = "1a21c052.6fddd3e2c66f439e9e83c8f157af8b1e";
     const { publicKey, signedMessage } = await encryptionSignature();
 
-
     // Common (DONT REMOVE)
     const input = document.getElementById("invoice");
     const canvas = await html2canvas(input);
@@ -136,7 +135,6 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
     const invoiceCID = invoiceRes?.data?.Hash;
     console.log(`Decrypt at https://decrypt.mesh3.network/evm/${invoiceCID}`);
 
-
     if (encryption === "lighthouse") {
       // Encrypt using lighthouse
       const encryptedData = await encryptUsingLighthouse({
@@ -153,6 +151,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
         id: visible.id,
         encryptedData: encryptedData,
         productPrice: visible.price,
+        isLighthouse: true,
       });
     } else if (encryption === "self") {
       // Encrypt self wallet address
@@ -166,14 +165,9 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
         id: visible.id,
         encryptedData: encryptedVendorShipping,
         productPrice: visible.price,
+        isLighthouse: false,
       });
     }
-
-
-
-
-
-
   };
 
   const handleVerifyAadhar = async () => {
@@ -256,7 +250,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
             name="shippingAddress"
             className={formStyles.formItem}
             style={{
-              marginBottom: "0.5rem"
+              marginBottom: "0.5rem",
             }}
             rules={[
               {
@@ -273,7 +267,6 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
           <Form.Item
             name="encryption"
             className={formStyles.formItem}
-
             rules={[
               {
                 required: true,
@@ -281,12 +274,18 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
               },
             ]}
           >
-            <Radio.Group defaultValue={"lighthouse"} className={formStyles.formRadioGroup}>
-              <Radio value={"lighthouse"} className={formStyles.radio}>Encrypt with lighthouse</Radio>
-              <Radio value={"self"} className={formStyles.radio}>Encrypt using self-signed wallet address</Radio>
+            <Radio.Group
+              defaultValue={"lighthouse"}
+              className={formStyles.formRadioGroup}
+            >
+              <Radio value={"lighthouse"} className={formStyles.radio}>
+                Encrypt with lighthouse
+              </Radio>
+              <Radio value={"self"} className={formStyles.radio}>
+                Encrypt using self-signed wallet address
+              </Radio>
             </Radio.Group>
           </Form.Item>
-
 
           <Row justify="end" className={styles.modalButtonsContainer}>
             <PrimaryButton
