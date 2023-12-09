@@ -237,11 +237,11 @@
     .itemCardContainer {
         background: none;
         border: none;
-        max-width: 25%;
         border-radius: 0px;
         cursor: pointer;
         border: 1px solid transparent;
         position: relative;
+        width: 25rem;
 
         &:hover {
             border: 1px solid var(--text-secondary);
