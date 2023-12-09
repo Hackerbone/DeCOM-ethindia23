@@ -42,9 +42,21 @@ const Header = () => {
           <Row
             align="middle"
             style={{
-              gap: "2rem",
+              gap: "1rem",
             }}
           >
+            <div className={styles.profileDropdownContainer}>
+
+              <Row align="middle" className={styles.profileDropdownButton}
+                onClick={async () => {
+                  const subscribe_noti = await subscribeToChannel();
+                }}>
+                <div className={styles.userName}>
+                  subscribe to notifications
+                </div>
+              </Row>
+
+            </div>
             <div
               className={`${styles.profileDropdownContainer} ${styles.notificationContainer}`}
             >
@@ -59,7 +71,7 @@ const Header = () => {
                 </Row>
               </Dropdown>
             </div>
-            <div className={styles.profileDropdownContainer}>
+            <div className={styles.profileDropdownContainer} style={{marginLeft:"2rem"}}>
               <Dropdown
                 trigger={["click"]}
                 dropdownRender={() => (
@@ -70,7 +82,7 @@ const Header = () => {
                   <Row align="middle" className={styles.profileDropdownButton}>
                     <div className={styles.userName}>
                       {data?.Wallet?.socials &&
-                      data?.Wallet?.socials[0]?.profileName ? (
+                        data?.Wallet?.socials[0]?.profileName ? (
                         data?.Wallet?.socials[0]?.profileName
                       ) : (
                         <>
@@ -84,13 +96,13 @@ const Header = () => {
                     </div>
                     <MdOutlineKeyboardArrowDown className={styles.downArrow} />
 
-                    <button
+                    {/* <button
                       onClick={async () => {
                         const subscribe_noti = await subscribeToChannel();
                       }}
                     >
                       Click here to subscribe to notification
-                    </button>
+                    </button> */}
                   </Row>
                 </Tooltip>
               </Dropdown>

@@ -1,7 +1,7 @@
 import { Card, Row } from 'antd'
 import React from 'react'
 import styles from "styles/components/Graph.module.scss"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const data = [
     {
@@ -43,13 +43,13 @@ const StoreSessionsGraph = () => {
 
                     <div className={styles.graphTitle}>Sales over time</div>
                     <ResponsiveContainer width={"100%"} height={200} style={{ marginLeft: "-1.6rem" }}>
-                        <LineChart data={data} width={"110%"}>
-                            <Line dataKey="sales" fill="#8884d8" />
+                        <BarChart data={data} width={"110%"}>
+                            <Bar dataKey="sales" fill="#27FD7E" />
                             <XAxis dataKey="month" />
                             <YAxis />
                             <Tooltip />
                             <CartesianGrid vertical={false} />
-                        </LineChart>
+                        </BarChart>
                     </ResponsiveContainer>
                 </div>
 

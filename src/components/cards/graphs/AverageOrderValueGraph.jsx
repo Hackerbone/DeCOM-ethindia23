@@ -37,7 +37,7 @@ const AverageOrderValueGraph = () => {
                 <div className={styles.graph}>
                     <ResponsiveContainer width={"100%"} height={200} style={{ marginLeft: "-1.6rem" }}>
                         <LineChart data={data} width={"110%"}>
-                            <Line dataKey="sales" fill="#8884d8" />
+                            <Line dataKey="sales" fill="#27FD7E" />
                             <XAxis dataKey="month" />
                             <YAxis />
                             <Tooltip />
