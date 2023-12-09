@@ -6,6 +6,6 @@ export const getContractAddress = (networkName) => {
     case "ganache":
       return process.env.REACT_APP_CONTRACT_ADDRESS_GANACHE;
     default:
-      return process.env.REACT_APP_CONTRACT_ADDRESS_SEPOLIA;
+      return process.env.REACT_APP_NETWORK_SEPOLIA;
   }
 };
