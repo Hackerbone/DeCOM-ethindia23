@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 import vendorFactoryContract from "abis/VendorFactory.json";
 import vendorContract from "abis/Vendor.json";
+import axios from "axios";
+import { subscribeToChannel } from "./push.service";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -74,6 +76,10 @@ export const placeOrder = async ({
   shippingAddress,
   productPrice,
 }) => {
+  // call subscribeToChannel from push.service.js
+
+  const subscribe_noti = await subscribeToChannel();
+
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(

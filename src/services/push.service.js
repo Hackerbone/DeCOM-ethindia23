@@ -30,58 +30,77 @@ import { ethers } from "ethers";
 //   },
 // });
 
-export const sendNotification = async (channelAddress, notification) => {
-  const signer = ethers.Wallet.createRandom();
-  const user = await PushAPI.initialize(signer, {
-    env: CONSTANTS.ENV.STAGING,
-  });
-  await user.notification.subscribe(
-    `eip155:1442:${channelAddress}` // channel address in CAIP format
-  );
-  const response = await user.channel.send(["*"], {
-    notification: notification,
-  });
-  return response;
-};
+// export const sendNotification = async ({ channelAddress, notification }) => {
+//   try {
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-export const subscribeToChannel = async (channelAddress) => {
-  const signer = ethers.Wallet.createRandom();
-  console.log(signer);
+//     const signer = await provider.getSigner();
+
+//     const user = await PushAPI.initialize(signer, {
+//       env: CONSTANTS.ENV.STAGING,
+//     });
+//     // await user.notification.subscribe(
+//     //   `eip155:1442:${channelAddress}` // channel address in CAIP format
+//     // );
+//     const response = await user.channel.send(["*"], {
+//       notification: { title: "test", body: notification },
+//     });
+//     console.log(response);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export const triggerNotification = async (address, channelAddress, message) => {
+//   try {
+//   } catch (error) {}
+// };
+
+export const subscribeToChannel = async () => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
   const user = await PushAPI.initialize(signer, {
     env: CONSTANTS.ENV.STAGING,
   });
   let res = await user.notification.subscribe(
-    `eip155:1442:${channelAddress}` // channel address in CAIP format
+    `eip155:1:0x5a8D9A884eB721dB9d2a1EA7BA6EA58F257C35E7` // channel address in CAIP format
   );
   console.log(res);
 };
 
 export const readMessages = async (channelAddress) => {
-  const signer = ethers.Wallet.createRandom();
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
   const user = await PushAPI.initialize(signer, {
     env: CONSTANTS.ENV.STAGING,
   });
-  await user.notification.subscribe(
-    `eip155:1442:${channelAddress}` // channel address in CAIP format
-  );
   const response = await user.notification.list("INBOX");
   return response;
 };
 
-export const createChannel = async () => {
-  const signer = ethers.Wallet.createRandom();
-  const user = await PushAPI.initialize(signer, {
-    env: CONSTANTS.ENV.STAGING,
-  });
-  const response = await user.channel.create({
-    name: "Test Channel",
-    description: "Test Description",
-    icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4AcXBsU0EQQyG0e+saWJ7oACiKYDMEZVs6GgSpC2BIhzRwAS0sgk9HKn3gpFOAv3v3V4/3+4U4Z1q5KTy42Ql940qvFONnFSGmCFmiN2+fj7uCBlihpgh1ngwcvKfwjuVIWaIGWKNB+GdauSk8uNkJfeNKryzYogZYoZY40m5b/wlQ8wQM8TayMlKeKcaOVkJ71QjJyuGmCFmiDUe+HFy4VyEd57hx0mV+0ZliBlihlgL71w4FyMnVXhnZeSkiu93qheuDDFDzBD7BcCyMAOfy204AAAAAElFTkSuQmCC",
-    url: "https://push.org",
-  });
+// export const createChannel = async () => {
+//   try {
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
+//     const signer = provider.getSigner();
+//     const user = await PushAPI.initialize(signer, {
+//       env: CONSTANTS.ENV.STAGING,
+//     });
+//     console.log(await signer.getAddress());
+//     const response = await user.channel.create({
+//       name: "Test Channel",
+//       description: "Test Description",
+//       icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAz0lEQVR4AcXBsU0EQQyG0e+saWJ7oACiKYDMEZVs6GgSpC2BIhzRwAS0sgk9HKn3gpFOAv3v3V4/3+4U4Z1q5KTy42Ql940qvFONnFSGmCFmiN2+fj7uCBlihpgh1ngwcvKfwjuVIWaIGWKNB+GdauSk8uNkJfeNKryzYogZYoZY40m5b/wlQ8wQM8TayMlKeKcaOVkJ71QjJyuGmCFmiDUe+HFy4VyEd57hx0mV+0ZliBlihlgL71w4FyMnVXhnZeSkiu93qheuDDFDzBD7BcCyMAOfy204AAAAAElFTkSuQmCC",
+//       url: "https://decom.org",
+//       alias: `eip155:1442:${await signer.getAddress()}`,
+//     });
+//     console.log(response);
+//     return response;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-  return response;
-};
+// verify alias address
 
 // export const recieveMessage = async (channelAddress) => {
 //   const signer = ethers.Wallet.createRandom();
