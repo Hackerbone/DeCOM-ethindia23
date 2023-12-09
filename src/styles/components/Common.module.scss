@@ -1,6 +1,5 @@
 @import "../_variables";
 
-
 .loaderPageContainer {
     display: flex;
     justify-content: center;
@@ -9,6 +8,43 @@
 
     .loading {
         font-size: nth($fontSize, 9);
-        color:var(--green-text)
+        color: var(--green-text);
+    }
+}
+
+.chatMessageCard {
+    padding: 0.5rem 1rem;
+    background-color: rgba(#27fd7e, 0.7);
+    margin-bottom: 1rem;
+    width: 80%;
+    border-radius: 4px;
+
+    .user {
+        color: #333;
+        font-size: nth($fontSize, 1);
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .chatMessage {
+        color: #000;
+        font-size: nth($fontSize, 3);
+        font-weight: 500;
+    }
+}
+
+.rightMessageCard {
+    background-color: var(--text-100);
+    margin-right: 0;
+    margin-left: auto;
+
+    .user {
+        color: #888;
+    }
+
+    .chatMessage {
+        color: #fff;
+        font-size: nth($fontSize, 3);
+        font-weight: 500;
     }
 }

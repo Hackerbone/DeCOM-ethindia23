@@ -10,15 +10,19 @@ import { useSelector } from "react-redux";
 import StoreOrdersTable from "components/tables/StoreOrdersTable";
 import { FaCheckDouble } from "react-icons/fa";
 import Loader from "components/Loader";
+import ChatModal from "components/modals/ChatModal";
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
 const StoreOrders = () => {
   const { storeAddress } = useParams();
   const { isConnected } = useSelector((state) => state.user);
   const queryClient = useQueryClient();
 
+  const [showChatModal, setShowChatModal] = React.useState(false);
+
   const productsDropdownItems = [
     {
-      label: "Order Shipped",
+      label: "Mark as delivered",
       icon: <FaCheckDouble className={styles.icon} />,
       onClick: async (record) => {
         console.log({ record });
@@ -30,6 +34,13 @@ const StoreOrders = () => {
 
           message.success(`Order ${record.id} marked as shipped`);
         });
+      },
+    },
+    {
+      label: "Chat",
+      icon: <IoChatbubbleEllipsesSharp className={styles.icon} />,
+      onClick: async (record) => {
+        setShowChatModal(true)
       },
     },
   ];
@@ -47,6 +58,7 @@ const StoreOrders = () => {
   if (isLoading) return <Loader />;
 
   return (
+    <>
     <DashboardLayout>
       <div className={styles.dashboardContainer}>
         <div className={styles.dashboardHeader}>
@@ -72,6 +84,9 @@ const StoreOrders = () => {
         </div>
       </div>
     </DashboardLayout>
+
+    <ChatModal visible={showChatModal} setVisible={setShowChatModal} title="Chat with your customer" />
+    </>
   );
 };
 

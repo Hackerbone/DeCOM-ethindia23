@@ -9,6 +9,8 @@ import { logout } from "store/user.slice";
 import { useNavigate } from "react-router-dom";
 import { query } from "../../services/airstack.service";
 import { useQuery } from "@airstack/airstack-react";
+import { RiNotification2Line } from "react-icons/ri";
+import NotificationsDropdown from "./NotificationsDropdown";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -39,9 +41,16 @@ const Header = () => {
           <Row
             align="middle"
             style={{
-              gap: "1.5rem",
+              gap: "2rem",
             }}
           >
+                        <div className={`${styles.profileDropdownContainer} ${styles.notificationContainer}`}>
+                            <Dropdown trigger={["click"]} dropdownRender={() => <NotificationsDropdown  notifications={[]} />} >
+                                <Row align="middle" className={styles.profileDropdownButton}>
+                                    <RiNotification2Line className={styles.downArrow} />
+                                </Row>
+                            </Dropdown>
+                        </div>
             <div className={styles.profileDropdownContainer}>
               <Dropdown
                 trigger={["click"]}

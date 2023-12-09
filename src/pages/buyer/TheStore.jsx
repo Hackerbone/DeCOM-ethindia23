@@ -24,6 +24,7 @@ import {
 } from "services/vendorfactory.service";
 import SupportChatModal from "components/modals/SupportChatModal";
 import { encryptionSignature } from "services/encryptUpload";
+import ChatModal from "components/modals/ChatModal";
 
 const TheStore = () => {
   const { storeAddress } = useParams();
@@ -165,7 +166,7 @@ const TheStore = () => {
           </div>
         </div>
 
-        <SupportChatModal
+        <ChatModal
           visible={supportChatModal}
           setVisible={setSupportChatModal}
         />
