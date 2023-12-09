@@ -18,7 +18,7 @@ import TheStore from "pages/buyer/TheStore";
 import { init } from "@airstack/airstack-react";
 import { AnonAadhaarProvider } from "anon-aadhaar-react";
 
-const anon_app_id = process.env.NEXT_PUBLIC_ANON_APP_ID || "";
+const anon_app_id = process.env.REACT_APP_ANON_APP_ID || "";
 
 init(process.env.REACT_APP_AIRSTACK_API_KEY);
 

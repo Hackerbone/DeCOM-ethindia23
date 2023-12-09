@@ -21,6 +21,13 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   const [form] = Form.useForm();
   const [anonAadhaar] = useAnonAadhaar();
 
+  useEffect(() => {
+    console.log("aadharStatus", anonAadhaar.status);
+    if (anonAadhaar?.status === "logged-in") {
+      console.log(anonAadhaar?.status);
+    }
+  }, [anonAadhaar]);
+
   const closeModal = () => {
     setVisible(false);
   };
@@ -64,6 +71,11 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress }) => {
   });
 
   const handlePlaceOrder = async (values) => {
+    if (anonAadhaar?.status !== "logged-in") {
+      message.error("Please verify your Aadhaar to place order");
+      return;
+    }
+
     const { shippingAddress } = values;
     if (!shippingAddress) {
       message.error("Please fill all the fields");

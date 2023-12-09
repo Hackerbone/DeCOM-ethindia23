@@ -16,6 +16,7 @@
             font-weight: 500;
             align-items: center;
             margin-bottom: 0;
+            text-align: center;
 
             span {
                 color: var(--green-text);
@@ -26,6 +27,8 @@
             color: var(--text-secondary);
             align-items: center;
             font-size: nth($fontSize, 4);
+            text-align: center;
+
         }
 
         .ctas {
@@ -39,7 +42,7 @@
                 color: var(--green-text);
                 border: 1px solid var(--border);
                 border-radius: 4px;
-                font-size: nth($fontSize,2);
+                font-size: nth($fontSize, 2);
                 width: 10rem;
                 padding: 0.7rem 0;
                 display: flex;
@@ -49,6 +52,17 @@
                 &:hover {
                     border-color: var(--green-text);
                 }
+            }
+        }
+
+        .airstackWrap {
+            margin-top: 5rem;
+            border: 1px solid var(--input-border-primary);
+            border-radius: 4px;
+
+            .airstackWrapImage {
+                width: 100%;
+                border-radius: 4px;
             }
         }
     }
