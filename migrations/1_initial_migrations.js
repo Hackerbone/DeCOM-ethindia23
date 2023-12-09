@@ -15,11 +15,13 @@ module.exports = async function (deployer, network, accounts) {
     await vendorFactory.createVendorContract(
       "Nike",
       "https://1000logos.net/wp-content/uploads/2021/11/Nike-Logo.png",
+      false,
       { from: vendor1Account }
     );
     await vendorFactory.createVendorContract(
       "Addidas",
       "https://seeklogo.com/images/A/adidas-logo-9AA835C1C2-seeklogo.com.png",
+      true,
       { from: vendor2Account }
     );
 
@@ -32,24 +34,28 @@ module.exports = async function (deployer, network, accounts) {
     await vendor1.addProduct(
       "Air Force 1",
       "https://e7.pngegg.com/pngimages/742/799/png-clipart-nike-air-max-sneakers-womens-nike-air-force-1-07-shoe-nike-thumbnail.png",
+      "good shoes",
       web3.utils.toWei("1", "ether"),
       { from: vendor1Account }
     );
     await vendor1.addProduct(
       "Air Jordan 1",
       "https://w7.pngwing.com/pngs/345/549/png-transparent-unpaired-red-and-black-air-jordan-1-shoe-air-jordan-satin-shoe-sneakers-nike-air-jordan-white-suede-outdoor-shoe.png",
+      "good shoes",
       web3.utils.toWei("1.5", "ether"),
       { from: vendor1Account }
     );
     await vendor2.addProduct(
       "Addidas Shoe 1",
       "https://e7.pngegg.com/pngimages/288/894/png-clipart-white-and-black-adidas-superstar-shoes-adidas-superstar-sneakers-shoe-adidas-originals-adidas-white-fashion.png",
+      "bad shoes",
       web3.utils.toWei("2", "ether"),
       { from: vendor2Account }
     );
     await vendor2.addProduct(
       "Addidas Shoe 2",
       "https://e7.pngegg.com/pngimages/786/219/png-clipart-adidas-chaussure-gazelle-sports-shoes-mens-adidas-originals-gazelle-adidas-white-outdoor-shoe.png",
+      "bad shoes",
       web3.utils.toWei("2.5", "ether"),
       { from: vendor2Account }
     );
