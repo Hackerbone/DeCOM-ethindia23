@@ -94,6 +94,7 @@ export const readMessages = async (channelAddress) => {
     env: CONSTANTS.ENV.STAGING,
   });
   const response = await user.notification.list("INBOX");
+
   return response;
 };
 

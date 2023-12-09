@@ -105,8 +105,6 @@ export const placeOrder = async ({
 }) => {
   // call subscribeToChannel from push.service.js
 
-  // const subscribe_noti = await subscribeToChannel();
-
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -128,15 +126,6 @@ export const placeOrder = async ({
   const address_id = await signer.getAddress();
 
   console.log("address_id", address_id);
-
-  // const send_noti = await axios.post(
-  //   "http://localhost:8080/api/push/trigger-notification",
-  //   {
-  //     subscribers: [address_id],
-  //     title: "New Order",
-  //     notibody: "You have placed new order",
-  //   }
-  // );
 
   return orderId;
 };

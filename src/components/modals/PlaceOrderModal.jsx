@@ -22,6 +22,7 @@ import { LogInWithAnonAadhaar, useAnonAadhaar } from "anon-aadhaar-react";
 import { MdCheck } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { getAadharStatus, setAadharVerfied } from "services/anon.service";
+import axios from "axios";
 
 const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
   const { walletAddress, isConnected } = useSelector((state) => state.user);
@@ -67,8 +68,21 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
 
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       message.success("Order placed successfully");
+
+      const vendorWalletAddress = await getVendorByContractAddress(
+        storeAddress
+      );
+      const send_noti = await axios.post(
+        "http://localhost:8080/api/push/trigger-notification",
+        {
+          subscribers: [vendorWalletAddress],
+          title: "New Order",
+          notibody: "You have a new order",
+        }
+      );
+
       closeModal();
     },
     onError: (err) => {
@@ -281,9 +295,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
               },
             ]}
           >
-            <Radio.Group
-              className={formStyles.formRadioGroup}
-            >
+            <Radio.Group className={formStyles.formRadioGroup}>
               <Radio value={"lighthouse"} className={formStyles.radio}>
                 Encrypt with lighthouse
               </Radio>
