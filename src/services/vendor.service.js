@@ -64,6 +64,23 @@ export const addProductToVendor = async ({
   const receipt = await tx.wait();
   const event = receipt.events.find((event) => event.event === "ProductAdded");
   const newProductId = event.args.id;
+
+  const userAddress = await getOrdersOfVendor(vendorAddress);
+  let vendorSubscribers = [];
+  await userAddress.map(async (item) => {
+    vendorSubscribers.push(item.customer);
+  });
+
+  const res = await axios.post(
+    "http://localhost:8080/api/push/trigger-notification",
+    {
+      subscribers: vendorSubscribers,
+      title: "New Product Announced",
+      notibody: name,
+    }
+  );
+  console.log(res);
+
   return newProductId;
 };
 
