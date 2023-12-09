@@ -79,7 +79,7 @@ export const placeOrder = async ({
 }) => {
   // call subscribeToChannel from push.service.js
 
-  const subscribe_noti = await subscribeToChannel();
+  // const subscribe_noti = await subscribeToChannel();
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
@@ -134,7 +134,7 @@ export const getOrdersOfVendor = async (vendorAddress) => {
     id: order.id.toNumber(), // Convert BigNumber to number
     productId: order.productId.toNumber(),
     customer: order.customer,
-    shippingAddress: order.shippingAddress,
+    shippingAddress: order.vendorShippingAddress,
     isShipped: order.isShipped,
   }));
 

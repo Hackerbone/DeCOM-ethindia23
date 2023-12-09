@@ -4,8 +4,13 @@ import { BsThreeDots } from "react-icons/bs";
 import TableActionsDropdown from "components/dropdowns/TableActionsDropdown";
 import styles from "styles/components/Table.module.scss";
 import PrimaryButton from "components/PrimaryButton";
-
+import { showConfirm } from "components/modals/ConfirmModal";
+import { FaCheckCircle, FaLock } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { decryptUserMessage } from "services/encryptUpload";
 const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
+  const { walletAddress } = useSelector((state) => state.user);
+
   const columns = [
     {
       title: "Order ID",
@@ -26,6 +31,32 @@ const StoreOrdersTable = ({ ordersDropdownItems, orders }) => {
       title: "Shipping Address",
       dataIndex: "shippingAddress",
       key: "shippingAddress",
+      render: (shippingAddress) => (
+        <div className={styles.shippingAddressContainer}>
+          <PrimaryButton
+            onClick={() => {
+              decryptUserMessage(shippingAddress, walletAddress).then((res) => {
+                console.log(res);
+                showConfirm({
+                  title: "Shipping Address",
+                  content: res,
+                  okText: "Done",
+                  icon: <FaCheckCircle size={20} />,
+                });
+              });
+            }}
+          >
+            <FaLock size={16} />
+            <span
+              style={{
+                marginLeft: "0.5rem",
+              }}
+            >
+              View Encrypted Address
+            </span>
+          </PrimaryButton>
+        </div>
+      ),
     },
     {
       title: "Status",
