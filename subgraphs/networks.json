@@ -1,0 +1,8 @@
+{
+  "scroll-sepolia": {
+    "VendorFactory": {
+      "address": "0xc25cbb5c8ec033fde604de95aec57a08e7318b31",
+      "startBlock": 2540209
+    }
+  }
+}
