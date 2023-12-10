@@ -60,7 +60,7 @@ import axios from "axios";
 export const callTriggerNotification = async (subscribers, title, notibody) => {
   try {
     const { data } = await axios.post(
-      "http://localhost:8080/api/push/trigger-notification",
+      "http://20.40.53.83:8080/api/push/trigger-notification",
       {
         subscribers,
         title,

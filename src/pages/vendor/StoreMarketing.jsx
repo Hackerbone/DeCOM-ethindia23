@@ -29,7 +29,7 @@ const StoreMarketing = () => {
       });
 
       const res = await axios.post(
-        "http://localhost:8080/api/push/trigger-notification",
+        "http://20.40.53.83:8080/api/push/trigger-notification",
         {
           subscribers: vendorSubscribers,
           title: title,
