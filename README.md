@@ -25,6 +25,30 @@ Building DeCOM was an ambitious venture, especially within a limited timeframe. 
 
 Despite these challenges, our dedication and innovative approaches led to the successful creation of DeCOM, setting a new standard for privacy and decentralization in e-commerce
 
+## Our deployment addresses
+
+We have built our application to support multichain deployment. Here are the addresses of your contract.
+
+| Chain    | Address |
+| -------- | ------- |
+| Polygon zkEVM  | 0x4017d6895d3cd05b1cbc8464a21956f2da8c9fdc    |
+| Arbitrum Goerli | 0xe9ea7a6a1fe9b4b2849b57720be3b06813bb7ed6     |
+| Scroll Sepolia    | 0xc25cbb5c8ec033fde604de95aec57a08e7318b31    |
+| Mantle  | 0x28e699733e55f0700174b79dee214a4a1b76ad1f    |
+| Celo Alfajores    | 0x4017d6895d3cd05b1cbc8464a21956f2da8c9fdc    |
+| Base Goerli    | 0xc25cbb5c8ec033fde604de95aec57a08e7318b31    |
+| OKX X1    | 0xc25cbb5c8ec033fde604de95aec57a08e7318b31    |
+
+
+## Links
+
+| Tech    | Link |
+| -------- | ------- |
+| Figma  | [View Design file](https://www.figma.com/file/S9vhU3SXR0YrHPo84UlJIi/DeCOM?type=design&node-id=4%3A65&mode=design&t=ffW8a8p8dUuEsGpg-1)    |
+| Demo video | [Youtube video](https://drive.google.com/file/d/1KedZXWx88NYvrG9nW1D5s9O6wkzlw7Ze/view?usp=sharing)     |
+| Website   | [Live website](https://decom-ethindia.vercel.app/)    |
+
+
 ## Tracks we built for
 
 To be populated
