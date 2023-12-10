@@ -49,6 +49,11 @@ We have built our application to support multichain deployment. Here are the add
 | Scroll Sepolia | [Etherscan Link](https://sepolia-blockscout.scroll.io/address/0xC25cBB5C8EC033Fde604De95aEc57a08E7318b31) |
 | Mantle Explorer | [Explorer Link](https://explorer.mantle.xyz/address/0x28E699733E55F0700174b79Dee214a4a1B76aD1f) |
 | Celo Explorer | [Celo Link](https://explorer.celo.org/alfajores/address/0x4017d6895D3cD05b1cBc8464A21956f2dA8C9FDc) |
+| Polygon zkEVM | [Polygon zkEVM Link](https://testnet-zkevm.polygonscan.com/address/0x4017d6895d3cd05b1cbc8464a21956f2da8c9fdc) |
+| Arbitrum | [Arbitrum Link](https://testnet.arbiscan.io/address/0xe9ea7a6a1fe9b4b2849b57720be3b06813bb7ed6) |
+| Base | [Base Link](https://goerli.basescan.org/address/0xc25cbb5c8ec033fde604de95aec57a08e7318b31) |
+| OKX X1 | [OKX X1](https://www.oklink.com/x1-test/address/0xc25cbb5c8ec033fde604de95aec57a08e7318b31) |
+
 
 ## Team Memebers 
 
