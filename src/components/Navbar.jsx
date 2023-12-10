@@ -24,15 +24,15 @@ const networkOptions = [
     },
     {
         "name": "Celo Alfajores",
-        "address": "0x15fa09ab7b889069eb86c20d23fd389c6dbeebd4"
+        "address": "0x4017d6895d3cd05b1cbc8464a21956f2da8c9fdc"
     },
     {
         "name": "Base Goerli",
-        "address": "0x7ca5fa6f8871e9495ecefef012a0bffecbb5e928"
+        "address": "0xc25cbb5c8ec033fde604de95aec57a08e7318b31"
     },
     {
         "name": "OKX X1",
-        "address": "0x7ca5fa6f8871e9495ecefef012a0bffecbb5e928"
+        "address": "0xc25cbb5c8ec033fde604de95aec57a08e7318b31"
     }
 ]
 
