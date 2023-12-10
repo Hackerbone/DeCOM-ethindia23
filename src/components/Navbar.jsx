@@ -8,7 +8,7 @@ import { setNetwork } from 'store/user.slice'
 const networkOptions = [
     {
         "name": "Scroll Sepolia",
-        "address": "0xc25cbb5c8ec033fde604de95aec57a08e7318b31"
+        "address": "0x9e99f84934203cc4f6358f83fced5d2cbc551b86"
     },
     {
         "name": "Polygon zkEVM",

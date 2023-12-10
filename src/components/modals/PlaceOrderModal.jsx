@@ -39,31 +39,24 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
     setVisible(false);
   };
 
-  const { data: aadharStatus, isLoading: loadingAadharStatus } = useQuery({
-    queryKey: ["get-buyer-aadhar-status", walletAddress],
-    queryFn: async () =>
-      await getAadharStatus({ walletAddress, vendorAddress: storeAddress }),
-    enabled: isConnected && !!walletAddress,
-  });
+  // useEffect(() => {
+  //   (async () => {
+  //     if (anonAadhaar?.status === "logged-in") {
+  //       await handleVerifyAadhar();
+  //     }
+  //   })();
+  // }, [anonAadhaar]);
 
-  useEffect(() => {
-    (async () => {
-      if (anonAadhaar?.status === "logged-in") {
-        await handleVerifyAadhar();
-      }
-    })();
-  }, [anonAadhaar]);
-
-  const verifyAadharMutation = useMutation({
-    mutationFn: setAadharVerfied,
-    onSuccess: (res) => {
-      message.success("Aadhar verified successfully");
-    },
-    onError: (err) => {
-      console.log(err);
-      message.error("Aadhar verification failed");
-    },
-  });
+  // const verifyAadharMutation = useMutation({
+  //   mutationFn: setAadharVerfied,
+  //   onSuccess: (res) => {
+  //     message.success("Aadhar verified successfully");
+  //   },
+  //   onError: (err) => {
+  //     console.log(err);
+  //     message.error("Aadhar verification failed");
+  //   },
+  // });
 
   const placeOrderMutation = useMutation({
     mutationFn: placeOrder,
@@ -210,12 +203,12 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
     }
   };
 
-  const handleVerifyAadhar = async () => {
-    await verifyAadharMutation.mutateAsync({
-      walletAddress,
-      vendorAddress: storeAddress,
-    });
-  };
+  // const handleVerifyAadhar = async () => {
+  //   await verifyAadharMutation.mutateAsync({
+  //     walletAddress,
+  //     vendorAddress: storeAddress,
+  //   });
+  // };
 
   return (
     <Modal
@@ -268,7 +261,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
                 address confirmation.
               </div>
               <div className={styles.value}>
-                {anonAadhaar?.status === "logged-out" || !aadharStatus ? (
+                {anonAadhaar?.status === "logged-out" ? (
                   <LogInWithAnonAadhaar />
                 ) : (
                   <div className={styles.aadharVerfied}>
