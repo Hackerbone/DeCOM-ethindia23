@@ -14,6 +14,10 @@ Vendors can effortlessly create their own marketplaces, enjoying **multi-chain s
 
 Our platform not only makes online selling safer but also more efficient. With encrypted live chats and notifications for uninterrupted communication between vendors and buyers and much much more, we’re setting the new standard for buying and selling anything online
 
+## Some encryption action in the ~backend~ Dapp
+
+![Encryption Decryption Routine](https://lh3.googleusercontent.com/u/0/drive-viewer/AK7aPaB_zyTFgDcDt4HtDo3KNQaqIEspgv2Wo-9rx5Ptv3Xo5Phd3S79tUNLYKQiFB5ggND-lEw5znpu0AsY3zbQsik8_c-pDg=w2880-h1650)
+
 ## Challenges we ran into
 
 Building DeCOM was an ambitious venture, especially within a limited timeframe. Key challenges included:
