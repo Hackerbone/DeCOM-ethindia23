@@ -30,8 +30,8 @@ export default function LandingPage() {
       <Navbar />
       <div className={styles.homeContainer}>
         <div className={styles.homeContent}>
-          <h1 className={styles.heroHeading}>Craft Your <span>Commerce</span> with Web3</h1>
-          <p>Revolutionize online retail with our Web3 builder</p>
+          <h1 className={styles.heroHeading}>Where <span>Commerce</span> Meets Confidentiality</h1>
+          <p>Trade with Confidence – The Fort Knox of Online Marketplaces</p>
           <Row align="middle" className={styles.ctas}>
             <a href="/auth">I'm a vendor</a>
             <a href="/stores">I'm a customer</a>
