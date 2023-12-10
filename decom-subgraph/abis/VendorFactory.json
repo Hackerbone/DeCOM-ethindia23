@@ -1,0 +1,144 @@
+[
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "vendorAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "vendorWalletAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "logo",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "wantsKYC",
+        "type": "bool"
+      }
+    ],
+    "name": "VendorCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "vendors",
+    "outputs": [
+      { "internalType": "address", "name": "vendorAddress", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "vendorWalletAddress",
+        "type": "address"
+      },
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "logo", "type": "string" },
+      { "internalType": "bool", "name": "wantsKYC", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_logo", "type": "string" },
+      { "internalType": "bool", "name": "_wantsKYC", "type": "bool" }
+    ],
+    "name": "createVendorContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "listVendors",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "vendorAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "vendorWalletAddress",
+            "type": "address"
+          },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "logo", "type": "string" },
+          { "internalType": "bool", "name": "wantsKYC", "type": "bool" }
+        ],
+        "internalType": "struct VendorFactory.VendorDetails[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_vendorWalletAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getVendorByWalletAddress",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "vendorAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "vendorWalletAddress",
+            "type": "address"
+          },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "logo", "type": "string" },
+          { "internalType": "bool", "name": "wantsKYC", "type": "bool" }
+        ],
+        "internalType": "struct VendorFactory.VendorDetails",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

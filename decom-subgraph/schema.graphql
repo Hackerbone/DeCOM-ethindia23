@@ -1,0 +1,11 @@
+type VendorCreated @entity(immutable: true) {
+  id: Bytes!
+  vendorAddress: Bytes! # address
+  vendorWalletAddress: Bytes! # address
+  name: String! # string
+  logo: String! # string
+  wantsKYC: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: VendorFactory
+    network: scroll-sepolia
+    source:
+      address: "0xc25cbb5c8ec033fde604de95aec57a08e7318b31"
+      abi: VendorFactory
+      startBlock: 2540209
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - VendorCreated
+      abis:
+        - name: VendorFactory
+          file: ./abis/VendorFactory.json
+      eventHandlers:
+        - event: VendorCreated(indexed address,address,string,string,bool)
+          handler: handleVendorCreated
+      file: ./src/vendor-factory.ts
