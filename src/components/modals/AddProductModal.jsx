@@ -55,6 +55,8 @@ const AddProductModal = ({ visible, setVisible, storeAddress }) => {
         vendorAddress: storeAddress,
         category,
       });
+
+      closeModal();
     }
   };
 

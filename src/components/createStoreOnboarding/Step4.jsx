@@ -17,16 +17,9 @@ const OnboardingStep4 = () => {
 
   return (
     <div className={styles.onboardingStepContainer}>
-      <h1 className={styles.title}>You’re all set</h1>
+      <h1 className={styles.title}>You're all set</h1>
       <p className={styles.description}>
-        Your store is now deployed and can be accessed at{" "}
-        <a
-          href={`http://127.0.0.1:3000/store/${storeId}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          http://127.0.0.1:3000/store/{storeId}
-        </a>
+        Your store is now deployed, and you can start selling your products.
       </p>
       <Form
         className={`${formStyles.formContainer} ${styles.onboardingForm}`}

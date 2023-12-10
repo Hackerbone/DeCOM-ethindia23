@@ -39,6 +39,18 @@ const ChatModal = ({ visible, setVisible, title, userId }) => {
 
       let reciever_address = userId;
       console.log(reciever_address);
+
+      const chatHistory = await user_basic.chat.history(reciever_address);
+
+      console.log(chatHistory);
+      for (let i = 0; i < chatHistory.length; i++) {
+        let msg = {
+          from: chatHistory[i].from,
+          content: chatHistory[i].message.content,
+        };
+        setChatMessages((prev) => [...prev, msg]);
+      }
+
       const sendMessage = await user_basic.chat.send(reciever_address, {
         type: "Text",
         content: "Gm gm! its kathan from ethindia",
@@ -58,7 +70,12 @@ const ChatModal = ({ visible, setVisible, title, userId }) => {
       // Connect Stream
       stream.connect();
     })();
-  }, [visible]);
+
+    return () => {
+      // Disconnect Stream
+      user?.stream.disconnect();
+    };
+  }, [visible, userId]);
 
   const closeModal = () => {
     setVisible(false);
