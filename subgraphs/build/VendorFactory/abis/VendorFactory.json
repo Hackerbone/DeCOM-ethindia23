@@ -1,5 +1,9 @@
 [
-  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -40,32 +44,72 @@
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "vendors",
     "outputs": [
-      { "internalType": "address", "name": "vendorAddress", "type": "address" },
       {
         "internalType": "address",
-        "name": "vendorWalletAddress",
+        "name": "",
         "type": "address"
-      },
-      { "internalType": "string", "name": "name", "type": "string" },
-      { "internalType": "string", "name": "logo", "type": "string" },
-      { "internalType": "bool", "name": "wantsKYC", "type": "bool" }
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "string", "name": "_logo", "type": "string" },
-      { "internalType": "bool", "name": "_wantsKYC", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "vendors",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "vendorAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "vendorWalletAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "logo",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "wantsKYC",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_logo",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "_wantsKYC",
+        "type": "bool"
+      }
     ],
     "name": "createVendorContract",
     "outputs": [],
@@ -88,9 +132,21 @@
             "name": "vendorWalletAddress",
             "type": "address"
           },
-          { "internalType": "string", "name": "name", "type": "string" },
-          { "internalType": "string", "name": "logo", "type": "string" },
-          { "internalType": "bool", "name": "wantsKYC", "type": "bool" }
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "logo",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "wantsKYC",
+            "type": "bool"
+          }
         ],
         "internalType": "struct VendorFactory.VendorDetails[]",
         "name": "",
@@ -122,9 +178,21 @@
             "name": "vendorWalletAddress",
             "type": "address"
           },
-          { "internalType": "string", "name": "name", "type": "string" },
-          { "internalType": "string", "name": "logo", "type": "string" },
-          { "internalType": "bool", "name": "wantsKYC", "type": "bool" }
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "logo",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "wantsKYC",
+            "type": "bool"
+          }
         ],
         "internalType": "struct VendorFactory.VendorDetails",
         "name": "",

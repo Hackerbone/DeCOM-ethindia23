@@ -28,3 +28,8 @@ Despite these challenges, our dedication and innovative approaches led to the su
 ## Tracks we built for
 
 To be populated
+
+## Tech Stack
+
+React, Redux, Antd, Web3.js, Filecoin.js, IPFS, Lighthouse,
+Truffle, Ganache, Solidity, Ethers, Push Protocol

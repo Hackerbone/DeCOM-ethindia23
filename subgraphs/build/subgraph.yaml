@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: VendorFactory
@@ -17,8 +17,8 @@ dataSources:
         - VendorCreated
       abis:
         - name: VendorFactory
-          file: ./abis/VendorFactory.json
+          file: VendorFactory/abis/VendorFactory.json
       eventHandlers:
         - event: VendorCreated(indexed address,address,string,string,bool)
           handler: handleVendorCreated
-      file: ./src/vendor-factory.ts
+      file: VendorFactory/VendorFactory.wasm
