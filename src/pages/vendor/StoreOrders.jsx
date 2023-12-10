@@ -70,15 +70,20 @@ const StoreOrders = () => {
           if (item.id === record.id) shippedSubscriber.push(item.customer);
         });
 
-        const res = await axios.post(
-          "https://decom-push.onrender.com/api/push/trigger-notification",
-          {
-            subscribers: shippedSubscriber,
-            title: "Update on your product",
-            notibody: "Your product has been shipped",
-          }
-        );
-        console.log(res);
+        try {
+          const res = await axios.post(
+            "https://decom-push.onrender.com/api/push/trigger-notification",
+            {
+              subscribers: shippedSubscriber,
+              title: "Update on your product",
+              notibody: "Your product has been shipped",
+            }
+          );
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        }
+
 
         await queryClient.invalidateQueries("allvendororders");
         message.success(`Order ${record.id} marked as shipped`);

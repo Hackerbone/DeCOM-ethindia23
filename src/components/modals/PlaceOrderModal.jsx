@@ -70,18 +70,23 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
     onSuccess: async (res) => {
       message.success("Order placed successfully");
 
-      // const vendorWalletAddress = await getVendorByContractAddress(
-      //   storeAddress
-      // );
+      const vendorWalletAddress = await getVendorByContractAddress(
+        storeAddress
+      );
 
-      // const send_noti = await axios.post(
-      //   "https://decom-push.onrender.com/api/push/trigger-notification",
-      //   {
-      //     subscribers: [vendorWalletAddress],
-      //     title: "New Order",
-      //     notibody: "You have a new order",
-      //   }
-      // );
+      try {
+        const send_noti = await axios.post(
+          "https://decom-push.onrender.com/api/push/trigger-notification",
+          {
+            subscribers: [vendorWalletAddress],
+            title: "New Order",
+            notibody: "You have a new order",
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+
 
       closeModal();
     },

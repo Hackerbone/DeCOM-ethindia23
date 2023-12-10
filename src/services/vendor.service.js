@@ -72,15 +72,20 @@ export const addProductToVendor = async ({
     vendorSubscribers.push(item.customer);
   });
 
-  const res = await axios.post(
-    "https://decom-push.onrender.com/api/push/trigger-notification",
-    {
-      subscribers: vendorSubscribers,
-      title: "New Product Announced",
-      notibody: name,
-    }
-  );
-  console.log(res);
+  try {
+    const res = await axios.post(
+      "https://decom-push.onrender.com/api/push/trigger-notification",
+      {
+        subscribers: vendorSubscribers,
+        title: "New Product Announced",
+        notibody: name,
+      }
+    );
+    console.log(res);
+
+  } catch (error) {
+    console.log(error);
+  }
 
   return newProductId;
 };
