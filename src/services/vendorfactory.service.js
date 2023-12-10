@@ -5,8 +5,7 @@ import { getContractAddress } from "utils/util";
 
 export const listAllVendors = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const network = await provider.getNetwork();
-  const mainContractAddress = getContractAddress(network.name);
+  const mainContractAddress = localStorage.getItem("network");
 
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -20,8 +19,9 @@ export const listAllVendors = async () => {
 
 export const createVendorContract = async (vendorDetails) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const network = await provider.getNetwork();
-  const mainContractAddress = getContractAddress(network.name);
+  const mainContractAddress = localStorage.getItem("network");
+
+
 
   const signer = provider.getSigner();
   const contract = new ethers.Contract(
@@ -48,7 +48,8 @@ export const checkVendor = async (walletAddress) => {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const network = await provider.getNetwork();
-    const mainContractAddress = getContractAddress(network.name);
+    const mainContractAddress = localStorage.getItem("network");
+
 
     const contract = new ethers.Contract(
       mainContractAddress,
@@ -70,8 +71,7 @@ export const getVendorByContractAddress = async (vendorAddress) => {
   try {
     // owner is a public variable in the vendor contract, get that for Vendor contract at vendorAddress
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const network = await provider.getNetwork();
-    const mainContractAddress = getContractAddress(network.name);
+   
 
     const contract = new ethers.Contract(
       vendorAddress,

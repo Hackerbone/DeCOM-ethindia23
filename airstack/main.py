@@ -1,8 +1,6 @@
-from typing import Union
 from fastapi import FastAPI, Request
 from dotenv import load_dotenv
 import os
-import asyncio
 import requests
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
@@ -23,6 +21,7 @@ api_client = AirstackClient(api_key=api_key)
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://decom-ethindia.vercel.app"
 ]
 
 app.add_middleware(

@@ -15,6 +15,48 @@
         width: 7.5rem;
     }
 
+    .formSelect {
+        height: 3rem;
+        border: 1px solid var(--border);
+        background: none;
+        border-radius: 4px;
+
+        :global {
+            .ant-select-selector {
+                background: none;
+                color: var(--text);
+                border: none;
+                border-radius: 4px;
+
+                .ant-select-selection-placeholder {
+                    color: var(--placeholder);
+                    padding: 0 2px;
+                }
+
+                .ant-select-selection-overflow {
+                    padding: 0 2px;
+                    gap: 2px;
+                }
+
+                .ant-select-selection-item {
+                    color: var(--text);
+                }
+
+                .ant-select-selection-overflow-item {
+                    .ant-select-selection-item {
+                        background-color: var(--active-bg);
+                    }
+                }
+            }
+            .ant-select-arrow,
+            .ant-select-selection-item-remove {
+                .anticon {
+                    color: var(--text-500);
+                }
+            }
+        }
+    }
+
     .navbarItems {
         .loginButton {
             height: 2.5rem;

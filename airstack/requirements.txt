@@ -1,5 +1,6 @@
 python-dotenv
 airstack
-io
 Pillow
 requests
+fastapi
+uvicorn
