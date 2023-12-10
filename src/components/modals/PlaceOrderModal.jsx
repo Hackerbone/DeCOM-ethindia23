@@ -75,7 +75,7 @@ const PlaceOrderModal = ({ visible, setVisible, storeAddress, wantsKYC }) => {
       // );
 
       // const send_noti = await axios.post(
-      //   "http://20.40.53.83:8080/api/push/trigger-notification",
+      //   "https://decom-push.onrender.com/api/push/trigger-notification",
       //   {
       //     subscribers: [vendorWalletAddress],
       //     title: "New Order",

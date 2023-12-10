@@ -72,7 +72,7 @@ export const addProductToVendor = async ({
   });
 
   const res = await axios.post(
-    "http://20.40.53.83:8080/api/push/trigger-notification",
+    "https://decom-push.onrender.com/api/push/trigger-notification",
     {
       subscribers: vendorSubscribers,
       title: "New Product Announced",
