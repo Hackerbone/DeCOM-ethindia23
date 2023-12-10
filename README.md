@@ -39,7 +39,6 @@ We have built our application to support multichain deployment. Here are the add
 | Base Goerli    | 0xc25cbb5c8ec033fde604de95aec57a08e7318b31    |
 | OKX X1    | 0xc25cbb5c8ec033fde604de95aec57a08e7318b31    |
 
-
 ## Links
 
 | Tech    | Link |
@@ -47,7 +46,8 @@ We have built our application to support multichain deployment. Here are the add
 | Figma  | [View Design file](https://www.figma.com/file/S9vhU3SXR0YrHPo84UlJIi/DeCOM?type=design&node-id=4%3A65&mode=design&t=ffW8a8p8dUuEsGpg-1)    |
 | Demo video | [Youtube video](https://drive.google.com/file/d/1KedZXWx88NYvrG9nW1D5s9O6wkzlw7Ze/view?usp=sharing)     |
 | Website   | [Live website](https://decom-ethindia.vercel.app/)    |
-
+| Scroll Sepolia | [Etherscan Link](https://sepolia-blockscout.scroll.io/address/0xC25cBB5C8EC033Fde604De95aEc57a08E7318b31) |
+| Mantle Explorer | [Explorer Link](https://explorer.mantle.xyz/address/0x28E699733E55F0700174b79Dee214a4a1B76aD1f) |
 
 ## Tracks we built for
 
